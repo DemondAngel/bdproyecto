@@ -1,4 +1,3 @@
-
 package com.upiita.model;
 
 import java.util.Objects;
@@ -8,14 +7,14 @@ import java.util.Objects;
  * @author Ian Rojas Gomez
  */
 public class Pelicula {
-    
+
     private int noExpedicion;
     private String tituloOriginal;
     private String tituloExhibicion;
     private int anio;
-    
+
     public Pelicula() {
-        
+
     }
 
     public Pelicula(int noExpedicion, String tituloOriginal, String exhibicion, int anio) {
@@ -56,7 +55,7 @@ public class Pelicula {
     public void setAnio(int anio) {
         this.anio = anio;
     }
-    
+
     @Override
     public int hashCode() {
         int hash = 7;
@@ -66,7 +65,7 @@ public class Pelicula {
         hash = 47 * hash + this.anio;
         return hash;
     }
-    
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -98,5 +97,5 @@ public class Pelicula {
     public String toString() {
         return "Pelicula{" + "noExpedicion=" + noExpedicion + ", tituloOriginal=" + tituloOriginal + ", exhibicion=" + tituloExhibicion + ", anio=" + anio + '}';
     }
-    
+
 }
