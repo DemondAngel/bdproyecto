@@ -15,11 +15,12 @@ import com.upiita.dao.PeliculaDAO;
  */
 public class Vista {
     public static void main(String[] args){
+        
         Pelicula pelicula = new Pelicula();
         
         PeliculaDAO peliculaDAO = new SQLPeliculaDAO();
         
         peliculaDAO.create(pelicula);
-        
+                
     }
 }

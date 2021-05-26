@@ -8,28 +8,22 @@ import java.util.Objects;
  */
 public class Pelicula {
 
-    private int noExpedicion;
+    private int idPelicula;
     private String tituloOriginal;
     private String tituloExhibicion;
     private int anio;
+    private byte estado;
 
     public Pelicula() {
 
     }
 
-    public Pelicula(int noExpedicion, String tituloOriginal, String exhibicion, int anio) {
-        this.noExpedicion = noExpedicion;
+    public Pelicula(int idPelicula, String tituloOriginal, String tituloExhibicion, int anio, byte estado) {
+        this.idPelicula = idPelicula;
         this.tituloOriginal = tituloOriginal;
-        this.tituloExhibicion = exhibicion;
+        this.tituloExhibicion = tituloExhibicion;
         this.anio = anio;
-    }
-
-    public int getNoExpedicion() {
-        return noExpedicion;
-    }
-
-    public void setNoExpedicion(int noExpedicion) {
-        this.noExpedicion = noExpedicion;
+        this.estado = estado;
     }
 
     public String getTituloOriginal() {
@@ -56,13 +50,25 @@ public class Pelicula {
         this.anio = anio;
     }
 
+    public int getIdPelicula() {
+        return idPelicula;
+    }
+
+    public void setIdPelicula(int idPelicula) {
+        this.idPelicula = idPelicula;
+    }
+
+    public byte getEstado() {
+        return estado;
+    }
+
+    public void setEstado(byte estado) {
+        this.estado = estado;
+    }
+
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 47 * hash + this.noExpedicion;
-        hash = 47 * hash + Objects.hashCode(this.tituloOriginal);
-        hash = 47 * hash + Objects.hashCode(this.tituloExhibicion);
-        hash = 47 * hash + this.anio;
+        int hash = 3;
         return hash;
     }
 
@@ -78,10 +84,13 @@ public class Pelicula {
             return false;
         }
         final Pelicula other = (Pelicula) obj;
-        if (this.noExpedicion != other.noExpedicion) {
+        if (this.idPelicula != other.idPelicula) {
             return false;
         }
         if (this.anio != other.anio) {
+            return false;
+        }
+        if (this.estado != other.estado) {
             return false;
         }
         if (!Objects.equals(this.tituloOriginal, other.tituloOriginal)) {
@@ -95,7 +104,7 @@ public class Pelicula {
 
     @Override
     public String toString() {
-        return "Pelicula{" + "noExpedicion=" + noExpedicion + ", tituloOriginal=" + tituloOriginal + ", exhibicion=" + tituloExhibicion + ", anio=" + anio + '}';
+        return "Pelicula{" + "idPelicula=" + idPelicula + ", tituloOriginal=" + tituloOriginal + ", tituloExhibicion=" + tituloExhibicion + ", anio=" + anio + ", estado=" + estado + '}';
     }
-
+    
 }
