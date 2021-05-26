@@ -22,28 +22,28 @@ public class SQLPeliculaDAO extends Conexion implements PeliculaDAO {
     private static final String SQL_UPDATE = "";
     private static final String SQL_READ = "";
     private static final String SQL_READALL = "";
-    
+
     private CallableStatement cs;
     private ResultSet rs;
-    
-    public SQLPeliculaDAO(){
+
+    public SQLPeliculaDAO() {
         super();
     }
-    
+
     @Override
     public boolean create(Pelicula o) {
-        
+
         boolean state = false;
-        
+
         try {
 
             cs = conn.prepareCall(SQL_INSERT);
-            
-            cs.setInt(1, o.getIdPelicula());
+
+            cs.setString(1, o.getIdPelicula());
             cs.setString(2, o.getTituloOriginal());
             cs.setString(3, o.getTituloExhibicion());
             cs.setInt(4, o.getAnio());
-            
+            cs.setByte(5, o.getEstado());
             if (cs.executeUpdate() > 0) {
                 state = true;
             }
@@ -60,22 +60,21 @@ public class SQLPeliculaDAO extends Conexion implements PeliculaDAO {
 
     @Override
     public boolean update(Pelicula o) {
-            boolean state = false;
-            
-        try {
+        boolean state = false;
 
+        try {
             cs = conn.prepareCall(SQL_UPDATE); //nos fijamos en los signos de interrogacion de arriba, para actualizar
-            cs.setInt(1, o.getIdPelicula());
+            cs.setString(1, o.getIdPelicula());
             cs.setString(2, o.getTituloOriginal());
             cs.setString(3, o.getTituloExhibicion());
             cs.setInt(4, o.getAnio());
+            cs.setByte(5, o.getEstado());
 
             if (cs.executeUpdate() > 0) {
                 state = true;
             }
-
         } catch (SQLException ex) {
-            Logger.getLogger(SQLDirectorDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SQLPeliculaDAO.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             this.closeAllConnections();
         }
@@ -87,8 +86,8 @@ public class SQLPeliculaDAO extends Conexion implements PeliculaDAO {
     @Override
     public List<Pelicula> readAll() {
         ResultSet res;
-        List<Pelicula> peliculas = new ArrayList<>();
-        
+        List<Pelicula> pelicula = new ArrayList<>();
+
         try {
             cs = conn.prepareCall(SQL_READALL);
             //como no se busca algo ene specifico (n hay un signo "?", se va direcyo al resulset )
@@ -96,23 +95,23 @@ public class SQLPeliculaDAO extends Conexion implements PeliculaDAO {
             //se recorre detro de la base
             while (res.next()) {
                 //LLENA LA LISTA
-                peliculas.add(parseResPelicula(rs));
+                pelicula.add(parseResPelicula(rs));
             }
 
         } catch (SQLException ex) {
-            Logger.getLogger(SQLDirectorDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SQLPeliculaDAO.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             this.closeAllConnections(); //CIERRA CONEXION 
         }
-        
-        return peliculas;
+
+        return pelicula;
     }
 
     @Override
     public boolean delete(Integer id) { //SE LE DA LA LLAVE PARA BORRAR
-        
+
         boolean state = false;
-        
+
         try {
 
             cs = conn.prepareCall(SQL_DELETE);
@@ -122,84 +121,79 @@ public class SQLPeliculaDAO extends Conexion implements PeliculaDAO {
             }
 
         } catch (SQLException ex) {
-            Logger.getLogger(SQLDirectorDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SQLPeliculaDAO.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             this.closeAllConnections(); //CIERRA CONEXION 
         }
 
         return state;
-
     }
 
     @Override
     public Pelicula readOne(Pelicula o) {
-        Pelicula pe = null;
-        
+        Pelicula pelicula = null;
+
         try {
             cs = conn.prepareCall(SQL_READ);
-            cs.setInt(1, o.getIdPelicula());
+            cs.setString(1, o.getIdPelicula());
             rs = cs.executeQuery();
             //se recorre detro de la base
             while (rs.next()) {
-                pe = parseResPelicula(rs);
+                pelicula = parseResPelicula(rs);
             }
 
         } catch (SQLException ex) {
-            Logger.getLogger(SQLDirectorDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SQLPeliculaDAO.class.getName()).log(Level.SEVERE, null, ex);
+
         } finally {
             this.closeAllConnections(); //CIERRA CONEXION 
         }
-        return pe;
+        return pelicula;
 
     }
-    
-    public Pelicula parseResPelicula(ResultSet res){
-        
+
+    public Pelicula parseResPelicula(ResultSet res) {
+
         Pelicula pelicula = null;
-        
-        try{
+
+        try {
             pelicula = new Pelicula(
-                    res.getInt("idPelicula"),
+                    res.getString("idPelicula"),
                     res.getString("tituloOriginal"),
                     res.getString("tituloExhibicion"),
                     res.getInt("año"),
                     res.getByte("estado")
             );
-        }
-        catch(SQLException xxx){
+        } catch (SQLException xxx) {
             xxx.printStackTrace();
         }
-        
+
         return pelicula;
-    
+
     }
-    
-    public void closeAllConnections(){
-    
-        if(cs != null){
-        
-            try{
+
+    public void closeAllConnections() {
+
+        if (cs != null) {
+
+            try {
                 cs.close();
-            }
-            catch(SQLException xxx){
-                
+            } catch (SQLException xxx) {
+
                 xxx.printStackTrace();
             }
         }
-        
-        if(rs != null){
-        
-            try{
+
+        if (rs != null) {
+
+            try {
                 rs.close();
-            }
-            catch(SQLException xxx){
-                
-            
+            } catch (SQLException xxx) {
+
             }
         }
-        
-        this.closeConn();
-        
-    }
 
+        this.closeConn();
+
+    }
 }

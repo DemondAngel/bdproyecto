@@ -6,36 +6,41 @@ package com.upiita.model;
  */
 public class Pais {
 
-    private int ID_Pais;
-    private String Pais;
+    private int idPais;
+    private String nombre;
+    private byte estado;
 
     public Pais() {
     }
 
-    public Pais(int ID_Pais, String Pais) {
-        this.ID_Pais = ID_Pais;
-        this.Pais = Pais;
+    public Pais(int idPais, String nombre, byte estado) {
+        this.idPais = idPais;
+        this.nombre = nombre;
+        this.estado = estado;
     }
 
-    public void setID_Pais(int ID_Pais) {
-        this.ID_Pais = ID_Pais;
+    public int getIdPais() {
+        return idPais;
     }
 
-    public void setPais(String Pais) {
-        this.Pais = Pais;
+    public String getNombre() {
+        return nombre;
     }
 
-    public int getID_Pais() {
-        return ID_Pais;
+    public byte getEstado() {
+        return estado;
     }
 
-    public String getPais() {
-        return Pais;
+    public void setIdPais(int idPais) {
+        this.idPais = idPais;
     }
 
-    @Override
-    public String toString() {
-        return "Pais{" + "ID_Pais=" + ID_Pais + ", Pais=" + Pais + '}';
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public void setEstado(byte estado) {
+        this.estado = estado;
     }
 
 }

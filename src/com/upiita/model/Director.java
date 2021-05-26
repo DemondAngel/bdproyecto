@@ -6,36 +6,46 @@ package com.upiita.model;
  */
 public class Director {
 
-    private int ID_Director;
-    private String Director;
+    private int idDirector;
+    private String nombre;
+    private byte estado;
 
     public Director() {
     }
 
-    public Director(int ID_Director, String Director) {
-        this.ID_Director = ID_Director;
-        this.Director = Director;
+    public Director(int idDirector, String nombre, byte estado) {
+        this.idDirector = idDirector;
+        this.nombre = nombre;
+        this.estado = estado;
     }
 
-    public void setID_Director(int ID_Director) {
-        this.ID_Director = ID_Director;
+    public int getIdDirector() {
+        return idDirector;
     }
 
-    public void setDirector(String Director) {
-        this.Director = Director;
+    public String getNombre() {
+        return nombre;
     }
 
-    public int getID_Director() {
-        return ID_Director;
+    public byte getEstado() {
+        return estado;
     }
 
-    public String getDirector() {
-        return Director;
+    public void setIdDirector(int idDirector) {
+        this.idDirector = idDirector;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public void setEstado(byte estado) {
+        this.estado = estado;
     }
 
     @Override
     public String toString() {
-        return "Directores{" + "ID_Director=" + ID_Director + ", Director=" + Director + '}';
+        return "Director{" + "idDirector=" + idDirector + ", nombre=" + nombre + ", estado=" + estado + '}';
     }
 
 }

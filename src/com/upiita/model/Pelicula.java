@@ -8,7 +8,7 @@ import java.util.Objects;
  */
 public class Pelicula {
 
-    private int idPelicula;
+    private String idPelicula;
     private String tituloOriginal;
     private String tituloExhibicion;
     private int anio;
@@ -18,7 +18,7 @@ public class Pelicula {
 
     }
 
-    public Pelicula(int idPelicula, String tituloOriginal, String tituloExhibicion, int anio, byte estado) {
+    public Pelicula(String idPelicula, String tituloOriginal, String tituloExhibicion, int anio, byte estado) {
         this.idPelicula = idPelicula;
         this.tituloOriginal = tituloOriginal;
         this.tituloExhibicion = tituloExhibicion;
@@ -50,11 +50,11 @@ public class Pelicula {
         this.anio = anio;
     }
 
-    public int getIdPelicula() {
+    public String getIdPelicula() {
         return idPelicula;
     }
 
-    public void setIdPelicula(int idPelicula) {
+    public void setIdPelicula(String idPelicula) {
         this.idPelicula = idPelicula;
     }
 
@@ -106,5 +106,5 @@ public class Pelicula {
     public String toString() {
         return "Pelicula{" + "idPelicula=" + idPelicula + ", tituloOriginal=" + tituloOriginal + ", tituloExhibicion=" + tituloExhibicion + ", anio=" + anio + ", estado=" + estado + '}';
     }
-    
+
 }

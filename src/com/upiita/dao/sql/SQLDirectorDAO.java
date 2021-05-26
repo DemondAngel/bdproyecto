@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import com.upiita.dao.DirectorDAO;
+import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
@@ -15,132 +16,178 @@ import java.util.ArrayList;
  *
  * @author ELA ALEINAD
  */
-public class SQLDirectorDAO implements DirectorDAO {
+public class SQLDirectorDAO extends Conexion implements DirectorDAO {
 
-    private static final String SQL_INSERT = "INSERT INTO Director (idDirector, nombre) VALUES(?,?)";
-    private static final String SQL_DELETE = "DELETE FROM Director WHERE idDirector= ?";
-    private static final String SQL_UPDATE = "UPDATE Director SET idDirector= ?, nombre= ?,";
-    private static final String SQL_READ = "SELECT *FROM Director WHERE idDirector= ?";
-    private static final String SQL_READALL = "SELECT *FROM Director";
+    private static final String SQL_INSERT = "";
+    private static final String SQL_DELETE = "";
+    private static final String SQL_UPDATE = "";
+    private static final String SQL_READ = "";
+    private static final String SQL_READALL = "";
 
-    private static final Conexion conexionn = Conexion.saberEstado();  //aplicando SINGETON, solo hay una instancia, que se crea o accede mediante el estado
+    private CallableStatement cs;
+    private ResultSet rs;
+
+    public SQLDirectorDAO() {
+        super();
+    }
 
     @Override
     public boolean create(Director o) {
-        PreparedStatement ps;
+
+        boolean state = false;
 
         try {
 
-            ps = conexionn.getConexionn().prepareStatement(SQL_INSERT);
-            ps.setInt(1, o.getID_Director());
-            ps.setString(2, o.getDirector());
-            if (ps.executeUpdate() > 0) {
-                return true;
+            cs = conn.prepareCall(SQL_INSERT);
+            cs.setInt(1, o.getIdDirector());
+            cs.setString(2, o.getNombre());
+            cs.setByte(3, o.getEstado());
+            if (cs.executeUpdate() > 0) {
+                state = true;
             }
 
         } catch (SQLException ex) {
             Logger.getLogger(SQLDirectorDAO.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            conexionn.crerrarConexion();
-
+            this.closeAllConnections();
         }
 
-        return false;
+        return state;
+
     }
 
     @Override
     public boolean update(Director o) {
-        PreparedStatement ps;
+        boolean state = false;
 
         try {
-
-            ps = conexionn.getConexionn().prepareStatement(SQL_UPDATE); //nos fijamos en los signos de interrogacion de arriba, para actualizar
-            ps.setInt(1, o.getID_Director());
-            ps.setString(2, o.getDirector());
-            if (ps.executeUpdate() > 0) {
-                return true;
+            cs = conn.prepareCall(SQL_UPDATE); //nos fijamos en los signos de interrogacion de arriba, para actualizar
+            cs.setInt(1, o.getIdDirector());
+            cs.setString(2, o.getNombre());
+            cs.setByte(3, o.getEstado());
+            if (cs.executeUpdate() > 0) {
+                state = true;
             }
 
         } catch (SQLException ex) {
             Logger.getLogger(SQLDirectorDAO.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            conexionn.crerrarConexion();
-
+            this.closeAllConnections();
         }
 
-        return false;
+        return state;
+
     }
 
     @Override
     public List<Director> readAll() {
-
-        PreparedStatement ps;
         ResultSet res;
-        List<Director> directores = new ArrayList();
+        List<Director> director = new ArrayList<>();
+
         try {
-            ps = conexionn.getConexionn().prepareStatement(SQL_READALL);
+            cs = conn.prepareCall(SQL_READALL);
             //como no se busca algo ene specifico (n hay un signo "?", se va direcyo al resulset )
-            res = ps.executeQuery();
+            res = cs.executeQuery();
             //se recorre detro de la base
             while (res.next()) {
                 //LLENA LA LISTA
-                directores.add(new Director(res.getInt(1), res.getString(2)));
-                //,res.getString(3), res.getInt(4) 
+                director.add(parseResDirector(rs));
             }
 
         } catch (SQLException ex) {
-            Logger.getLogger(SQLDirectorDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SQLPaisDAO.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            conexionn.crerrarConexion(); //CIERRA CONEXION 
+            this.closeAllConnections(); //CIERRA CONEXION 
         }
-        return directores;
+
+        return director;
     }
 
     @Override
-    public boolean delete(Integer id) {
+    public boolean delete(Integer id) {//SE LE DA LA LLAVE PARA BORRAR
 
-        PreparedStatement ps;
+        boolean state = false;
 
         try {
 
-            ps = conexionn.getConexionn().prepareStatement(SQL_DELETE);
-            ps.setInt(1, id);
-            if (ps.executeUpdate() > 0) {
-                return true;
+            cs = conn.prepareCall(SQL_DELETE);
+            cs.setInt(1, id);
+            if (cs.executeUpdate() > 0) {
+                state = true;
             }
 
         } catch (SQLException ex) {
-            Logger.getLogger(SQLDirectorDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SQLPeliculaDAO.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            conexionn.crerrarConexion(); //CIERRA CONEXION 
+            this.closeAllConnections(); //CIERRA CONEXION 
         }
 
-        return false;
-
+        return state;
     }
 
     @Override
     public Director readOne(Director o) {  //la entrada o es la llave
-        PreparedStatement ps;
-        ResultSet res;
-        Director dir = null;
+        Director director = null;
+
         try {
-            ps = conexionn.getConexionn().prepareStatement(SQL_READ);
-            ps.setInt(1, o.getID_Director());
-            res = ps.executeQuery();
+            cs = conn.prepareCall(SQL_READ);
+            cs.setInt(1, o.getIdDirector());
+            rs = cs.executeQuery();
             //se recorre detro de la base
-            while (res.next()) {
-                dir = new Director(res.getInt(1), res.getString(2));
-                //,res.getString(3), res.getInt(4) 
+            while (rs.next()) {
+                director = parseResDirector(rs);
             }
 
         } catch (SQLException ex) {
             Logger.getLogger(SQLDirectorDAO.class.getName()).log(Level.SEVERE, null, ex);
+
         } finally {
-            conexionn.crerrarConexion(); //CIERRA CONEXION 
+            this.closeAllConnections(); //CIERRA CONEXION 
         }
-        return dir;
+        return director;
 
     }
 
+    public Director parseResDirector(ResultSet res) {
+
+        Director director = null;
+
+        try {
+            director = new Director(
+                    res.getInt("idDirector"),
+                    res.getString("nombre"),
+                    res.getByte("estado")
+            );
+        } catch (SQLException xxx) {
+            xxx.printStackTrace();
+        }
+
+        return director;
+
+    }
+
+    public void closeAllConnections() {
+
+        if (cs != null) {
+
+            try {
+                cs.close();
+            } catch (SQLException xxx) {
+
+                xxx.printStackTrace();
+            }
+        }
+
+        if (rs != null) {
+
+            try {
+                rs.close();
+            } catch (SQLException xxx) {
+
+            }
+        }
+
+        this.closeConn();
+
+    }
 }
