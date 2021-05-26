@@ -104,6 +104,7 @@ public class SQLPeliculaDAO extends Conexion implements PeliculaDAO {
         } finally {
             this.closeAllConnections(); //CIERRA CONEXION 
         }
+        
         return peliculas;
     }
 
