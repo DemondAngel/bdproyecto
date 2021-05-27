@@ -1,18 +1,33 @@
 package com.upiita.view;
 
+import com.upiita.view.fonts.Fuentes;
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontFormatException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 public class GUI extends javax.swing.JFrame {
 
 
-    public GUI() {
+    public GUI() throws FontFormatException {
         setLocation(500,250);
         setUndecorated(true);
         initComponents();
         setIconImage(new javax.swing.ImageIcon(getClass().getResource("/com/upiita/view/Resources/iconapp.png")).getImage());
         setTitle("Cineteca Nacional - Base de datos");
+        
+        // 
+        Font Lemon = fonttype.nFont(fonttype.getLemon(), 1, 7);
+        Font LemonB = fonttype.nFont(fonttype.getLemonB(), 1, 5);
+        Pname.setFont(LemonB);
+        Dname.setFont(LemonB);
+        Cname.setFont(LemonB);
+        jLabelTitulo.setFont(Lemon);
+        
+        
     }
 
     @SuppressWarnings("unchecked")
@@ -22,7 +37,7 @@ public class GUI extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        jLabelTitulo = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         _Dbutton = new javax.swing.JPanel();
         Dicon = new javax.swing.JLabel();
@@ -76,12 +91,12 @@ public class GUI extends javax.swing.JFrame {
         jPanel1.add(jPanel4);
         jPanel4.setBounds(860, 0, 40, 24);
 
-        jLabel2.setFont(new java.awt.Font("Comic Sans MS", 0, 12)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("Cineteca Nacional - Base de datos");
-        jLabel2.setPreferredSize(new java.awt.Dimension(37, 24));
-        jPanel1.add(jLabel2);
-        jLabel2.setBounds(10, 0, 200, 20);
+        jLabelTitulo.setFont(new java.awt.Font("Comic Sans MS", 0, 12)); // NOI18N
+        jLabelTitulo.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelTitulo.setText("Cineteca Nacional - Base de datos");
+        jLabelTitulo.setPreferredSize(new java.awt.Dimension(37, 24));
+        jPanel1.add(jLabelTitulo);
+        jLabelTitulo.setBounds(10, 0, 340, 20);
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.PAGE_START);
 
@@ -116,7 +131,8 @@ public class GUI extends javax.swing.JFrame {
         Dname.setBackground(new java.awt.Color(255, 255, 255));
         Dname.setFont(new java.awt.Font("Comic Sans MS", 0, 12)); // NOI18N
         Dname.setForeground(new java.awt.Color(255, 255, 255));
-        Dname.setText(" Directores");
+        Dname.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        Dname.setText("DIRECTORES");
         _Dbutton.add(Dname);
         Dname.setBounds(0, 50, 70, 30);
 
@@ -150,9 +166,10 @@ public class GUI extends javax.swing.JFrame {
         Pname.setBackground(new java.awt.Color(255, 255, 255));
         Pname.setFont(new java.awt.Font("Comic Sans MS", 0, 12)); // NOI18N
         Pname.setForeground(new java.awt.Color(255, 255, 255));
-        Pname.setText("Peliculas");
+        Pname.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        Pname.setText("PELICULAS");
         _Pbutton.add(Pname);
-        Pname.setBounds(10, 50, 50, 30);
+        Pname.setBounds(0, 50, 70, 30);
 
         jPanel3.add(_Pbutton);
         _Pbutton.setBounds(0, 0, 70, 80);
@@ -183,7 +200,8 @@ public class GUI extends javax.swing.JFrame {
 
         Cname.setFont(new java.awt.Font("Comic Sans MS", 0, 12)); // NOI18N
         Cname.setForeground(new java.awt.Color(255, 255, 255));
-        Cname.setText("    Países");
+        Cname.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        Cname.setText("PAÍSES");
         _Cbutton.add(Cname);
         Cname.setBounds(0, 58, 70, 20);
 
@@ -367,7 +385,11 @@ public class GUI extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new GUI().setVisible(true);
+                try {
+                    new GUI().setVisible(true);
+                } catch (FontFormatException ex) {
+                    Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
@@ -377,6 +399,8 @@ public class GUI extends javax.swing.JFrame {
     Color Bchange = new Color(43, 59, 86);
     Color Bback = new Color(28, 37, 65);    
     Color Bclick = new Color(11, 19, 43);
+    Fuentes fonttype = new Fuentes ();
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Cicon;
@@ -390,8 +414,8 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JPanel _Pbutton;
     private javax.swing.JPanel _display;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabelTitulo;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;

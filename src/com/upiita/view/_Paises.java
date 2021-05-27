@@ -266,6 +266,8 @@ public class _Paises extends javax.swing.JPanel {
     Color Bchange = new Color(43, 59, 86);
     Color Bback = new Color(28, 37, 65);
     Color Bclick = new Color(11, 19, 43);
+    
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel badd;
     private javax.swing.JPanel bdel;
