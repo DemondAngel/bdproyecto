@@ -30,6 +30,62 @@ public class SQLPeliculaDAO extends Conexion implements PeliculaDAO {
         super();
     }
 
+    public boolean usp_AltaPelicula(String TituloO, String TituloE, int anio, String Director, String Pais) {
+
+        boolean state = false;
+
+        boolean x = ejecutaStoredProcedure("usp_AltaPelicula '" +TituloO
+                +"' , '"+TituloE +"' , '"+anio
+                +"' , '" +Director+"' , '"+Pais+"'");
+        if (x == true) {
+            state = true;
+        } else {
+
+            state = false;
+            System.out.println("FALLO AL REALIZAR ALTA (activación) DE PELICULA");
+
+        }
+
+        this.closeAllConnections();
+        return state;
+    }
+
+    public boolean usp_BajaPelicula(String TituloO, int anio) {
+
+        boolean state = false;
+
+        boolean x = ejecutaStoredProcedure("usp_BajaPelicula '"+TituloO+"' , '"+anio+"'");
+        if (x == true) {
+            state = true;
+        } else {
+
+            state = false;
+            System.out.println("FALLO AL REALIZAR BAJA DE PELICULA");
+
+        }
+
+        this.closeAllConnections();
+        return state;
+    }
+
+    public boolean usp_ReactivaPelicula(String TituloO, int anio) {
+
+        boolean state = false;
+
+        boolean x = ejecutaStoredProcedure("usp_ReactivaDirector '"+TituloO +"' , '"+anio +"'");
+        if (x == true) {
+            state = true;
+        } else {
+
+            state = false;
+            System.out.println("FALLO AL REALIZAR ALTA (reactivación) DE PELICULA");
+
+        }
+
+        this.closeAllConnections();
+        return state;
+    }
+
     @Override
     public boolean create(Pelicula o) {
 

@@ -31,6 +31,78 @@ public class SQLDirectorDAO extends Conexion implements DirectorDAO {
         super();
     }
 
+    public boolean usp_AltaDirector(String NombreDirector) {
+
+        boolean state = false;
+
+        boolean x = ejecutaStoredProcedure("usp_AltaDirector '"+NombreDirector+"'");
+        if (x == true) {
+            state = true;
+        } else {
+
+            state = false;
+            System.out.println("FALLO AL REALIZAR ALTA (activación) DE DIRECTOR");
+
+        }
+
+        this.closeAllConnections();
+        return state;
+    }
+
+    public boolean usp_BajaDirector(String NombreDirector) {
+
+        boolean state = false;
+
+        boolean x = ejecutaStoredProcedure("usp_BajaDirector '"+NombreDirector+"'");
+        if (x == true) {
+            state = true;
+        } else {
+
+            state = false;
+            System.out.println("FALLO AL REALIZAR BAJA DE DIRECTOR");
+
+        }
+
+        this.closeAllConnections();
+        return state;
+    }
+
+    public boolean usp_ReactivaDirector(String NombreDirector) {
+
+        boolean state = false;
+
+        boolean x = ejecutaStoredProcedure("usp_ReactivaDirector '"+NombreDirector+"'");
+        if (x == true) {
+            state = true;
+        } else {
+
+            state = false;
+            System.out.println("FALLO AL REALIZAR ALTA (activación) DE DIRECTOR");
+
+        }
+
+        this.closeAllConnections();
+        return state;
+    }
+
+    public boolean usp_EditarDirector(String NombreActual, String NuevoNombre) {
+
+        boolean state = false;
+
+        boolean x = ejecutaStoredProcedure("usp_EditarDirector '"+NombreActual + "', '" +NuevoNombre+"'");
+        if (x == true) {
+            state = true;
+        } else {
+
+            state = false;
+            System.out.println("FALLO AL EDICIÓN DE DIRECTOR");
+
+        }
+
+        this.closeAllConnections();
+        return state;
+    }
+
     @Override
     public boolean create(Director o) {
 
