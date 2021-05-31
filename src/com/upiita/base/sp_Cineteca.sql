@@ -1,17 +1,36 @@
+--------------------------------INSERT
 CREATE OR ALTER PROCEDURE usp_AltaPais @NombrePais varchar(50) AS
 BEGIN
+	EXEC usp_ValidarEspacios @NombrePais OUTPUT
 	DECLARE @IdPais int
 	SET @IdPais = (SELECT TOP 1 idPais FROM Pais ORDER BY idPais DESC) +1
 	
-	INSERT INTO Pais VALUES (@IdPais,@NombrePais,1)
+	BEGIN TRAN
+		INSERT INTO Pais VALUES (@IdPais,@NombrePais,1)
+		IF LEN(@NombrePais)=0
+		BEGIN
+			ROLLBACK TRAN;
+			THROW 51000, 'El valor no puede ser vacio', 1;
+		END
+		ELSE
+			COMMIT TRAN;
 END
 
 CREATE OR ALTER PROCEDURE usp_AltaDirector @NombreDirector varchar(100) AS
 BEGIN
+	EXEC usp_ValidarEspacios @NombreDirector OUTPUT
 	DECLARE @IdDirector int
 	SET @IdDirector = (SELECT TOP 1 idDirector FROM Director ORDER BY idDirector DESC) +1
 	
-	INSERT INTO Director VALUES (@IdDirector,@NombreDirector,1)
+	BEGIN TRAN
+		INSERT INTO Director VALUES (@IdDirector,@NombreDirector,1)
+		IF LEN(@NombreDirector)=0
+		BEGIN
+			ROLLBACK TRAN;
+			THROW 51000, 'El valor no puede ser vacio', 1;
+		END
+		ELSE
+			COMMIT TRAN;
 END
 
 CREATE OR ALTER PROCEDURE usp_AltaPelicula 
@@ -21,6 +40,9 @@ BEGIN
 	DECLARE @IdPais int
 	DECLARE @IdPelicula nvarchar(20)
 	DECLARE @nacion nvarchar(5)
+
+	EXEC usp_ValidarEspacios @TituloO OUTPUT
+	EXEC usp_ValidarEspacios @TituloE OUTPUT
 
 	SET @IdDirector = (SELECT idDirector FROM Director WHERE nombre=@Director)
 	SET @IdPais = (SELECT IdPais FROM Pais WHERE nombre=@Pais)
@@ -37,13 +59,74 @@ BEGIN
 		SET @nacion = (SELECT FORMAT ((SELECT CAST(@nacion AS int)),'00000'))
 		SET @IdPelicula= 'C-'+@nacion
 	END
-
-	INSERT INTO Pelicula VALUES (@IdPelicula,@TituloO,@TituloE,@Año,1)
-	INSERT INTO Pelicula_Director VALUES (@IdPelicula,@IdDirector)
-	INSERT INTO Pelicula_Pais VALUES (@IdPelicula,@IdPais)
-		
+	BEGIN TRAN
+		INSERT INTO Pelicula VALUES (@IdPelicula,@TituloO,@TituloE,@Año,1)
+		INSERT INTO Pelicula_Director VALUES (@IdPelicula,@IdDirector)
+		INSERT INTO Pelicula_Pais VALUES (@IdPelicula,@IdPais)
+		IF(LEN(@TituloO)=0)
+		BEGIN
+			ROLLBACK TRAN;
+			THROW 51000, 'El valor no puede ser vacio', 1;
+		END
+		ELSE
+			COMMIT TRAN;
+	
+END
+--------------------------------------UPDATE
+CREATE OR ALTER PROCEDURE usp_EditarPais @NombreActual varchar(50), @NuevoNombre varchar(50) AS
+BEGIN
+		EXEC usp_ValidarEspacios @NuevoNombre OUTPUT
+		BEGIN TRAN
+		UPDATE P SET [nombre]=@NuevoNombre FROM Pais AS P WHERE nombre=@NombreActual;
+		IF LEN(@NuevoNombre)=0
+		BEGIN
+			ROLLBACK TRAN;
+			THROW 51000, 'El valor no puede ser vacio', 1;
+		END
+		ELSE
+			COMMIT TRAN;
 END
 
+CREATE OR ALTER PROCEDURE usp_EditarDirector @NombreActual varchar(100), @NuevoNombre varchar(100) AS
+BEGIN
+		EXEC usp_ValidarEspacios @NuevoNombre OUTPUT
+		BEGIN TRAN
+		UPDATE P SET [nombre]=@NuevoNombre FROM Director AS P WHERE nombre=@NombreActual;
+		IF LEN(@NuevoNombre)=0
+		BEGIN
+			ROLLBACK TRAN;
+			THROW 51000, 'El valor no puede ser vacio', 1;
+
+		END
+		ELSE
+			COMMIT TRAN;
+END
+
+CREATE OR ALTER PROCEDURE usp_EditarPelicula 
+@IdPelicula varchar(20),@TituloO varchar(200), @TituloE varchar(200), @Año int, @Director varchar(100), @Pais varchar(50)   AS
+BEGIN
+	EXEC usp_ValidarEspacios @TituloO OUTPUT
+	EXEC usp_ValidarEspacios @TituloE OUTPUT
+	BEGIN TRAN
+		IF(@TituloO <> (SELECT tituloOriginal FROM Pelicula WHERE idPelicula=@IdPelicula))
+			UPDATE P SET [tituloOriginal]=@TituloO FROM Pelicula AS P WHERE idPelicula=@IdPelicula 
+		IF(@TituloE <> (SELECT tituloExhibicion FROM Pelicula WHERE idPelicula=@IdPelicula))
+			UPDATE P SET [tituloExhibicion]=@TituloE FROM Pelicula AS P WHERE idPelicula=@IdPelicula 
+		IF(@Año <> (SELECT año FROM Pelicula WHERE idPelicula=@IdPelicula))
+			UPDATE P SET [año]=@Año FROM Pelicula AS P WHERE idPelicula=@IdPelicula 
+		IF(@Pais <> (SELECT nombre FROM Pelicula P INNER JOIN Pelicula_Pais PP ON P.idPelicula=PP.idPelicula INNER JOIN Pais PA ON PP.idPais=PA.idPais WHERE P.idPelicula=@IdPelicula ))
+			UPDATE P SET [idPais]=(SELECT IdPais FROM Pais WHERE nombre=@Pais) FROM Pelicula_Pais P WHERE idPelicula=@IdPelicula
+		IF(@Director<> (SELECT nombre FROM Pelicula P INNER JOIN Pelicula_Director PD ON P.idPelicula=PD.idPelicula INNER JOIN Director D ON PD.idDirector=D.idDirector WHERE P.idPelicula=@IdPelicula ))
+			UPDATE P SET [idDirector]=(SELECT idDirector FROM Director WHERE nombre=@Director) FROM Pelicula_Director P WHERE idPelicula=@IdPelicula
+		IF(LEN(@TituloO)=0)
+		BEGIN
+			ROLLBACK TRAN;
+			THROW 51000, 'El valor no puede ser vacio', 1;
+		END
+		ELSE
+			COMMIT TRAN;
+END
+-------------------------------------DESACTIVAR
 CREATE OR ALTER PROCEDURE usp_BajaPais @NombrePais varchar(50) AS
 BEGIN
 	UPDATE P SET [estado] = 0 FROM Pais as P WHERE nombre=@NombrePais
@@ -59,6 +142,7 @@ BEGIN
 	UPDATE P SET [estado] = 0 FROM Pelicula as P WHERE tituloOriginal=@TituloO AND año=@Año
 END
 
+-------------------------------------------ACTIVAR
 CREATE OR ALTER PROCEDURE usp_ReactivarPais @NombrePais varchar(50) AS
 BEGIN
 	UPDATE P SET [estado] = 1 FROM Pais as P WHERE nombre=@NombrePais
@@ -74,16 +158,7 @@ BEGIN
 	UPDATE P SET [estado] = 1 FROM Pelicula as P WHERE tituloOriginal=@TituloO AND año=@Año
 END
 
-CREATE OR ALTER PROCEDURE usp_EditarPais @NombreActual varchar(50), @NuevoNombre varchar(50) AS
-BEGIN
-	UPDATE P SET [nombre]=@NuevoNombre FROM Pais AS P WHERE nombre=@NombreActual;
-END
-
-CREATE OR ALTER PROCEDURE usp_EditarDirector @NombreActual varchar(100), @NuevoNombre varchar(100) AS
-BEGIN
-	UPDATE P SET [nombre]=@NuevoNombre FROM Director AS P WHERE nombre=@NombreActual;
-END
-
+-----------------------------------VIEWS
 CREATE VIEW vPais AS
 SELECT * FROM Pais
 
@@ -102,7 +177,18 @@ SELECT nombre FROM Director
 CREATE VIEW vPeliculaTitulos AS
 SELECT tituloOriginal, tituloExhibicion FROM Pelicula
 
+CREATE VIEW vPeliculaPais AS
+SELECT * FROM Pelicula_Pais
 
+CREATE VIEW vPeliculaDirector AS
+SELECT * FROM Pelicula_Director
+--------------------------------VALIDAR ESPACIOS
+CREATE OR ALTER PROCEDURE usp_ValidarEspacios @valor varchar(200) OUTPUT AS
+BEGIN
+	SET @valor = TRIM (@valor)
+END
+
+--EXEC usp_ValidarEspacios '     aljfdlaj        '
 
 /*
 EXEC usp_BajaPais 'MÉXICO'
@@ -119,10 +205,16 @@ DELETE FROM Pelicula_Director WHERE idPelicula = 'A-06710'
 DELETE FROM Pelicula_Pais WHERE idPelicula = 'A-06710'
 DELETE FROM Pelicula WHERE idPelicula = 'A-06710'
 
-EXEC usp_AltaPelicula 'Evangelion','Evangelion',1997,'ABEL GANCE','MÉXICO'
-*/
+EXEC usp_AltaPelicula 'evangelion','Evangelion',1997,'ABEL GANCE','MÉXICO'
 
+DECLARE @v varchar(50)
+SET @v='    '
+print Len(@v)
+EXEC usp_AltaPais @v
+DELETE PAIS WHERE idPais=156
+SELECT * FROM PAIS
 
+SELECT * FROM Pais*/
 
 
 

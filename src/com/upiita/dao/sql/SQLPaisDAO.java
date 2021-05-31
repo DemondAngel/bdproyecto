@@ -31,6 +31,78 @@ public class SQLPaisDAO extends Conexion implements PaisDAO {
         super();
     }
 
+    public boolean usp_AltaPais(String NombrePais) {
+
+        boolean state = false;
+
+        boolean x = ejecutaStoredProcedure("usp_AltaPais '"+NombrePais+"'");
+        if (x == true) {
+            state = true;
+        } else {
+
+            state = false;
+            System.out.println("FALLO AL REALIZAR ALTA (activación) DE PAIS");
+
+        }
+
+        this.closeAllConnections();
+        return state;
+    }
+
+    public boolean usp_BajaPais(String NombrePais) {
+
+        boolean state = false;
+
+        boolean x = ejecutaStoredProcedure("usp_BajaPais '"+NombrePais +"'");
+        if (x == true) {
+            state = true;
+        } else {
+
+            state = false;
+            System.out.println("FALLO AL REALIZAR BAJA DE PAIS");
+
+        }
+
+        this.closeAllConnections();
+        return state;
+    }
+
+    public boolean usp_ReactivaPais(String NombrePais) {
+
+        boolean state = false;
+
+        boolean x = ejecutaStoredProcedure("usp_ReactivaPais '"+NombrePais+"'");
+        if (x == true) {
+            state = true;
+        } else {
+
+            state = false;
+            System.out.println("FALLO AL REALIZAR ALTA (activación) DE PAIS");
+
+        }
+
+        this.closeAllConnections();
+        return state;
+    }
+
+    public boolean usp_EditarPais(String NombreActual, String NuevoNombre) {
+
+        boolean state = false;
+
+        boolean x = ejecutaStoredProcedure("usp_EditarPais '" + NombreActual + "', '" + NuevoNombre + "'");
+        if (x == true) {
+            state = true;
+        } else {
+
+            state = false;
+            System.out.println("FALLO AL EDICIÓN DE PAIS");
+
+        }
+
+        this.closeAllConnections();
+        return state;
+    }
+
     @Override
     public boolean create(Pais o) {
 
