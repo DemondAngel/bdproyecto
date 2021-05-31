@@ -14,9 +14,9 @@ public class Conexion {
     
     protected Connection conn = null;
     
-    private final String user = "";
-    private final String password = "";
-    private final String url = "";
+    private final String user = "root";
+    private final String password = "n0m3l0";
+    private final String url = "jdbc:sqlserver://localhost:1433;database=Cineteca;integratedSecurity=true";
     
     private  String consultaSQL = null;
     private  PreparedStatement insertSQL = null;

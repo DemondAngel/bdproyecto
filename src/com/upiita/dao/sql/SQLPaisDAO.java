@@ -18,7 +18,7 @@ import java.util.ArrayList;
  */
 public class SQLPaisDAO extends Conexion implements PaisDAO {
 
-    private static final String SQL_INSERT = "";
+    private static final String SQL_INSERT = "exec usp_AltaPais ?";
     private static final String SQL_DELETE = "";
     private static final String SQL_UPDATE = "";
     private static final String SQL_READ = "";
@@ -240,9 +240,6 @@ public class SQLPaisDAO extends Conexion implements PaisDAO {
 
     }
     
-    
-    
-    
     @Override
     public boolean create(Pais o) {
 
@@ -252,9 +249,8 @@ public class SQLPaisDAO extends Conexion implements PaisDAO {
 
             cs = conn.prepareCall(SQL_INSERT);
 
-            cs.setInt(1, o.getIdPais());
-            cs.setString(2, o.getNombre());
-            cs.setByte(3, o.getEstado());
+            cs.setString(1, o.getNombre());
+            
             if (cs.executeUpdate() > 0) {
                 state = true;
             }

@@ -1,5 +1,6 @@
 package com.upiita.model;
 
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -12,7 +13,39 @@ public class Pelicula {
     private String tituloOriginal;
     private String tituloExhibicion;
     private int anio;
+    private List<Pais> paises;
+    private List<Director> directores;
     private byte estado;
+
+    public List<Pais> getPaises() {
+        return paises;
+    }
+
+    public void setPaises(List<Pais> paises) {
+        this.paises = paises;
+    }
+
+    public List<Director> getDirectores() {
+        return directores;
+    }
+
+    public void setDirectores(List<Director> directores) {
+        this.directores = directores;
+    }
+    
+    public void addPais(Pais pais){
+        
+        if(!paises.contains(pais)){
+            paises.add(pais);
+        }
+    
+    }
+    
+    public void removePais(Pais pais){
+        //Pendiente
+    }
+    
+    /*Lo mismo con Director*/
 
     public Pelicula() {
 
