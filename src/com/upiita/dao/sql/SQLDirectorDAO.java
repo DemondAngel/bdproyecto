@@ -2,7 +2,6 @@ package com.upiita.dao.sql;
 
 import com.upiita.Conexion.Conexion;
 import com.upiita.model.Director;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
