@@ -22,8 +22,9 @@ public class SQLPaisDAO extends Conexion implements PaisDAO {
     private static final String SQL_DELETE = "";
     private static final String SQL_UPDATE = "";
     private static final String SQL_READ = "";
-    private static final String SQL_READALL = "";
+    private static  String SQL_READALL = "";
 
+    private PreparedStatement ps;
     private CallableStatement cs;
     private ResultSet rs;
 
@@ -103,6 +104,145 @@ public class SQLPaisDAO extends Conexion implements PaisDAO {
         return state;
     }
 
+    //crea la vidat de pais con id
+    @Override
+    public List<Pais> readAll() {
+        ResultSet res;
+        List<Pais> pais = new ArrayList<>();
+         SQL_READALL = "SELECT *FROM vPais";
+        try {
+ //      ps= conn.prepareStatement(SQL_READALL);     //DUDAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+            cs = conn.prepareCall(SQL_READALL);
+            //como no se busca algo ene specifico (n hay un signo "?", se va direcyo al resulset )
+            res = cs.executeQuery();
+            //se recorre detro de la base
+            while (res.next()) {
+                //LLENA LA LISTA
+                pais.add(parseResPais(rs));
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(SQLPaisDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            this.closeAllConnections(); //CIERRA CONEXION 
+        }
+
+        return pais;
+
+    }
+    
+    //vista de los nombres de paises
+    public List<Pais> vPaisNombre() {
+        ResultSet res;
+        List<Pais> pais = new ArrayList<>();
+         SQL_READALL = "SELECT *FROM vPaisNombre";
+        try {
+ //      ps= conn.prepareStatement(SQL_READALL);     //DUDAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+            cs = conn.prepareCall(SQL_READALL);
+            //como no se busca algo ene specifico (n hay un signo "?", se va direcyo al resulset )
+            res = cs.executeQuery();
+            //se recorre detro de la base
+            while (res.next()) {
+                //LLENA LA LISTA
+                pais.add(parse2viewResPais(rs));
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(SQLPaisDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            this.closeAllConnections(); //CIERRA CONEXION 
+        }
+
+        return pais;
+
+    }
+
+    @Override
+    public Pais readOne(Pais o) {
+        Pais pais = null;
+
+        try {
+            cs = conn.prepareCall(SQL_READ);
+            cs.setInt(1, o.getIdPais());
+            rs = cs.executeQuery();
+            //se recorre detro de la base
+            while (rs.next()) {
+                pais = parseResPais(rs);
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(SQLPaisDAO.class.getName()).log(Level.SEVERE, null, ex);
+
+        } finally {
+            this.closeAllConnections(); //CIERRA CONEXION 
+        }
+        return pais;
+
+    }
+
+
+
+    public Pais parseResPais(ResultSet res) {
+
+        Pais pais = null;
+
+        try {
+            pais = new Pais(
+                    res.getInt("idPais"),
+                    res.getString("nombre")
+                 //   res.getByte("estado")
+            );
+        } catch (SQLException xxx) {
+            xxx.printStackTrace();
+        }
+
+        return pais;
+
+    }
+    public Pais parse2viewResPais(ResultSet res) {
+
+        Pais pais = null;
+
+        try {
+            pais = new Pais(
+                    res.getString("nombre")
+                 //   res.getByte("estado")
+            );
+        } catch (SQLException xxx) {
+            xxx.printStackTrace();
+        }
+
+        return pais;
+
+    }
+    public void closeAllConnections() {
+
+        if (cs != null) {
+
+            try {
+                cs.close();
+            } catch (SQLException xxx) {
+
+                xxx.printStackTrace();
+            }
+        }
+
+        if (rs != null) {
+
+            try {
+                rs.close();
+            } catch (SQLException xxx) {
+
+            }
+        }
+
+        this.closeConn();
+
+    }
+    
+    
+    
+    
     @Override
     public boolean create(Pais o) {
 
@@ -151,32 +291,7 @@ public class SQLPaisDAO extends Conexion implements PaisDAO {
         return state;
 
     }
-
-    @Override
-    public List<Pais> readAll() {
-        ResultSet res;
-        List<Pais> pais = new ArrayList<>();
-
-        try {
-            cs = conn.prepareCall(SQL_READALL);
-            //como no se busca algo ene specifico (n hay un signo "?", se va direcyo al resulset )
-            res = cs.executeQuery();
-            //se recorre detro de la base
-            while (res.next()) {
-                //LLENA LA LISTA
-                pais.add(parseResPais(rs));
-            }
-
-        } catch (SQLException ex) {
-            Logger.getLogger(SQLPaisDAO.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            this.closeAllConnections(); //CIERRA CONEXION 
-        }
-
-        return pais;
-
-    }
-
+    
     @Override
     public boolean delete(Integer id) {//SE LE DA LA LLAVE PARA BORRAR
 
@@ -199,87 +314,4 @@ public class SQLPaisDAO extends Conexion implements PaisDAO {
         return state;
     }
 
-    @Override
-    public Pais readOne(Pais o) {
-        Pais pais = null;
-
-        try {
-            cs = conn.prepareCall(SQL_READ);
-            cs.setInt(1, o.getIdPais());
-            rs = cs.executeQuery();
-            //se recorre detro de la base
-            while (rs.next()) {
-                pais = parseResPelicula(rs);
-            }
-
-        } catch (SQLException ex) {
-            Logger.getLogger(SQLPaisDAO.class.getName()).log(Level.SEVERE, null, ex);
-
-        } finally {
-            this.closeAllConnections(); //CIERRA CONEXION 
-        }
-        return pais;
-
-    }
-
-    public Pais parseResPelicula(ResultSet res) {
-
-        Pais pais = null;
-
-        try {
-            pais = new Pais(
-                    res.getInt("idPais"),
-                    res.getString("nombre"),
-                    res.getByte("estado")
-            );
-        } catch (SQLException xxx) {
-            xxx.printStackTrace();
-        }
-
-        return pais;
-
-    }
-
-    public Pais parseResPais(ResultSet res) {
-
-        Pais pais = null;
-
-        try {
-            pais = new Pais(
-                    res.getInt("idPais"),
-                    res.getString("nombre"),
-                    res.getByte("estado")
-            );
-        } catch (SQLException xxx) {
-            xxx.printStackTrace();
-        }
-
-        return pais;
-
-    }
-
-    public void closeAllConnections() {
-
-        if (cs != null) {
-
-            try {
-                cs.close();
-            } catch (SQLException xxx) {
-
-                xxx.printStackTrace();
-            }
-        }
-
-        if (rs != null) {
-
-            try {
-                rs.close();
-            } catch (SQLException xxx) {
-
-            }
-        }
-
-        this.closeConn();
-
-    }
 }

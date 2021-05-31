@@ -17,7 +17,11 @@ public class Pelicula {
     public Pelicula() {
 
     }
-
+//constructor para la vista titulos peli
+    public Pelicula(String tituloOriginal, String tituloExhibicion) {
+        this.tituloOriginal = tituloOriginal;
+        this.tituloExhibicion = tituloExhibicion;
+    }
     public Pelicula(String idPelicula, String tituloOriginal, String tituloExhibicion, int anio, byte estado) {
         this.idPelicula = idPelicula;
         this.tituloOriginal = tituloOriginal;
@@ -25,7 +29,13 @@ public class Pelicula {
         this.anio = anio;
         this.estado = estado;
     }
-
+    public Pelicula(String idPelicula, String tituloOriginal, String tituloExhibicion, int anio) {
+        this.idPelicula = idPelicula;
+        this.tituloOriginal = tituloOriginal;
+        this.tituloExhibicion = tituloExhibicion;
+        this.anio = anio;
+      
+    }
     public String getTituloOriginal() {
         return tituloOriginal;
     }

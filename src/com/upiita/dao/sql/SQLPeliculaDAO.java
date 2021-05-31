@@ -8,6 +8,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import com.upiita.dao.PeliculaDAO;
 import java.sql.CallableStatement;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
@@ -21,8 +22,9 @@ public class SQLPeliculaDAO extends Conexion implements PeliculaDAO {
     private static final String SQL_DELETE = "";
     private static final String SQL_UPDATE = "";
     private static final String SQL_READ = "";
-    private static final String SQL_READALL = "";
-
+    private static  String SQL_READALL = "";   
+    
+    private PreparedStatement ps;
     private CallableStatement cs;
     private ResultSet rs;
 
@@ -85,7 +87,166 @@ public class SQLPeliculaDAO extends Conexion implements PeliculaDAO {
         this.closeAllConnections();
         return state;
     }
+        public boolean usp_EditarPelicula(String IdPelicula, String TituloO, String TituloE, int anio, String Director, String Pais) {
 
+        boolean state = false;
+
+        boolean x = ejecutaStoredProcedure("usp_EditarPelicula '" +IdPelicula
+                +"' , '"+TituloO
+                +"' , '"+TituloE +"' , '"+anio
+                +"' , '" +Director+"' , '"+Pais+"'");
+        if (x == true) {
+            state = true;
+        } else {
+
+            state = false;
+            System.out.println("FALLO AL REALIZAR EDICIÓN (cambio de datos en algunos parámetros) DE PELICULA");
+
+        }
+
+        this.closeAllConnections();
+        return state;
+    }
+  
+        @Override
+        
+        //muestra tabla pelicula con id
+      public List<Pelicula> readAll() {
+        ResultSet res;
+        List<Pelicula> pelicula = new ArrayList<>();
+        SQL_READALL = "SELECT *FROM Pelicula";
+        try {
+           
+     //      ps= conn.prepareStatement(SQL_READALL);     //DUDAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+            cs = conn.prepareCall(SQL_READALL);
+            //como no se busca algo ene specifico (n hay un signo "?", se va direcyo al resulset )
+            res = cs.executeQuery();
+            //se recorre detro de la base
+            while (res.next()) {
+                //LLENA LA LISTA
+                pelicula.add(parseResPelicula(rs));
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(SQLPeliculaDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            this.closeAllConnections(); //CIERRA CONEXION 
+        }
+
+        return pelicula;
+    }
+//view peliculaTitulos
+            public List<Pelicula> vPeliculaTitulos() {
+        ResultSet res;
+        List<Pelicula> pelicula = new ArrayList<>();
+        SQL_READALL = "SELECT *FROM vPeliculaTitulos";
+        try {
+ //      ps= conn.prepareStatement(SQL_READALL);     //DUDAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+            cs = conn.prepareCall(SQL_READALL);
+            //como no se busca algo ene specifico (n hay un signo "?", se va direcyo al resulset )
+            res = cs.executeQuery();
+            //se recorre detro de la base
+            while (res.next()) {
+                //LLENA LA LISTA
+                pelicula.add(parse2viewResPelicula(rs));
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(SQLPeliculaDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            this.closeAllConnections(); //CIERRA CONEXION 
+        }
+
+        return pelicula;
+    }
+
+    @Override
+    public Pelicula readOne(Pelicula o) {
+        Pelicula pelicula = null;
+
+        try {
+            cs = conn.prepareCall(SQL_READ);
+            cs.setString(1, o.getIdPelicula());
+            rs = cs.executeQuery();
+            //se recorre detro de la base
+            while (rs.next()) {
+                pelicula = parseResPelicula(rs);
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(SQLPeliculaDAO.class.getName()).log(Level.SEVERE, null, ex);
+
+        } finally {
+            this.closeAllConnections(); //CIERRA CONEXION 
+        }
+        return pelicula;
+
+    }
+
+    public Pelicula parseResPelicula(ResultSet res) {
+
+        Pelicula pelicula = null;
+
+        try {
+            pelicula = new Pelicula(
+                   res.getString("idPelicula"),   //no necesita el id el usuario, dudaaaaa
+                    res.getString("tituloOriginal"),
+                    res.getString("tituloExhibicion"),
+                    res.getInt("año")
+                  //  res.getByte("estado")
+            );
+        } catch (SQLException xxx) {
+            xxx.printStackTrace();
+        }
+
+        return pelicula;
+
+    }
+    
+    public Pelicula parse2viewResPelicula(ResultSet res) {
+
+        Pelicula pelicula = null;
+
+        try {
+            pelicula = new Pelicula(
+                    res.getString("tituloOriginal"),
+                    res.getString("tituloExhibicion")
+            );
+        } catch (SQLException xxx) {
+            xxx.printStackTrace();
+        }
+
+        return pelicula;
+
+    }
+    
+    
+    public void closeAllConnections() {
+
+        if (cs != null) {
+
+            try {
+                cs.close();
+            } catch (SQLException xxx) {
+
+                xxx.printStackTrace();
+            }
+        }
+
+        if (rs != null) {
+
+            try {
+                rs.close();
+            } catch (SQLException xxx) {
+
+            }
+        }
+
+        this.closeConn();
+
+    }
+    
+    
     @Override
     public boolean create(Pelicula o) {
 
@@ -140,30 +301,6 @@ public class SQLPeliculaDAO extends Conexion implements PeliculaDAO {
     }
 
     @Override
-    public List<Pelicula> readAll() {
-        ResultSet res;
-        List<Pelicula> pelicula = new ArrayList<>();
-
-        try {
-            cs = conn.prepareCall(SQL_READALL);
-            //como no se busca algo ene specifico (n hay un signo "?", se va direcyo al resulset )
-            res = cs.executeQuery();
-            //se recorre detro de la base
-            while (res.next()) {
-                //LLENA LA LISTA
-                pelicula.add(parseResPelicula(rs));
-            }
-
-        } catch (SQLException ex) {
-            Logger.getLogger(SQLPeliculaDAO.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            this.closeAllConnections(); //CIERRA CONEXION 
-        }
-
-        return pelicula;
-    }
-
-    @Override
     public boolean delete(Integer id) { //SE LE DA LA LLAVE PARA BORRAR
 
         boolean state = false;
@@ -183,73 +320,5 @@ public class SQLPeliculaDAO extends Conexion implements PeliculaDAO {
         }
 
         return state;
-    }
-
-    @Override
-    public Pelicula readOne(Pelicula o) {
-        Pelicula pelicula = null;
-
-        try {
-            cs = conn.prepareCall(SQL_READ);
-            cs.setString(1, o.getIdPelicula());
-            rs = cs.executeQuery();
-            //se recorre detro de la base
-            while (rs.next()) {
-                pelicula = parseResPelicula(rs);
-            }
-
-        } catch (SQLException ex) {
-            Logger.getLogger(SQLPeliculaDAO.class.getName()).log(Level.SEVERE, null, ex);
-
-        } finally {
-            this.closeAllConnections(); //CIERRA CONEXION 
-        }
-        return pelicula;
-
-    }
-
-    public Pelicula parseResPelicula(ResultSet res) {
-
-        Pelicula pelicula = null;
-
-        try {
-            pelicula = new Pelicula(
-                    res.getString("idPelicula"),
-                    res.getString("tituloOriginal"),
-                    res.getString("tituloExhibicion"),
-                    res.getInt("año"),
-                    res.getByte("estado")
-            );
-        } catch (SQLException xxx) {
-            xxx.printStackTrace();
-        }
-
-        return pelicula;
-
-    }
-
-    public void closeAllConnections() {
-
-        if (cs != null) {
-
-            try {
-                cs.close();
-            } catch (SQLException xxx) {
-
-                xxx.printStackTrace();
-            }
-        }
-
-        if (rs != null) {
-
-            try {
-                rs.close();
-            } catch (SQLException xxx) {
-
-            }
-        }
-
-        this.closeConn();
-
     }
 }

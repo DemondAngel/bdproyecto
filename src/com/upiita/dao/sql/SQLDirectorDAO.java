@@ -21,8 +21,9 @@ public class SQLDirectorDAO extends Conexion implements DirectorDAO {
     private static final String SQL_DELETE = "";
     private static final String SQL_UPDATE = "";
     private static final String SQL_READ = "";
-    private static final String SQL_READALL = "";
+    private static  String SQL_READALL = "";
 
+    private PreparedStatement ps;
     private CallableStatement cs;
     private ResultSet rs;
 
@@ -102,6 +103,142 @@ public class SQLDirectorDAO extends Conexion implements DirectorDAO {
         return state;
     }
 
+//muestra vistadirectores    
+    @Override
+    public List<Director> readAll() {
+        ResultSet res;
+        List<Director> director = new ArrayList<>();
+        
+         SQL_READALL = "SELECT *FROM vDirector";
+        try {
+      //      ps= conn.prepareStatement(SQL_READALL);     //DUDAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+            cs = conn.prepareCall(SQL_READALL);
+            //como no se busca algo ene specifico (n hay un signo "?", se va direcyo al resulset )
+            res = cs.executeQuery();
+            //se recorre detro de la base
+            while (res.next()) {
+                //LLENA LA LISTA
+                director.add(parseResDirector(rs));
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(SQLPaisDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            this.closeAllConnections(); //CIERRA CONEXION 
+        }
+
+        return director;
+    }
+
+//muestra vistad nombres directores    
+
+    public List<Director> vDirectorNombre() {
+        ResultSet res;
+        List<Director> director = new ArrayList<>();
+         SQL_READALL = "SELECT *FROM vDirectorNombre";
+        try {
+    //      ps= conn.prepareStatement(SQL_READALL);     //DUDAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+            cs = conn.prepareCall(SQL_READALL);
+            //como no se busca algo ene specifico (n hay un signo "?", se va direcyo al resulset )
+            res = cs.executeQuery();
+            //se recorre detro de la base
+            while (res.next()) {
+                //LLENA LA LISTA
+                director.add(parse2viewResDirector(rs));
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(SQLPaisDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            this.closeAllConnections(); //CIERRA CONEXION 
+        }
+
+        return director;
+    }
+
+    @Override
+    public Director readOne(Director o) {  //la entrada o es la llave
+        Director director = null;
+
+        try {
+            cs = conn.prepareCall(SQL_READ);
+            cs.setInt(1, o.getIdDirector());
+            rs = cs.executeQuery();
+            //se recorre detro de la base
+            while (rs.next()) {
+                director = parseResDirector(rs);
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(SQLDirectorDAO.class.getName()).log(Level.SEVERE, null, ex);
+
+        } finally {
+            this.closeAllConnections(); //CIERRA CONEXION 
+        }
+        return director;
+
+    }
+
+    public Director parseResDirector(ResultSet res) {
+
+        Director director = null;
+
+        try {
+            director = new Director(
+                    res.getInt("idDirector"),
+                    res.getString("nombre")
+                  //  res.getByte("estado")
+            );
+        } catch (SQLException xxx) {
+            xxx.printStackTrace();
+        }
+
+        return director;
+
+    }
+    public Director parse2viewResDirector(ResultSet res) {
+
+        Director director = null;
+
+        try {
+            director = new Director(
+       
+                    res.getString("nombre")
+                  //  res.getByte("estado")
+            );
+        } catch (SQLException xxx) {
+            xxx.printStackTrace();
+        }
+
+        return director;
+
+    }
+    public void closeAllConnections() {
+
+        if (cs != null) {
+
+            try {
+                cs.close();
+            } catch (SQLException xxx) {
+
+                xxx.printStackTrace();
+            }
+        }
+
+        if (rs != null) {
+
+            try {
+                rs.close();
+            } catch (SQLException xxx) {
+
+            }
+        }
+
+        this.closeConn();
+
+    }
+    
+    
     @Override
     public boolean create(Director o) {
 
@@ -149,31 +286,6 @@ public class SQLDirectorDAO extends Conexion implements DirectorDAO {
         return state;
 
     }
-
-    @Override
-    public List<Director> readAll() {
-        ResultSet res;
-        List<Director> director = new ArrayList<>();
-
-        try {
-            cs = conn.prepareCall(SQL_READALL);
-            //como no se busca algo ene specifico (n hay un signo "?", se va direcyo al resulset )
-            res = cs.executeQuery();
-            //se recorre detro de la base
-            while (res.next()) {
-                //LLENA LA LISTA
-                director.add(parseResDirector(rs));
-            }
-
-        } catch (SQLException ex) {
-            Logger.getLogger(SQLPaisDAO.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            this.closeAllConnections(); //CIERRA CONEXION 
-        }
-
-        return director;
-    }
-
     @Override
     public boolean delete(Integer id) {//SE LE DA LA LLAVE PARA BORRAR
 
@@ -194,71 +306,5 @@ public class SQLDirectorDAO extends Conexion implements DirectorDAO {
         }
 
         return state;
-    }
-
-    @Override
-    public Director readOne(Director o) {  //la entrada o es la llave
-        Director director = null;
-
-        try {
-            cs = conn.prepareCall(SQL_READ);
-            cs.setInt(1, o.getIdDirector());
-            rs = cs.executeQuery();
-            //se recorre detro de la base
-            while (rs.next()) {
-                director = parseResDirector(rs);
-            }
-
-        } catch (SQLException ex) {
-            Logger.getLogger(SQLDirectorDAO.class.getName()).log(Level.SEVERE, null, ex);
-
-        } finally {
-            this.closeAllConnections(); //CIERRA CONEXION 
-        }
-        return director;
-
-    }
-
-    public Director parseResDirector(ResultSet res) {
-
-        Director director = null;
-
-        try {
-            director = new Director(
-                    res.getInt("idDirector"),
-                    res.getString("nombre"),
-                    res.getByte("estado")
-            );
-        } catch (SQLException xxx) {
-            xxx.printStackTrace();
-        }
-
-        return director;
-
-    }
-
-    public void closeAllConnections() {
-
-        if (cs != null) {
-
-            try {
-                cs.close();
-            } catch (SQLException xxx) {
-
-                xxx.printStackTrace();
-            }
-        }
-
-        if (rs != null) {
-
-            try {
-                rs.close();
-            } catch (SQLException xxx) {
-
-            }
-        }
-
-        this.closeConn();
-
     }
 }

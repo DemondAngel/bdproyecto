@@ -18,7 +18,16 @@ public class Pais {
         this.nombre = nombre;
         this.estado = estado;
     }
+ public Pais(int idPais, String nombre) {
+        this.idPais = idPais;
+        this.nombre = nombre;
+   
+    }
+  public Pais( String nombre) {
 
+        this.nombre = nombre;
+   
+    }
     public int getIdPais() {
         return idPais;
     }
