@@ -13,8 +13,10 @@ public class Pelicula {
     private String tituloOriginal;
     private String tituloExhibicion;
     private int anio;
+    
     private Pais paises;
     private Director directores;
+    
     private byte estado;
 
     public Pelicula() {
@@ -100,7 +102,7 @@ public class Pelicula {
         int hash = 3;
         return hash;
     }
-
+    
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
