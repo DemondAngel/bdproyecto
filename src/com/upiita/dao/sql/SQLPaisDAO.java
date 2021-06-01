@@ -56,31 +56,6 @@ public class SQLPaisDAO extends Conexion implements PaisDAO {
         }
         return state;
     }
-
-    @Override
-    public boolean update(Pais o) {
-        boolean state = false;
-
-        try {
-
-            cs = conn.prepareCall(SQL_UPDATE); //nos fijamos en los signos de interrogacion de arriba, para actualizar
-
-            cs.setString(2, o.getNombre());
-            cs.setByte(3, o.getEstado());
-            if (cs.executeUpdate() > 0) {
-                state = true;
-            }
-
-        } catch (SQLException ex) {
-            Logger.getLogger(SQLPaisDAO.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            this.closeAllConnections();
-        }
-
-        return state;
-
-    }
-    
     //ejecuta el USP_EDITAR DE PAIS
         @Override
     public boolean update(String NombreActual, String NuevoNombre) {
@@ -125,28 +100,7 @@ public class SQLPaisDAO extends Conexion implements PaisDAO {
         return state;
         
     }
-    @Override
-   
-    public boolean delete(Integer id) {//SE LE DA LA LLAVE PARA BORRAR
 
-        boolean state = false;
-
-        try {
-
-            cs = conn.prepareCall(SQL_DELETE);
-            cs.setInt(1, id);
-            if (cs.executeUpdate() > 0) {
-                state = true;
-            }
-
-        } catch (SQLException ex) {
-            Logger.getLogger(SQLPaisDAO.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            this.closeAllConnections(); //CIERRA CONEXION 
-        }
-
-        return state;
-    }
     @Override
     public boolean reactive(String NombrePais) {
 
@@ -221,31 +175,6 @@ public class SQLPaisDAO extends Conexion implements PaisDAO {
         return pais;
 
     }
-
-    @Override
-    public Pais readOne(Pais o) {
-        Pais pais = null;
-
-        try {
-            cs = conn.prepareCall(SQL_READ);
-            cs.setInt(1, o.getIdPais());
-            rs = cs.executeQuery();
-            //se recorre detro de la base
-            while (rs.next()) {
-                pais = parseResPais(rs);
-            }
-
-        } catch (SQLException ex) {
-            Logger.getLogger(SQLPaisDAO.class.getName()).log(Level.SEVERE, null, ex);
-
-        } finally {
-            this.closeAllConnections(); //CIERRA CONEXION 
-        }
-        return pais;
-
-    }
-
-
 
     public Pais parseResPais(ResultSet res) {
 

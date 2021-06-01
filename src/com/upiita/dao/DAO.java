@@ -9,16 +9,12 @@ import java.util.List;
 public interface DAO<Object> { //obliga a que sea crud
 
     public boolean create(Object o);
-
-    public boolean update(Object o);
-
-    public boolean delete(Integer id);
+    
+    public boolean update(String NombreActual, String NuevoNombre);
+    
+    public boolean delete(String field);
     
     public boolean reactive(String field);
     
-    
-    
     public List<Object> readAll();
-
-    public Object readOne(Object o);
 }

@@ -79,6 +79,7 @@ public class SQLDirectorDAO extends Conexion implements DirectorDAO {
         return state;
 
     }
+    
     @Override
     public boolean delete(String NombreDirector) {//SE LE DA LA LLAVE PARA BORRAR
 
@@ -152,7 +153,7 @@ public class SQLDirectorDAO extends Conexion implements DirectorDAO {
     }
 
 //muestra vistad nombres directores    
-
+/*
     public List<Director> vDirectorNombre() {
         ResultSet res;
         List<Director> director = new ArrayList<>();
@@ -176,29 +177,7 @@ public class SQLDirectorDAO extends Conexion implements DirectorDAO {
 
         return director;
     }
-
-    @Override
-    public Director readOne(Director o) {  //la entrada o es la llave
-        Director director = null;
-
-        try {
-            cs = conn.prepareCall(SQL_READ);
-            cs.setInt(1, o.getIdDirector());
-            rs = cs.executeQuery();
-            //se recorre detro de la base
-            while (rs.next()) {
-                director = parseResDirector(rs);
-            }
-
-        } catch (SQLException ex) {
-            Logger.getLogger(SQLDirectorDAO.class.getName()).log(Level.SEVERE, null, ex);
-
-        } finally {
-            this.closeAllConnections(); //CIERRA CONEXION 
-        }
-        return director;
-
-    }
+    */
 
     public Director parseResDirector(ResultSet res) {
 
@@ -258,19 +237,4 @@ public class SQLDirectorDAO extends Conexion implements DirectorDAO {
         this.closeConn();
 
     }
-
-    @Override
-    public boolean update(Director o) {
-        return false;
-    }
-
-    @Override
-    public boolean delete(Integer id) {
-    return false;
-    }
-
-   
-    
-    
-   
 }

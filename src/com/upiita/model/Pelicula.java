@@ -1,5 +1,6 @@
 package com.upiita.model;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
@@ -14,19 +15,22 @@ public class Pelicula {
     private String tituloExhibicion;
     private int anio;
     
-    private Pais paises;
-    private Director directores;
+    private List<Pais> paises;
+    private List<Director> directores;
     
     private byte estado;
 
     public Pelicula() {
 
     }
-//constructor para la vista titulos peli
-    public Pelicula(String tituloOriginal, String tituloExhibicion) {
+    
+    public Pelicula(String idPelicula, String tituloOriginal, String tituloExhibicion, int anio) {
+        this.idPelicula = idPelicula;
         this.tituloOriginal = tituloOriginal;
         this.tituloExhibicion = tituloExhibicion;
+        this.anio = anio;
     }
+
     public Pelicula(String idPelicula, String tituloOriginal, String tituloExhibicion, int anio, byte estado) {
         this.idPelicula = idPelicula;
         this.tituloOriginal = tituloOriginal;
@@ -34,13 +38,7 @@ public class Pelicula {
         this.anio = anio;
         this.estado = estado;
     }
-    public Pelicula(String idPelicula, String tituloOriginal, String tituloExhibicion, int anio) {
-        this.idPelicula = idPelicula;
-        this.tituloOriginal = tituloOriginal;
-        this.tituloExhibicion = tituloExhibicion;
-        this.anio = anio;
-      
-    }
+    
     public String getTituloOriginal() {
         return tituloOriginal;
     }
@@ -80,21 +78,49 @@ public class Pelicula {
     public void setEstado(byte estado) {
         this.estado = estado;
     }
-    
-     public Pais getPaises() {
+
+    public List<Pais> getPaises() {
         return paises;
     }
 
-    public void setPaises(Pais paises) {
+    public void setPaises(List<Pais> paises) {
         this.paises = paises;
     }
 
-    public Director getDirectores() {
+    public List<Director> getDirectores() {
         return directores;
     }
 
-    public void setDirectores(Director directores) {
+    public void setDirectores(List<Director> directores) {
         this.directores = directores;
+    }
+    
+    public void addDirector(Director director){
+        
+        if(!this.directores.contains(director)){
+            this.directores.add(director);
+        }
+    
+    }
+    
+    public void removeDirector(Director director){
+        if(directores.contains(director)){
+            directores.remove(director);
+        }
+    }
+    
+     public void addPais(Pais pais){
+        
+        if(!this.paises.contains(pais)){
+            this.paises.add(pais);
+        }
+    
+    }
+    
+    public void removePais(Pais pais){
+        if(paises.contains(pais)){
+            paises.remove(pais);
+        }
     }
 
     @Override
@@ -102,7 +128,7 @@ public class Pelicula {
         int hash = 3;
         return hash;
     }
-    
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -115,13 +141,10 @@ public class Pelicula {
             return false;
         }
         final Pelicula other = (Pelicula) obj;
-        if (this.idPelicula != other.idPelicula) {
-            return false;
-        }
         if (this.anio != other.anio) {
             return false;
         }
-        if (this.estado != other.estado) {
+        if (!Objects.equals(this.idPelicula, other.idPelicula)) {
             return false;
         }
         if (!Objects.equals(this.tituloOriginal, other.tituloOriginal)) {
@@ -132,6 +155,8 @@ public class Pelicula {
         }
         return true;
     }
+    
+    
 
     @Override
     public String toString() {

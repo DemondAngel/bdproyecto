@@ -18,6 +18,7 @@ public class Director {
         this.nombre = nombre;
         this.estado = estado;
     }
+    
     public Director(int idDirector, String nombre) {
         this.idDirector = idDirector;
         this.nombre = nombre;
