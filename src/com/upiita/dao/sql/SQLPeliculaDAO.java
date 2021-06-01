@@ -321,4 +321,14 @@ public class SQLPeliculaDAO extends Conexion implements PeliculaDAO {
 
         return state;
     }
+
+    @Override
+    public boolean reactive(String field) {
+        return false;
+    }
+
+    @Override
+    public boolean reactive(String tituloOriginal, int anio) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

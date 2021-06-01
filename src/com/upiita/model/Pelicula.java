@@ -13,39 +13,9 @@ public class Pelicula {
     private String tituloOriginal;
     private String tituloExhibicion;
     private int anio;
-    private List<Pais> paises;
-    private List<Director> directores;
+    private Pais paises;
+    private Director directores;
     private byte estado;
-
-    public List<Pais> getPaises() {
-        return paises;
-    }
-
-    public void setPaises(List<Pais> paises) {
-        this.paises = paises;
-    }
-
-    public List<Director> getDirectores() {
-        return directores;
-    }
-
-    public void setDirectores(List<Director> directores) {
-        this.directores = directores;
-    }
-    
-    public void addPais(Pais pais){
-        
-        if(!paises.contains(pais)){
-            paises.add(pais);
-        }
-    
-    }
-    
-    public void removePais(Pais pais){
-        //Pendiente
-    }
-    
-    /*Lo mismo con Director*/
 
     public Pelicula() {
 
@@ -107,6 +77,22 @@ public class Pelicula {
 
     public void setEstado(byte estado) {
         this.estado = estado;
+    }
+    
+     public Pais getPaises() {
+        return paises;
+    }
+
+    public void setPaises(Pais paises) {
+        this.paises = paises;
+    }
+
+    public Director getDirectores() {
+        return directores;
+    }
+
+    public void setDirectores(Director directores) {
+        this.directores = directores;
     }
 
     @Override

@@ -310,4 +310,9 @@ public class SQLPaisDAO extends Conexion implements PaisDAO {
         return state;
     }
 
+    @Override
+    public boolean reactive(String field) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }
