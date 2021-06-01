@@ -20,9 +20,10 @@ public class SQLPeliculaDAO extends Conexion implements PeliculaDAO {
 
     private static final String SQL_INSERT = "";
     private static final String SQL_DELETE = "";
-    private static final String SQL_UPDATE = "";
+    private static final String SQL_UPDATE = "exec usp_Editar";
+    private static final String SQL_REACTIVE = "exec usp_Reactivar";
     private static final String SQL_READ = "";
-    private static  String SQL_READALL = "";   
+    private static  String SQL_READALL = "";  
     
     private PreparedStatement ps;
     private CallableStatement cs;

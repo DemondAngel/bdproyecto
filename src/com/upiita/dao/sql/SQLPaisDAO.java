@@ -18,9 +18,10 @@ import java.util.ArrayList;
  */
 public class SQLPaisDAO extends Conexion implements PaisDAO {
 
-    private static final String SQL_INSERT = "exec usp_AltaPais ?";
-    private static final String SQL_DELETE = "";
-    private static final String SQL_UPDATE = "";
+    private static final String SQL_INSERT = "exec usp_AltaPais ?"; //un solo ? por el parametro de entrada
+    private static final String SQL_DELETE = "exec usp_BajaPais ?";
+    private static final String SQL_UPDATE = "exec usp_EditarPais ?, ?";
+    private static final String SQL_REACTIVE = "exec usp_ReactivarPais ?";
     private static final String SQL_READ = "";
     private static  String SQL_READALL = "";
 
@@ -30,77 +31,141 @@ public class SQLPaisDAO extends Conexion implements PaisDAO {
 
     public SQLPaisDAO() {
         super();
-    }
-
-    public boolean usp_AltaPais(String NombrePais) {
+    } 
+    
+    //ccreat es para dar de alta
+    @Override
+    public boolean create(Pais o) {
 
         boolean state = false;
 
-        boolean x = ejecutaStoredProcedure("usp_AltaPais '"+NombrePais+"'");
-        if (x == true) {
-            state = true;
-        } else {
+        try {
+//la varible SQL_INSERT se declaro como tipo final global
+            cs = conn.prepareCall(SQL_INSERT);
 
-            state = false;
-            System.out.println("FALLO AL REALIZAR ALTA (activación) DE PAIS");
+            cs.setString(1, o.getNombre());
 
+            if (cs.executeUpdate() > 0) {
+                state = true;
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(SQLDirectorDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            this.closeAllConnections();
         }
-
-        this.closeAllConnections();
         return state;
     }
 
-    public boolean usp_BajaPais(String NombrePais) {
-
+    @Override
+    public boolean update(Pais o) {
         boolean state = false;
 
-        boolean x = ejecutaStoredProcedure("usp_BajaPais '"+NombrePais +"'");
-        if (x == true) {
-            state = true;
-        } else {
+        try {
 
-            state = false;
-            System.out.println("FALLO AL REALIZAR BAJA DE PAIS");
+            cs = conn.prepareCall(SQL_UPDATE); //nos fijamos en los signos de interrogacion de arriba, para actualizar
 
+            cs.setString(2, o.getNombre());
+            cs.setByte(3, o.getEstado());
+            if (cs.executeUpdate() > 0) {
+                state = true;
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(SQLPaisDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            this.closeAllConnections();
         }
 
-        this.closeAllConnections();
+        return state;
+
+    }
+    
+    //ejecuta el USP_EDITAR DE PAIS
+        @Override
+    public boolean update(String NombreActual, String NuevoNombre) {
+              boolean state = false;
+
+        try {
+
+            cs = conn.prepareCall(SQL_UPDATE); //nos fijamos en los signos de interrogacion de arriba, para actualizar
+
+            cs.setString(1, NombreActual);
+            cs.setString(2, NuevoNombre);
+            if (cs.executeUpdate() > 0) {
+                state = true;
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(SQLPaisDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            this.closeAllConnections();
+        }
+
         return state;
     }
+     @Override
+    public boolean delete(String NombrePais) {
+        boolean state = false;
 
-    public boolean usp_ReactivaPais(String NombrePais) {
+        try {
+
+            cs = conn.prepareCall(SQL_DELETE);
+            cs.setString(1, NombrePais);
+            if (cs.executeUpdate() > 0) {
+                state = true;
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(SQLPaisDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            this.closeAllConnections(); //CIERRA CONEXION 
+        }
+
+        return state;
+        
+    }
+    @Override
+   
+    public boolean delete(Integer id) {//SE LE DA LA LLAVE PARA BORRAR
 
         boolean state = false;
 
-        boolean x = ejecutaStoredProcedure("usp_ReactivaPais '"+NombrePais+"'");
-        if (x == true) {
-            state = true;
-        } else {
+        try {
 
-            state = false;
-            System.out.println("FALLO AL REALIZAR ALTA (activación) DE PAIS");
+            cs = conn.prepareCall(SQL_DELETE);
+            cs.setInt(1, id);
+            if (cs.executeUpdate() > 0) {
+                state = true;
+            }
 
+        } catch (SQLException ex) {
+            Logger.getLogger(SQLPaisDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            this.closeAllConnections(); //CIERRA CONEXION 
         }
 
-        this.closeAllConnections();
         return state;
     }
-
-    public boolean usp_EditarPais(String NombreActual, String NuevoNombre) {
+    @Override
+    public boolean reactive(String NombrePais) {
 
         boolean state = false;
 
-        boolean x = ejecutaStoredProcedure("usp_EditarPais '" + NombreActual + "', '" + NuevoNombre + "'");
-        if (x == true) {
-            state = true;
-        } else {
+        try {
 
-            state = false;
-            System.out.println("FALLO AL EDICIÓN DE PAIS");
+            cs = conn.prepareCall(SQL_REACTIVE);
+            cs.setString(1, NombrePais);
 
+            if (cs.executeUpdate() > 0) {
+                state = true;
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(SQLDirectorDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            this.closeAllConnections();
         }
-
-        this.closeAllConnections();
         return state;
     }
 
@@ -239,80 +304,11 @@ public class SQLPaisDAO extends Conexion implements PaisDAO {
         this.closeConn();
 
     }
-    
-    @Override
-    public boolean create(Pais o) {
 
-        boolean state = false;
 
-        try {
 
-            cs = conn.prepareCall(SQL_INSERT);
 
-            cs.setString(1, o.getNombre());
-            
-            if (cs.executeUpdate() > 0) {
-                state = true;
-            }
 
-        } catch (SQLException ex) {
-            Logger.getLogger(SQLDirectorDAO.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            this.closeAllConnections();
-        }
-        return state;
-    }
 
-    @Override
-    public boolean update(Pais o) {
-        boolean state = false;
-
-        try {
-
-            cs = conn.prepareCall(SQL_UPDATE); //nos fijamos en los signos de interrogacion de arriba, para actualizar
-
-            cs.setInt(1, o.getIdPais());
-            cs.setString(2, o.getNombre());
-            cs.setByte(3, o.getEstado());
-            if (cs.executeUpdate() > 0) {
-                state = true;
-            }
-
-        } catch (SQLException ex) {
-            Logger.getLogger(SQLPaisDAO.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            this.closeAllConnections();
-        }
-
-        return state;
-
-    }
-    
-    @Override
-    public boolean delete(Integer id) {//SE LE DA LA LLAVE PARA BORRAR
-
-        boolean state = false;
-
-        try {
-
-            cs = conn.prepareCall(SQL_DELETE);
-            cs.setInt(1, id);
-            if (cs.executeUpdate() > 0) {
-                state = true;
-            }
-
-        } catch (SQLException ex) {
-            Logger.getLogger(SQLPaisDAO.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            this.closeAllConnections(); //CIERRA CONEXION 
-        }
-
-        return state;
-    }
-
-    @Override
-    public boolean reactive(String field) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
+   
 }

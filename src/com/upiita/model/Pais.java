@@ -8,6 +8,7 @@ public class Pais {
 
     private int idPais;
     private String nombre;
+    private String nuevoNombre;
     private byte estado;
 
     public Pais() {

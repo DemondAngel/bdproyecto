@@ -18,9 +18,10 @@ import java.util.ArrayList;
  */
 public class SQLDirectorDAO extends Conexion implements DirectorDAO {
 
-    private static final String SQL_INSERT = "";
-    private static final String SQL_DELETE = "";
-    private static final String SQL_UPDATE = "";
+    private static final String SQL_INSERT = "exec usp_AltaDirector ?";
+    private static final String SQL_DELETE = " exec usp_BajaDirector ?";
+    private static final String SQL_UPDATE = "exec usp_EditarDirector ?, ?";
+    private static final String SQL_REACTIVE = "exec usp_ReactivarDirector ?";
     private static final String SQL_READ = "";
     private static  String SQL_READALL = "";
 
@@ -31,79 +32,98 @@ public class SQLDirectorDAO extends Conexion implements DirectorDAO {
     public SQLDirectorDAO() {
         super();
     }
-
-    public boolean usp_AltaDirector(String NombreDirector) {
-
-        boolean state = false;
-
-        boolean x = ejecutaStoredProcedure("usp_AltaDirector '"+NombreDirector+"'");
-        if (x == true) {
-            state = true;
-        } else {
-
-            state = false;
-            System.out.println("FALLO AL REALIZAR ALTA (activación) DE DIRECTOR");
-
-        }
-
-        this.closeAllConnections();
-        return state;
-    }
-
-    public boolean usp_BajaDirector(String NombreDirector) {
+//ejecuta el usp_altadirector
+    @Override
+    public boolean create(Director o) {
 
         boolean state = false;
 
-        boolean x = ejecutaStoredProcedure("usp_BajaDirector '"+NombreDirector+"'");
-        if (x == true) {
-            state = true;
-        } else {
+        try {
 
-            state = false;
-            System.out.println("FALLO AL REALIZAR BAJA DE DIRECTOR");
+            cs = conn.prepareCall(SQL_INSERT);
+      
+            cs.setString(1, o.getNombre());
+            if (cs.executeUpdate() > 0) {
+                state = true;
+            }
 
+        } catch (SQLException ex) {
+            Logger.getLogger(SQLDirectorDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            this.closeAllConnections();
         }
 
-        this.closeAllConnections();
         return state;
+
     }
 
-    public boolean usp_ReactivaDirector(String NombreDirector) {
+    @Override
+    public boolean update(String NombreActual, String NuevoNombre) {
+        boolean state = false;
+
+        try {
+            cs = conn.prepareCall(SQL_UPDATE); //nos fijamos en los signos de interrogacion de arriba, para actualizar
+
+            cs.setString(1, NombreActual);
+            cs.setString(2, NuevoNombre);
+            if (cs.executeUpdate() > 0) {
+                state = true;
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(SQLDirectorDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            this.closeAllConnections();
+        }
+
+        return state;
+
+    }
+    @Override
+    public boolean delete(String NombreDirector) {//SE LE DA LA LLAVE PARA BORRAR
 
         boolean state = false;
 
-        boolean x = ejecutaStoredProcedure("usp_ReactivaDirector '"+NombreDirector+"'");
-        if (x == true) {
-            state = true;
-        } else {
+        try {
 
-            state = false;
-            System.out.println("FALLO AL REALIZAR ALTA (activación) DE DIRECTOR");
+            cs = conn.prepareCall(SQL_DELETE);
+            cs.setString(1, NombreDirector);
+            if (cs.executeUpdate() > 0) {
+                state = true;
+            }
 
+        } catch (SQLException ex) {
+            Logger.getLogger(SQLPeliculaDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            this.closeAllConnections(); //CIERRA CONEXION 
         }
 
-        this.closeAllConnections();
         return state;
     }
 
-    public boolean usp_EditarDirector(String NombreActual, String NuevoNombre) {
+ @Override
+    public boolean reactive(String NombreDirector) {
+               boolean state = false;
 
-        boolean state = false;
+        try {
 
-        boolean x = ejecutaStoredProcedure("usp_EditarDirector '"+NombreActual + "', '" +NuevoNombre+"'");
-        if (x == true) {
-            state = true;
-        } else {
+            cs = conn.prepareCall(SQL_INSERT);
+      
+            cs.setString(1,NombreDirector);
+            if (cs.executeUpdate() > 0) {
+                state = true;
+            }
 
-            state = false;
-            System.out.println("FALLO AL EDICIÓN DE DIRECTOR");
-
+        } catch (SQLException ex) {
+            Logger.getLogger(SQLDirectorDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            this.closeAllConnections();
         }
 
-        this.closeAllConnections();
         return state;
     }
-
+   
+    
 //muestra vistadirectores    
     @Override
     public List<Director> readAll() {
@@ -238,79 +258,19 @@ public class SQLDirectorDAO extends Conexion implements DirectorDAO {
         this.closeConn();
 
     }
-    
-    
-    @Override
-    public boolean create(Director o) {
-
-        boolean state = false;
-
-        try {
-
-            cs = conn.prepareCall(SQL_INSERT);
-            cs.setInt(1, o.getIdDirector());
-            cs.setString(2, o.getNombre());
-            cs.setByte(3, o.getEstado());
-            if (cs.executeUpdate() > 0) {
-                state = true;
-            }
-
-        } catch (SQLException ex) {
-            Logger.getLogger(SQLDirectorDAO.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            this.closeAllConnections();
-        }
-
-        return state;
-
-    }
 
     @Override
     public boolean update(Director o) {
-        boolean state = false;
-
-        try {
-            cs = conn.prepareCall(SQL_UPDATE); //nos fijamos en los signos de interrogacion de arriba, para actualizar
-            cs.setInt(1, o.getIdDirector());
-            cs.setString(2, o.getNombre());
-            cs.setByte(3, o.getEstado());
-            if (cs.executeUpdate() > 0) {
-                state = true;
-            }
-
-        } catch (SQLException ex) {
-            Logger.getLogger(SQLDirectorDAO.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            this.closeAllConnections();
-        }
-
-        return state;
-
-    }
-    @Override
-    public boolean delete(Integer id) {//SE LE DA LA LLAVE PARA BORRAR
-
-        boolean state = false;
-
-        try {
-
-            cs = conn.prepareCall(SQL_DELETE);
-            cs.setInt(1, id);
-            if (cs.executeUpdate() > 0) {
-                state = true;
-            }
-
-        } catch (SQLException ex) {
-            Logger.getLogger(SQLPeliculaDAO.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            this.closeAllConnections(); //CIERRA CONEXION 
-        }
-
-        return state;
+        return false;
     }
 
     @Override
-    public boolean reactive(String field) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean delete(Integer id) {
+    return false;
     }
+
+   
+    
+    
+   
 }
