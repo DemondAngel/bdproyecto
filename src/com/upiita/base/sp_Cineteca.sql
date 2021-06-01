@@ -182,6 +182,13 @@ SELECT * FROM Pelicula_Pais
 
 CREATE VIEW vPeliculaDirector AS
 SELECT * FROM Pelicula_Director
+
+CREATE VIEW vReporte AS
+SELECT P.idPelicula,P.tituloOriginal,P.tituloExhibicion,P.año,P.estado,PA.nombre Pais,D.nombre Director FROM Pais PA 
+INNER JOIN Pelicula_Pais PP ON PA.idPais=PP.idPais
+INNER JOIN Pelicula P ON PP.idPelicula=P.idPelicula
+INNER JOIN Pelicula_Director PD ON P.idPelicula=PD.idPelicula
+INNER JOIN Director D ON PD.idDirector=D.idDirector
 --------------------------------VALIDAR ESPACIOS
 CREATE OR ALTER PROCEDURE usp_ValidarEspacios @valor varchar(200) OUTPUT AS
 BEGIN
@@ -213,7 +220,7 @@ print Len(@v)
 EXEC usp_AltaPais @v
 DELETE PAIS WHERE idPais=156
 SELECT * FROM PAIS
-
+SELECT * FROM vReporte
 SELECT * FROM Pais*/
 
 
