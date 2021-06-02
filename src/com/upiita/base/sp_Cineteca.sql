@@ -103,10 +103,17 @@ BEGIN
 END
 
 CREATE OR ALTER PROCEDURE usp_EditarPelicula 
-@IdPelicula varchar(20),@TituloO varchar(200), @TituloE varchar(200), @Año int, @Director varchar(100), @Pais varchar(50)   AS
+@IdPelicula varchar(20),@TituloO varchar(200), @TituloE varchar(200), @Año int, @Director varchar(100), @Pais varchar(50), @DirectorActual varchar(100), @PaisActual varchar(50)  AS
 BEGIN
+	DECLARE @idDActual int
+	DECLARE @idPActual int
+
 	EXEC usp_ValidarEspacios @TituloO OUTPUT
 	EXEC usp_ValidarEspacios @TituloE OUTPUT
+
+	SET @idDActual = (SELECT idDirector FROM Director WHERE nombre=@DirectorActual)
+	SET @idPActual = (SELECT IdPais FROM Pais WHERE nombre=@PaisActual)
+
 	BEGIN TRAN
 		IF(@TituloO <> (SELECT tituloOriginal FROM Pelicula WHERE idPelicula=@IdPelicula))
 			UPDATE P SET [tituloOriginal]=@TituloO FROM Pelicula AS P WHERE idPelicula=@IdPelicula 
@@ -114,10 +121,10 @@ BEGIN
 			UPDATE P SET [tituloExhibicion]=@TituloE FROM Pelicula AS P WHERE idPelicula=@IdPelicula 
 		IF(@Año <> (SELECT año FROM Pelicula WHERE idPelicula=@IdPelicula))
 			UPDATE P SET [año]=@Año FROM Pelicula AS P WHERE idPelicula=@IdPelicula 
-		IF(@Pais <> (SELECT nombre FROM Pelicula P INNER JOIN Pelicula_Pais PP ON P.idPelicula=PP.idPelicula INNER JOIN Pais PA ON PP.idPais=PA.idPais WHERE P.idPelicula=@IdPelicula ))
-			UPDATE P SET [idPais]=(SELECT IdPais FROM Pais WHERE nombre=@Pais) FROM Pelicula_Pais P WHERE idPelicula=@IdPelicula
-		IF(@Director<> (SELECT nombre FROM Pelicula P INNER JOIN Pelicula_Director PD ON P.idPelicula=PD.idPelicula INNER JOIN Director D ON PD.idDirector=D.idDirector WHERE P.idPelicula=@IdPelicula ))
-			UPDATE P SET [idDirector]=(SELECT idDirector FROM Director WHERE nombre=@Director) FROM Pelicula_Director P WHERE idPelicula=@IdPelicula
+		IF(@Pais <> @PaisActual)
+			UPDATE P SET [idPais]=(SELECT IdPais FROM Pais WHERE nombre=@Pais) FROM Pelicula_Pais P WHERE idPelicula=@IdPelicula AND idPais = @idPActual
+		IF(@Director<> @DirectorActual)
+		UPDATE P SET [idDirector]=(SELECT idDirector FROM Director WHERE nombre=@Director) FROM Pelicula_Director P WHERE idPelicula=@IdPelicula AND idDirector = @idDActual
 		IF(LEN(@TituloO)=0)
 		BEGIN
 			ROLLBACK TRAN;
@@ -178,7 +185,7 @@ CREATE VIEW vPeliculaTitulos AS
 SELECT tituloOriginal, tituloExhibicion FROM Pelicula
 
 CREATE VIEW vPeliculaPais AS
-SELECT * FROM Pelicula_Pais				
+SELECT * FROM Pelicula_Pais
 
 CREATE VIEW vPeliculaDirector AS
 SELECT * FROM Pelicula_Director
@@ -189,7 +196,6 @@ INNER JOIN Pelicula_Pais PP ON PA.idPais=PP.idPais
 INNER JOIN Pelicula P ON PP.idPelicula=P.idPelicula
 INNER JOIN Pelicula_Director PD ON P.idPelicula=PD.idPelicula
 INNER JOIN Director D ON PD.idDirector=D.idDirector
-
 --------------------------------VALIDAR ESPACIOS
 CREATE OR ALTER PROCEDURE usp_ValidarEspacios @valor varchar(200) OUTPUT AS
 BEGIN
@@ -222,8 +228,9 @@ EXEC usp_AltaPais @v
 DELETE PAIS WHERE idPais=156
 SELECT * FROM PAIS
 SELECT * FROM vReporte
-SELECT * FROM Pais*/
+SELECT * FROM Pais
 
-
-
-
+select * from vReporte
+EXEC usp_EditarPelicula 'C-13195','Evangelion 3.0+1.0','Evangelion',2018,'JAFAR PANAHI','MÉXICO','NURI BILGE CEYLAN','MACEDONIA'
+EXEC usp_EditarPelicula 'C-13199','AUF DER SUCHE NACH INGMAR BERGMAN','BUSCANDO A INGMAR BERGMAN',2017,'JEAN-LUC GODARD','MÉXICO','FELIX MOELLER','FRANCIA'
+*/
