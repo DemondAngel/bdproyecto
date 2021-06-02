@@ -10,7 +10,7 @@ import com.upiita.view.fonts.Fuentes;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontFormatException;
-import javax.swing.JPanel;
+
 
 /**
  *
@@ -54,7 +54,7 @@ public class Cat_Pais extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         jListPaises = new javax.swing.JList<>();
 
-        setBackground(new java.awt.Color(28, 37, 65));
+        setBackground(new java.awt.Color(58, 80, 107));
         setLayout(null);
 
         jLabelTitulo.setFont(new java.awt.Font("Dialog", 1, 36)); // NOI18N
@@ -66,7 +66,7 @@ public class Cat_Pais extends javax.swing.JPanel {
 
         jLabelName.setText("Nombre");
         add(jLabelName);
-        jLabelName.setBounds(0, 163, 45, 16);
+        jLabelName.setBounds(0, 163, 44, 16);
 
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -74,7 +74,7 @@ public class Cat_Pais extends javax.swing.JPanel {
             }
         });
         add(jTextField1);
-        jTextField1.setBounds(175, 155, 226, 24);
+        jTextField1.setBounds(175, 155, 226, 22);
 
         jPanelLista.setBackground(new java.awt.Color(0, 0, 0));
         jPanelLista.setForeground(new java.awt.Color(0, 0, 0));

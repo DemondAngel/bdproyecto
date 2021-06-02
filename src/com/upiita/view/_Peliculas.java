@@ -5,19 +5,44 @@
  */
 package com.upiita.view;
 
+import com.upiita.view.fonts.Fuentes;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.FontFormatException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableColumn;
 
 public class _Peliculas extends javax.swing.JPanel {
+    
+   
 
     /**
      * Creates new form _Peliculas
      */
-    public _Peliculas() {
+    public _Peliculas() throws FontFormatException {
         initComponents();
+        TBPeliculas.setAlignmentX(10);
+        Font LemonB = fonttype.nFont(fonttype.getLemon(), 1, 5);
+        Font Glacial = fonttype.nFont(fonttype.getGlacial() , 1,12);
+         
+        
+        bdel.setVisible(true);
+        bedit.setVisible(true);
+        /*JTableHeader header = new JTableHeader();
+        header.setFont(LemonB);
+        header.setBackground(new Color(58,80,107));
+        header.setForeground(Color.GREEN);
+        TBPeliculas.setTableHeader(header);*/
+        
+        TBPeliculas.setFont(Glacial);
+        TBPeliculas.setBackground(new Color(58,80,107));
+        
+        headersPeliculas();
+        jScrollPane1.getViewport().setBackground(new Color(58,80,107));
     }
 
     /**
@@ -31,14 +56,12 @@ public class _Peliculas extends javax.swing.JPanel {
 
         _Display = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        TBPeliculas = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         badd = new javax.swing.JPanel();
         iadd = new javax.swing.JLabel();
         bdel = new javax.swing.JPanel();
         idel = new javax.swing.JLabel();
-        bsrc = new javax.swing.JPanel();
-        isrc = new javax.swing.JLabel();
         bedit = new javax.swing.JPanel();
         iedit = new javax.swing.JLabel();
 
@@ -46,36 +69,37 @@ public class _Peliculas extends javax.swing.JPanel {
         setLayout(new java.awt.BorderLayout());
 
         _Display.setBackground(new java.awt.Color(58, 80, 107));
+        _Display.setName(""); // NOI18N
+        _Display.setLayout(null);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        TBPeliculas.setBackground(new java.awt.Color(102, 102, 102));
+        TBPeliculas.setForeground(new java.awt.Color(255, 255, 255));
+        TBPeliculas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {"EL SUAVECITO ", "EL SUAVECITO ", "1950 ", "Jaja no sé xD", "México", "efea"},
+                {"LOS DOS CARNALES ", "LOS DOS CARNALES ", "1981 ", "LALO", "México", "lweir34"},
+                {"SIMÓN DEL DESIERTO ", "SIMÓN DEL DESIERTO ", "1964 ", "FER", "México", "348975"},
+                {"ASÍ SE QUIERE EN JALISCO ", "ASÍ SE QUIERE EN", "1874", "ABI", null, "4938753"},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Título Original", "Título de Exhibición", "Año", "Director", "País", " "
             }
-        ));
-        jScrollPane1.setViewportView(jTable1);
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, true, true
+            };
 
-        javax.swing.GroupLayout _DisplayLayout = new javax.swing.GroupLayout(_Display);
-        _Display.setLayout(_DisplayLayout);
-        _DisplayLayout.setHorizontalGroup(
-            _DisplayLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(_DisplayLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 818, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        _DisplayLayout.setVerticalGroup(
-            _DisplayLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(_DisplayLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 488, Short.MAX_VALUE)
-                .addContainerGap())
-        );
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        TBPeliculas.setGridColor(new java.awt.Color(58, 80, 107));
+        TBPeliculas.setUpdateSelectionOnSort(false);
+        jScrollPane1.setViewportView(TBPeliculas);
+
+        _Display.add(jScrollPane1);
+        jScrollPane1.setBounds(10, 10, 810, 480);
 
         add(_Display, java.awt.BorderLayout.CENTER);
 
@@ -136,33 +160,6 @@ public class _Peliculas extends javax.swing.JPanel {
 
         jPanel1.add(bdel);
         bdel.setBounds(50, 0, 50, 50);
-
-        bsrc.setBackground(new java.awt.Color(28, 37, 65));
-        bsrc.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                bsrcMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                bsrcMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                bsrcMouseExited(evt);
-            }
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                bsrcMousePressed(evt);
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                bsrcMouseReleased(evt);
-            }
-        });
-        bsrc.setLayout(null);
-
-        isrc.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/upiita/view/Resources/lupa.png"))); // NOI18N
-        bsrc.add(isrc);
-        isrc.setBounds(10, 10, 30, 30);
-
-        jPanel1.add(bsrc);
-        bsrc.setBounds(150, 0, 50, 50);
 
         bedit.setBackground(new java.awt.Color(28, 37, 65));
         bedit.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -234,26 +231,6 @@ public class _Peliculas extends javax.swing.JPanel {
         bdel.setBackground(Bback);
     }//GEN-LAST:event_bdelMouseReleased
 
-    private void bsrcMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bsrcMouseEntered
-        ImageIcon ic = new ImageIcon(getClass().getResource("/com/upiita/view/resources/lupa2.png"));
-        isrc.setIcon(ic);
-        bsrc.setBackground(Bchange);
-    }//GEN-LAST:event_bsrcMouseEntered
-
-    private void bsrcMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bsrcMouseExited
-        ImageIcon ic = new ImageIcon(getClass().getResource("/com/upiita/view/resources/lupa.png"));
-        isrc.setIcon(ic);
-        bsrc.setBackground(Bback);
-    }//GEN-LAST:event_bsrcMouseExited
-
-    private void bsrcMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bsrcMousePressed
-        bsrc.setBackground(Bclick);
-    }//GEN-LAST:event_bsrcMousePressed
-
-    private void bsrcMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bsrcMouseReleased
-        bsrc.setBackground(Bback);
-    }//GEN-LAST:event_bsrcMouseReleased
-
     private void beditMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_beditMouseEntered
         ImageIcon ic = new ImageIcon(getClass().getResource("/com/upiita/view/resources/pen-square-solid2.png"));
         iedit.setIcon(ic);
@@ -275,6 +252,8 @@ public class _Peliculas extends javax.swing.JPanel {
     }//GEN-LAST:event_beditMouseReleased
 
     private void baddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_baddMouseClicked
+        bdel.setVisible(false);
+        bedit.setVisible(false);
         Cat_Peliculas  addPeliculas = null;
         try {
             addPeliculas = new Cat_Peliculas();
@@ -288,45 +267,89 @@ public class _Peliculas extends javax.swing.JPanel {
     }//GEN-LAST:event_baddMouseClicked
 
     private void bdelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bdelMouseClicked
-        _Pdel pdel = new _Pdel();
-        pdel.setBounds(0, 0, 830, 500);
-        _Display.removeAll();
-        _Display.add(pdel);
-        _Display.updateUI();
+        int[] filaSeleccionadas = TBPeliculas.getSelectedRows();
+        int noFilas = filaSeleccionadas.length;
+        if (noFilas == 0) {
+            JOptionPane.showMessageDialog(null, "Ingrese una o varias filas para eliminar", "CINETECA NACIONAL", 1);
+        } else {
+            int res = JOptionPane.showConfirmDialog(null, "¿Desea eliminar " + noFilas + " filas?", "CINETECA NACIONAL", JOptionPane.YES_NO_OPTION);
+            if (res == 0) {
+                System.out.println("Sentencia para borrar");
+            }
+
+            for (int fila : filaSeleccionadas) {
+                String pelicula;
+                pelicula = TBPeliculas.getValueAt(fila, 5).toString();
+                System.out.println(pelicula);
+//            SentenciasSQL.bajaRegistro(alumno, "Alumno", "curp");
+            }
+        }
     }//GEN-LAST:event_bdelMouseClicked
 
     private void beditMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_beditMouseClicked
-        _Pedit pedit = new _Pedit();
+       /* Edi_Peliculas pedit = null;
+        try {
+            pedit = new Edi_Peliculas();
+        } catch (FontFormatException ex) {
+            Logger.getLogger(_Peliculas.class.getName()).log(Level.SEVERE, null, ex);
+        }
         pedit.setBounds(0, 0, 830, 500);
         _Display.removeAll();
         _Display.add(pedit);
-        _Display.updateUI();
+        _Display.updateUI();*/
+        
+        try {
+            Edit_Peliculas Modificar = new Edit_Peliculas();
+            Modificar.TituloOriginal= TBPeliculas.getValueAt(TBPeliculas.getSelectedRow(),0).toString();
+            Modificar.TituloExhibicion= TBPeliculas.getValueAt(TBPeliculas.getSelectedRow(),1).toString();
+            Modificar.Anio= TBPeliculas.getValueAt(TBPeliculas.getSelectedRow(),2).toString();
+            Modificar.Director= TBPeliculas.getValueAt(TBPeliculas.getSelectedRow(),3).toString();
+            Modificar.Pais= TBPeliculas.getValueAt(TBPeliculas.getSelectedRow(),4).toString();
+            Modificar.ID= TBPeliculas.getValueAt(TBPeliculas.getSelectedRow(),5).toString();
+            
+            Modificar.fillGaps();
+            Modificar.setBounds(600, 300, 830, 500);
+            Modificar.setVisible(true);
+        } catch (FontFormatException ex) {
+            Logger.getLogger(_Peliculas.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+       
     }//GEN-LAST:event_beditMouseClicked
-
-    private void bsrcMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bsrcMouseClicked
-        _Psrc psrc = new _Psrc();
-        psrc.setBounds(0, 0, 830, 500);
-        _Display.removeAll();
-        _Display.add(psrc);
-        _Display.updateUI();
-    }//GEN-LAST:event_bsrcMouseClicked
+    
+     public void headersPeliculas() {
+         int[] anchoCol = {270, 190,120,120,100,1};
+        int i = 0;
+        for (int ancho : anchoCol) { // Implementa el arrego anchoCol en la tabla
+            TableColumn column = TBPeliculas.getColumnModel().getColumn(i++);
+            column.setMinWidth(ancho);
+            column.setMaxWidth(ancho);
+            column.setPreferredWidth(ancho);
+        }
+        DefaultTableCellRenderer headerRenderer = new DefaultTableCellRenderer();
+        headerRenderer.setBackground( new Color(0,0,0,123) );
+        for (int j = 0; j < TBPeliculas.getModel().getColumnCount(); j++) {
+            TBPeliculas.getColumnModel().getColumn(j).setHeaderRenderer(headerRenderer);
+        }
+    }
     
     Color change = new Color(111, 255, 233);
     Color Bchange = new Color(43, 59, 86);
     Color Bback = new Color(28, 37, 65);
     Color Bclick = new Color(11, 19, 43);
+    Color transparent =new Color (255,255,255,40);
+    Fuentes fonttype = new Fuentes (); 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTable TBPeliculas;
     private javax.swing.JPanel _Display;
     private javax.swing.JPanel badd;
     private javax.swing.JPanel bdel;
     private javax.swing.JPanel bedit;
-    private javax.swing.JPanel bsrc;
     private javax.swing.JLabel iadd;
     private javax.swing.JLabel idel;
     private javax.swing.JLabel iedit;
-    private javax.swing.JLabel isrc;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
 }

@@ -5,8 +5,9 @@
  */
 package com.upiita.view;
 
+//import AppPackage.AnimationClass;
 import com.upiita.view.fonts.Fuentes;
-import java.awt.Font;
+//import java.awt.Font;
 import java.awt.FontFormatException;
 
 /**
@@ -20,14 +21,13 @@ public class Cat_Directores extends javax.swing.JPanel {
      */
     public Cat_Directores() throws FontFormatException {
         initComponents();
-        Font Lovelo = fonttype.nFont(fonttype.getLovelo() , 1,38);
-        Font Glacial = fonttype.nFont(fonttype.getGlacial() , 1,20);
-        
-        jLabelTitulo.setFont(Lovelo);
-        jLabelName.setFont(Glacial);
-        jList1.setFont(Glacial);
-        
-        
+//        Font Lovelo = fonttype.nFont(fonttype.getLovelo() , 1,38);
+//        Font Glacial = fonttype.nFont(fonttype.getGlacial() , 1,20);        
+//        jLabelTitulo.setFont(Lovelo);
+//        jLabelName.setFont(Glacial);
+//        jList1.setFont(Glacial);
+//        AnimationClass PaisesR = new AnimationClass();
+//        
     }
 
     /**
@@ -47,7 +47,7 @@ public class Cat_Directores extends javax.swing.JPanel {
         jList1 = new javax.swing.JList<>();
         jLabelReturn = new javax.swing.JLabel();
 
-        setBackground(new java.awt.Color(28, 37, 65));
+        setBackground(new java.awt.Color(58, 80, 107));
         setName("jPanelAlDirectores"); // NOI18N
         setLayout(null);
 
@@ -62,11 +62,11 @@ public class Cat_Directores extends javax.swing.JPanel {
         jLabelName.setText("Nombre");
         jLabelName.setName("jLabelName"); // NOI18N
         add(jLabelName);
-        jLabelName.setBounds(38, 128, 45, 16);
+        jLabelName.setBounds(38, 128, 44, 16);
 
         jTextFieldName.setName("jTextName"); // NOI18N
         add(jTextFieldName);
-        jTextFieldName.setBounds(190, 120, 159, 24);
+        jTextFieldName.setBounds(190, 120, 159, 22);
 
         jList1.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -89,8 +89,8 @@ public class Cat_Directores extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jLabelReturnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelReturnMouseClicked
-        _Directores dir  = new _Directores();
-        dir.setBounds(0, 0, 830, 550);
+//        _Directores dir  = new _Directores();
+//        dir.setBounds(0, 0, 830, 550);
         
         
         

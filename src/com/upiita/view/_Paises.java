@@ -6,7 +6,11 @@
 package com.upiita.view;
 
 import java.awt.Color;
+import java.awt.FontFormatException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -30,54 +34,59 @@ public class _Paises extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel5 = new javax.swing.JPanel();
+        _Display = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        TBPeliculas = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         badd = new javax.swing.JPanel();
         iadd = new javax.swing.JLabel();
         bdel = new javax.swing.JPanel();
         idel = new javax.swing.JLabel();
-        bsrc = new javax.swing.JPanel();
-        isrc = new javax.swing.JLabel();
         bedit = new javax.swing.JPanel();
         iedit = new javax.swing.JLabel();
 
         setLayout(new java.awt.BorderLayout());
 
-        jPanel5.setBackground(new java.awt.Color(58, 80, 107));
+        _Display.setBackground(new java.awt.Color(58, 80, 107));
+        _Display.setLayout(null);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        TBPeliculas.setBackground(new java.awt.Color(102, 102, 102));
+        TBPeliculas.setForeground(new java.awt.Color(255, 255, 255));
+        TBPeliculas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "País", "ID"
             }
-        ));
-        jScrollPane1.setViewportView(jTable1);
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
 
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 818, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 488, Short.MAX_VALUE)
-                .addContainerGap())
-        );
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
 
-        add(jPanel5, java.awt.BorderLayout.CENTER);
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        TBPeliculas.setOpaque(false);
+        TBPeliculas.setUpdateSelectionOnSort(false);
+        jScrollPane1.setViewportView(TBPeliculas);
+
+        _Display.add(jScrollPane1);
+        jScrollPane1.setBounds(10, 10, 810, 480);
+
+        add(_Display, java.awt.BorderLayout.CENTER);
 
         jPanel1.setBackground(new java.awt.Color(28, 37, 65));
         jPanel1.setPreferredSize(new java.awt.Dimension(830, 50));
@@ -85,6 +94,9 @@ public class _Paises extends javax.swing.JPanel {
 
         badd.setBackground(new java.awt.Color(28, 37, 65));
         badd.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                baddMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 baddMouseEntered(evt);
             }
@@ -109,6 +121,9 @@ public class _Paises extends javax.swing.JPanel {
 
         bdel.setBackground(new java.awt.Color(28, 37, 65));
         bdel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                bdelMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 bdelMouseEntered(evt);
             }
@@ -131,32 +146,11 @@ public class _Paises extends javax.swing.JPanel {
         jPanel1.add(bdel);
         bdel.setBounds(50, 0, 50, 50);
 
-        bsrc.setBackground(new java.awt.Color(28, 37, 65));
-        bsrc.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                bsrcMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                bsrcMouseExited(evt);
-            }
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                bsrcMousePressed(evt);
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                bsrcMouseReleased(evt);
-            }
-        });
-        bsrc.setLayout(null);
-
-        isrc.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/upiita/view/Resources/lupa.png"))); // NOI18N
-        bsrc.add(isrc);
-        isrc.setBounds(10, 10, 30, 30);
-
-        jPanel1.add(bsrc);
-        bsrc.setBounds(150, 0, 50, 50);
-
         bedit.setBackground(new java.awt.Color(28, 37, 65));
         bedit.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                beditMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 beditMouseEntered(evt);
             }
@@ -222,26 +216,6 @@ public class _Paises extends javax.swing.JPanel {
         bdel.setBackground(Bback);
     }//GEN-LAST:event_bdelMouseReleased
 
-    private void bsrcMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bsrcMouseEntered
-        ImageIcon ic = new ImageIcon(getClass().getResource("/com/upiita/view/resources/lupa2.png"));
-        isrc.setIcon(ic);
-        bsrc.setBackground(Bchange);
-    }//GEN-LAST:event_bsrcMouseEntered
-
-    private void bsrcMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bsrcMouseExited
-        ImageIcon ic = new ImageIcon(getClass().getResource("/com/upiita/view/resources/lupa.png"));
-        isrc.setIcon(ic);
-        bsrc.setBackground(Bback);
-    }//GEN-LAST:event_bsrcMouseExited
-
-    private void bsrcMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bsrcMousePressed
-        bsrc.setBackground(Bclick);
-    }//GEN-LAST:event_bsrcMousePressed
-
-    private void bsrcMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bsrcMouseReleased
-        bsrc.setBackground(Bback);
-    }//GEN-LAST:event_bsrcMouseReleased
-
     private void beditMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_beditMouseEntered
         ImageIcon ic = new ImageIcon(getClass().getResource("/com/upiita/view/resources/pen-square-solid2.png"));
         iedit.setIcon(ic);
@@ -262,6 +236,43 @@ public class _Paises extends javax.swing.JPanel {
         bedit.setBackground(Bback);
     }//GEN-LAST:event_beditMouseReleased
 
+    private void baddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_baddMouseClicked
+                Cat_Pais  addPais = null;
+        try {
+            addPais = new Cat_Pais();
+        } catch (FontFormatException ex) {
+            Logger.getLogger(_Peliculas.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        addPais.setBounds(0, 0, 830, 500);
+        _Display.removeAll();
+        _Display.add(addPais);
+        _Display.updateUI();
+    }//GEN-LAST:event_baddMouseClicked
+
+    private void beditMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_beditMouseClicked
+        Edi_Pais pedit = new Edi_Pais();
+        pedit.setBounds(0, 0, 830, 500);
+        _Display.removeAll();
+        _Display.add(pedit);
+        _Display.updateUI();
+    }//GEN-LAST:event_beditMouseClicked
+
+    private void bdelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bdelMouseClicked
+        int[] filaSeleccionadas = TBPeliculas.getSelectedRows();
+        int noFilas= filaSeleccionadas.length;
+        int res = JOptionPane.showConfirmDialog(null, "¿Desea eliminar " + noFilas + " filas?" , "Cineteca Nacional", JOptionPane.YES_NO_OPTION);
+        if(res == 0){
+            System.out.println("Sentencia para borrar");
+        }
+       
+        for (int fila : filaSeleccionadas) {
+            String pelicula;
+            pelicula = TBPeliculas.getValueAt(fila,5).toString();
+            System.out.println(pelicula);
+//            SentenciasSQL.bajaRegistro(alumno, "Alumno", "curp");
+        }
+    }//GEN-LAST:event_bdelMouseClicked
+
     Color change = new Color(111, 255, 233);
     Color Bchange = new Color(43, 59, 86);
     Color Bback = new Color(28, 37, 65);
@@ -269,17 +280,15 @@ public class _Paises extends javax.swing.JPanel {
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTable TBPeliculas;
+    private javax.swing.JPanel _Display;
     private javax.swing.JPanel badd;
     private javax.swing.JPanel bdel;
     private javax.swing.JPanel bedit;
-    private javax.swing.JPanel bsrc;
     private javax.swing.JLabel iadd;
     private javax.swing.JLabel idel;
     private javax.swing.JLabel iedit;
-    private javax.swing.JLabel isrc;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
 }
