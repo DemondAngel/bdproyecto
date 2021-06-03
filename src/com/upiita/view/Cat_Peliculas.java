@@ -24,12 +24,14 @@ public class Cat_Peliculas extends javax.swing.JPanel {
         
         //jPanelLabels.setBackground(new Color (255,255,255,14));
         Font Lovelo = fonttype.nFont(fonttype.getLovelo() , 1,38);
+        Font Lemon = fonttype.nFont(fonttype.getLemon() , 1,10);
         Font Glacial = fonttype.nFont(fonttype.getGlacial() , 1,17);
         jLabelTitulo.setFont(Lovelo);
         
         rbNoIdentificado.setFont(Glacial);
         cbDirector.setFont(Glacial);
         cbPais.setFont(Glacial);
+        btnAlta.setFont(Lemon);
         
         
          AnimationClass PeliculasR = new AnimationClass();
@@ -45,12 +47,6 @@ public class Cat_Peliculas extends javax.swing.JPanel {
             label.setFont(Glacial);
             PeliculasR.jLabelXRight(0, 150, 30, 10, label);
         }
-   
-     
-    
-    
-        
-        
     }
 
     /**
@@ -74,7 +70,8 @@ public class Cat_Peliculas extends javax.swing.JPanel {
         cbDirector = new javax.swing.JComboBox<>();
         jLabelTitle0 = new javax.swing.JLabel();
         jLabelDirector = new javax.swing.JLabel();
-        jTextFieldYear = new javax.swing.JTextField();
+        txtYear = new javax.swing.JTextField();
+        btnAlta = new javax.swing.JButton();
 
         jLabel5.setText("Título Original");
 
@@ -86,7 +83,7 @@ public class Cat_Peliculas extends javax.swing.JPanel {
         jLabelTitulo.setText("ALTAS PELÍCULAS");
         jLabelTitulo.setName("jLabelTitulo"); // NOI18N
         add(jLabelTitulo);
-        jLabelTitulo.setBounds(275, 30, 426, 60);
+        jLabelTitulo.setBounds(240, 10, 426, 60);
 
         jTextField1.setToolTipText("");
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
@@ -95,27 +92,28 @@ public class Cat_Peliculas extends javax.swing.JPanel {
             }
         });
         add(jTextField1);
-        jTextField1.setBounds(430, 150, 171, 22);
+        jTextField1.setBounds(430, 100, 171, 24);
 
         rbNoIdentificado.setForeground(new java.awt.Color(255, 255, 255));
-        rbNoIdentificado.setText("<html>No <p> identificado<html>");
+        rbNoIdentificado.setText("<html><center>No <p> identificado<center><html>");
+        rbNoIdentificado.setOpaque(false);
         rbNoIdentificado.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 rbNoIdentificadoActionPerformed(evt);
             }
         });
         add(rbNoIdentificado);
-        rbNoIdentificado.setBounds(610, 240, 120, 90);
+        rbNoIdentificado.setBounds(610, 190, 120, 90);
 
         jLabelTitle.setForeground(new java.awt.Color(255, 255, 255));
         jLabelTitle.setText("Título de Exhibición");
         add(jLabelTitle);
-        jLabelTitle.setBounds(0, 200, 160, 50);
+        jLabelTitle.setBounds(0, 150, 160, 50);
 
         jLabelPais.setForeground(new java.awt.Color(255, 255, 255));
         jLabelPais.setText("País");
         add(jLabelPais);
-        jLabelPais.setBounds(0, 380, 160, 50);
+        jLabelPais.setBounds(0, 330, 160, 50);
 
         cbPais.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cbPais.addActionListener(new java.awt.event.ActionListener() {
@@ -124,7 +122,7 @@ public class Cat_Peliculas extends javax.swing.JPanel {
             }
         });
         add(cbPais);
-        cbPais.setBounds(430, 390, 111, 22);
+        cbPais.setBounds(430, 340, 170, 26);
 
         jTextFieldTitle.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -132,47 +130,56 @@ public class Cat_Peliculas extends javax.swing.JPanel {
             }
         });
         add(jTextFieldTitle);
-        jTextFieldTitle.setBounds(430, 210, 171, 22);
+        jTextFieldTitle.setBounds(430, 160, 171, 24);
 
         jLabelYear.setForeground(new java.awt.Color(255, 255, 255));
         jLabelYear.setText("Año");
         add(jLabelYear);
-        jLabelYear.setBounds(0, 260, 160, 50);
+        jLabelYear.setBounds(0, 210, 160, 50);
 
         cbDirector.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         add(cbDirector);
-        cbDirector.setBounds(430, 330, 111, 22);
+        cbDirector.setBounds(430, 280, 170, 26);
 
         jLabelTitle0.setForeground(new java.awt.Color(255, 255, 255));
         jLabelTitle0.setText("Título Original");
         add(jLabelTitle0);
-        jLabelTitle0.setBounds(0, 140, 160, 50);
+        jLabelTitle0.setBounds(0, 90, 160, 50);
 
         jLabelDirector.setForeground(new java.awt.Color(255, 255, 255));
         jLabelDirector.setText("Director");
         add(jLabelDirector);
-        jLabelDirector.setBounds(0, 320, 160, 50);
+        jLabelDirector.setBounds(0, 270, 160, 50);
 
-        jTextFieldYear.addActionListener(new java.awt.event.ActionListener() {
+        txtYear.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextFieldYearActionPerformed(evt);
+                txtYearActionPerformed(evt);
             }
         });
-        add(jTextFieldYear);
-        jTextFieldYear.setBounds(430, 270, 171, 22);
+        add(txtYear);
+        txtYear.setBounds(430, 220, 171, 24);
+
+        btnAlta.setBackground(new java.awt.Color(28, 37, 65));
+        btnAlta.setForeground(new java.awt.Color(255, 255, 255));
+        btnAlta.setText("DAR DE ALTA");
+        add(btnAlta);
+        btnAlta.setBounds(300, 420, 190, 40);
     }// </editor-fold>//GEN-END:initComponents
 
     private void rbNoIdentificadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbNoIdentificadoActionPerformed
-        // TODO add your handling code here:
+        if(rbNoIdentificado.isSelected())
+            txtYear.setVisible(false);
+        else
+            txtYear.setVisible(true);
     }//GEN-LAST:event_rbNoIdentificadoActionPerformed
 
     private void cbPaisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbPaisActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cbPaisActionPerformed
 
-    private void jTextFieldYearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldYearActionPerformed
+    private void txtYearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtYearActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextFieldYearActionPerformed
+    }//GEN-LAST:event_txtYearActionPerformed
 
     private void jTextFieldTitleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldTitleActionPerformed
         // TODO add your handling code here:
@@ -186,6 +193,7 @@ public class Cat_Peliculas extends javax.swing.JPanel {
     
       Fuentes fonttype = new Fuentes ();
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAlta;
     private javax.swing.JComboBox<String> cbDirector;
     private javax.swing.JComboBox<String> cbPais;
     private javax.swing.JLabel jLabel5;
@@ -197,7 +205,7 @@ public class Cat_Peliculas extends javax.swing.JPanel {
     private javax.swing.JLabel jLabelYear;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextFieldTitle;
-    private javax.swing.JTextField jTextFieldYear;
     private javax.swing.JRadioButton rbNoIdentificado;
+    private javax.swing.JTextField txtYear;
     // End of variables declaration//GEN-END:variables
 }

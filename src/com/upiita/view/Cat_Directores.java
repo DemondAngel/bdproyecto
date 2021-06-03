@@ -6,7 +6,9 @@
 package com.upiita.view;
 
 //import AppPackage.AnimationClass;
+import AppPackage.AnimationClass;
 import com.upiita.view.fonts.Fuentes;
+import java.awt.Font;
 //import java.awt.Font;
 import java.awt.FontFormatException;
 
@@ -21,13 +23,13 @@ public class Cat_Directores extends javax.swing.JPanel {
      */
     public Cat_Directores() throws FontFormatException {
         initComponents();
-//        Font Lovelo = fonttype.nFont(fonttype.getLovelo() , 1,38);
-//        Font Glacial = fonttype.nFont(fonttype.getGlacial() , 1,20);        
-//        jLabelTitulo.setFont(Lovelo);
-//        jLabelName.setFont(Glacial);
-//        jList1.setFont(Glacial);
-//        AnimationClass PaisesR = new AnimationClass();
-//        
+        Font Lovelo = fonttype.nFont(fonttype.getLovelo() , 1,38);
+        Font Glacial = fonttype.nFont(fonttype.getGlacial() , 1,20);        
+        jLabelTitulo.setFont(Lovelo);
+        jLabelName.setFont(Glacial);
+        jList1.setFont(Glacial);
+        AnimationClass PaisesR = new AnimationClass();
+        
     }
 
     /**

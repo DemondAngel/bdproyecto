@@ -2,17 +2,17 @@ package com.upiita.view;
 
 import com.upiita.view.fonts.Fuentes;
 import java.awt.Color;
-import java.awt.Component;
-import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontFormatException;
+import java.awt.Toolkit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
-import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.plaf.ColorUIResource;
 
 public class GUI extends javax.swing.JFrame {
@@ -21,7 +21,8 @@ public class GUI extends javax.swing.JFrame {
     public GUI() throws FontFormatException {
         
      
-        setLocation(600, 300);
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        this.setLocation(dim.width/2-450, dim.height/2-300);
         setUndecorated(true);
         initComponents();
         setIconImage(new javax.swing.ImageIcon(getClass().getResource("/com/upiita/view/Resources/iconapp.png")).getImage());
@@ -30,19 +31,18 @@ public class GUI extends javax.swing.JFrame {
         // 
         Font Lemon = fonttype.nFont(fonttype.getLemon(), 1, 7);
         Font LemonB = fonttype.nFont(fonttype.getLemonB(), 1, 5);
-          UI = null;
-       UI.put ("OptionPane.background", new ColorUIResource (11,19,43));
-       UI.put ("Panel.background", new ColorUIResource (11,19,43));
-       UI.put("OptionPane.messageFont",Lemon);
-       UI.put("OptionPane.buttonFont", LemonB);
-       UI.put("OptionPane.buttonBackground", new ColorUIResource (58,80,107) );
-       UI.put("OptionPane.messageForeground",Color.WHITE);
-       UI.put("OptionPane.tittleFont",LemonB);
+       UI = null;
+       UIManager.put ("OptionPane.background", new ColorUIResource (11,19,43));
+       UIManager.put ("Panel.background", new ColorUIResource (11,19,43));
+       UIManager.put("OptionPane.messageFont",Lemon);
+       UIManager.put("OptionPane.buttonFont", LemonB);
+       UIManager.put("OptionPane.buttonBackground", new ColorUIResource (58,80,107) );
+       UIManager.put("OptionPane.messageForeground",Color.WHITE);
+       UIManager.put("OptionPane.tittleFont",LemonB);
                
     
         Pname.setFont(LemonB);
         Dname.setFont(LemonB);
-        Sname.setFont(LemonB);
         Cname.setFont(LemonB);
         jLabelTitulo.setFont(Lemon);
         
@@ -64,9 +64,6 @@ public class GUI extends javax.swing.JFrame {
         _Pbutton = new javax.swing.JPanel();
         Picon = new javax.swing.JLabel();
         Pname = new javax.swing.JLabel();
-        _Sbutton = new javax.swing.JPanel();
-        Sicon = new javax.swing.JLabel();
-        Sname = new javax.swing.JLabel();
         _Cbutton = new javax.swing.JPanel();
         Cicon = new javax.swing.JLabel();
         Cname = new javax.swing.JLabel();
@@ -196,40 +193,6 @@ public class GUI extends javax.swing.JFrame {
         jPanel3.add(_Pbutton);
         _Pbutton.setBounds(0, 0, 70, 80);
 
-        _Sbutton.setBackground(new java.awt.Color(28, 37, 65));
-        _Sbutton.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                _SbuttonMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                _SbuttonMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                _SbuttonMouseExited(evt);
-            }
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                _SbuttonMousePressed(evt);
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                _SbuttonMouseReleased(evt);
-            }
-        });
-        _Sbutton.setLayout(null);
-
-        Sicon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/upiita/view/Resources/search-solid.png"))); // NOI18N
-        _Sbutton.add(Sicon);
-        Sicon.setBounds(13, 10, 44, 44);
-
-        Sname.setFont(new java.awt.Font("Comic Sans MS", 0, 12)); // NOI18N
-        Sname.setForeground(new java.awt.Color(255, 255, 255));
-        Sname.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        Sname.setText("BUSCAR");
-        _Sbutton.add(Sname);
-        Sname.setBounds(0, 58, 70, 20);
-
-        jPanel3.add(_Sbutton);
-        _Sbutton.setBounds(0, 240, 70, 80);
-
         _Cbutton.setBackground(new java.awt.Color(28, 37, 65));
         _Cbutton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -316,7 +279,7 @@ public class GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jPanel4MouseExited
 
     private void jPanel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel4MouseClicked
-        int res = JOptionPane.showConfirmDialog(null, "¿Desea cerrar del programa?", "CINETECA NACIONAL ", JOptionPane.YES_NO_OPTION);
+        int res = JOptionPane.showConfirmDialog(null, "¿Desea cerrar el programa?", "CINETECA NACIONAL ", JOptionPane.YES_NO_OPTION,HEIGHT,NIcon("/com/upiita/view/resources/advertencia.png"));
         if(res == 0){
             System.exit(0);
         }
@@ -324,46 +287,32 @@ public class GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jPanel4MouseClicked
 
     private void _PbuttonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event__PbuttonMouseEntered
-        ImageIcon ic = new ImageIcon(getClass().getResource("/com/upiita/view/resources/film-solid2.png"));
+        Icon ic = NIcon("/com/upiita/view/resources/film-solid2.png");
         Picon.setIcon(ic);
         Pname.setForeground(change);
         _Pbutton.setBackground(Bchange);
     }//GEN-LAST:event__PbuttonMouseEntered
 
     private void _PbuttonMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event__PbuttonMouseExited
-        ImageIcon ic = new ImageIcon(getClass().getResource("/com/upiita/view/resources/film-solid.png"));
+        Icon ic = NIcon("/com/upiita/view/resources/film-solid.png");
         Picon.setIcon(ic);
         Pname.setForeground(Color.white);
         _Pbutton.setBackground(Bback);
     }//GEN-LAST:event__PbuttonMouseExited
 
     private void _DbuttonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event__DbuttonMouseEntered
-        ImageIcon ic = new ImageIcon(getClass().getResource("/com/upiita/view/resources/glasses-solid2.png"));
+       Icon ic = NIcon("/com/upiita/view/resources/glasses-solid2.png");
         Dicon.setIcon(ic);
         Dname.setForeground(change);
         _Dbutton.setBackground(Bchange);
     }//GEN-LAST:event__DbuttonMouseEntered
 
     private void _DbuttonMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event__DbuttonMouseExited
-        ImageIcon ic = new ImageIcon(getClass().getResource("/com/upiita/view/resources/glasses-solid.png"));
+        Icon ic = NIcon("/com/upiita/view/resources/glasses-solid.png");
         Dicon.setIcon(ic);
         Dname.setForeground(Color.white);
         _Dbutton.setBackground(Bback);
     }//GEN-LAST:event__DbuttonMouseExited
-
-    private void _SbuttonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event__SbuttonMouseEntered
-        ImageIcon ic = new ImageIcon(getClass().getResource("/com/upiita/view/resources/search-solid2.png"));
-        Sicon.setIcon(ic);
-        Sname.setForeground(change);
-        _Sbutton.setBackground(Bchange);
-    }//GEN-LAST:event__SbuttonMouseEntered
-
-    private void _SbuttonMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event__SbuttonMouseExited
-        ImageIcon ic = new ImageIcon(getClass().getResource("/com/upiita/view/resources/search-solid.png"));
-        Sicon.setIcon(ic);
-        Sname.setForeground(Color.white);
-        _Sbutton.setBackground(Bback);
-    }//GEN-LAST:event__SbuttonMouseExited
 
     private void _PbuttonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event__PbuttonMouseClicked
         _Peliculas pel = null;
@@ -377,16 +326,15 @@ public class GUI extends javax.swing.JFrame {
     }//GEN-LAST:event__PbuttonMouseClicked
 
     private void _DbuttonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event__DbuttonMouseClicked
-        _Directores dir = new _Directores();
+        _Directores dir = null;
+        try {
+            dir = new _Directores();
+        } catch (FontFormatException ex) {
+            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
         dir.setBounds(0, 0, 830, 550);
         newPanel(dir);
     }//GEN-LAST:event__DbuttonMouseClicked
-
-    private void _SbuttonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event__SbuttonMouseClicked
-       _Busqueda bus = new _Busqueda();
-        bus.setBounds(0, 0, 830, 550);
-        newPanel(bus);
-    }//GEN-LAST:event__SbuttonMouseClicked
 
     private void _PbuttonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event__PbuttonMousePressed
         _Pbutton.setBackground(Bclick);
@@ -396,10 +344,6 @@ public class GUI extends javax.swing.JFrame {
         _Dbutton.setBackground(Bclick);
     }//GEN-LAST:event__DbuttonMousePressed
 
-    private void _SbuttonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event__SbuttonMousePressed
-        _Sbutton.setBackground(Bclick);
-    }//GEN-LAST:event__SbuttonMousePressed
-
     private void _PbuttonMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event__PbuttonMouseReleased
         _Pbutton.setBackground(Bchange);
     }//GEN-LAST:event__PbuttonMouseReleased
@@ -407,10 +351,6 @@ public class GUI extends javax.swing.JFrame {
     private void _DbuttonMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event__DbuttonMouseReleased
         _Dbutton.setBackground(Bchange);
     }//GEN-LAST:event__DbuttonMouseReleased
-
-    private void _SbuttonMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event__SbuttonMouseReleased
-        _Sbutton.setBackground(Bchange);
-    }//GEN-LAST:event__SbuttonMouseReleased
 
     private void _CbuttonMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event__CbuttonMouseReleased
         _Cbutton.setBackground(Bchange);
@@ -421,43 +361,55 @@ public class GUI extends javax.swing.JFrame {
     }//GEN-LAST:event__CbuttonMousePressed
 
     private void _CbuttonMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event__CbuttonMouseExited
-        ImageIcon ic = new ImageIcon(getClass().getResource("/com/upiita/view/resources/globe-americas-solid.png"));
+        Icon ic = NIcon("/com/upiita/view/resources/globe-americas-solid.png");
         Cicon.setIcon(ic);
         Cname.setForeground(Color.white);
         _Cbutton.setBackground(Bback);
     }//GEN-LAST:event__CbuttonMouseExited
 
     private void _CbuttonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event__CbuttonMouseEntered
-        ImageIcon ic = new ImageIcon(getClass().getResource("/com/upiita/view/resources/globe-americas-solid2.png"));
+       Icon ic = NIcon("/com/upiita/view/resources/globe-americas-solid2.png");
         Cicon.setIcon(ic);
         Cname.setForeground(change);
         _Cbutton.setBackground(Bchange);
     }//GEN-LAST:event__CbuttonMouseEntered
 
+    
     private void _CbuttonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event__CbuttonMouseClicked
         _Paises pai = new _Paises();
         pai.setBounds(0, 0, 830, 550);
         newPanel(pai);
     }//GEN-LAST:event__CbuttonMouseClicked
  
+    /**
+     * Método que pinta y actualiza el panel principal _display
+     * @param ActualPanel  nuevo Panel
+     */
     public void newPanel (JPanel ActualPanel){
         _display.removeAll();
         _display.add(ActualPanel);
         _display.repaint();
         _display.revalidate();
     }
-    
-    
+    /**
+     * Método que  regresa un ícono a partir de una imagen
+     * @param path ruta de la imagen 
+     * @return 
+     */
+    public Icon NIcon (String path){
+        Icon image = new ImageIcon (getClass().getResource(path) );          
+        return image;
+    }
 
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
+        /* Set the Metal look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Windows".equals(info.getName())) {
+                if ("Metal".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
@@ -478,7 +430,7 @@ public class GUI extends javax.swing.JFrame {
             public void run() {
                 try {
                     new GUI().setVisible(true);
-                   // for(LookAndFeelInfo info: UIManager.getInstalledLookAndFeels())
+                   //for(LookAndFeelInfo info: UIManager.getInstalledLookAndFeels())
                      //   System.out.println(info.getName());
                 } catch (FontFormatException ex) {
                     Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
@@ -487,19 +439,7 @@ public class GUI extends javax.swing.JFrame {
         });
     }
     
-    private void getComponents(Container c){
 
-    Component[] m = c.getComponents();
-
-    for(int i = 0; i < m.length; i++){
-
-        if(m[i].getClass().getName() == "javax.swing.JPanel")
-            m[i].setBackground(Color.white);
-
-        if(c.getClass().isInstance(m[i]))
-            getComponents((Container)m[i]);
-    }
-}
     
     static int xx, yy;
     Color change = new Color(105, 140, 245);
@@ -516,12 +456,9 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JLabel Dname;
     private javax.swing.JLabel Picon;
     private javax.swing.JLabel Pname;
-    private javax.swing.JLabel Sicon;
-    private javax.swing.JLabel Sname;
     private javax.swing.JPanel _Cbutton;
     private javax.swing.JPanel _Dbutton;
     private javax.swing.JPanel _Pbutton;
-    private javax.swing.JPanel _Sbutton;
     private javax.swing.JPanel _display;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel7;
