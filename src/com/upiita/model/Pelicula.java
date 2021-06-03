@@ -11,9 +11,9 @@ import java.util.Objects;
 public class Pelicula {
 
     private String idPelicula;
-    private String tituloOriginal;
-    private String tituloExhibicion;
-    private int anio;
+    private String tituloOriginal; //matches 
+    private String tituloExhibicion; //matches
+    private int anio; //Merge Sort //Busqueda Binaria
     
     private List<Pais> paises;
     private List<Director> directores;

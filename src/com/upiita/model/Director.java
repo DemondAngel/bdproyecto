@@ -7,7 +7,7 @@ package com.upiita.model;
 public class Director {
 
     private int idDirector;
-    private String nombre;
+    private String nombre; //matches
     private byte estado;
 
     public Director() {

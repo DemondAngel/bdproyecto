@@ -189,7 +189,7 @@ INNER JOIN Pelicula_Pais PP ON PA.idPais=PP.idPais
 INNER JOIN Pelicula P ON PP.idPelicula=P.idPelicula
 INNER JOIN Pelicula_Director PD ON P.idPelicula=PD.idPelicula
 INNER JOIN Director D ON PD.idDirector=D.idDirector
-
+	
 --------------------------------VALIDAR ESPACIOS
 CREATE OR ALTER PROCEDURE usp_ValidarEspacios @valor varchar(200) OUTPUT AS
 BEGIN

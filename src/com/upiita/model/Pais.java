@@ -7,7 +7,7 @@ package com.upiita.model;
 public class Pais {
 
     private int idPais;
-    private String nombre;
+    private String nombre; //matches
     private String nuevoNombre;
     private byte estado;
 
