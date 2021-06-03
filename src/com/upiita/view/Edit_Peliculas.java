@@ -12,6 +12,7 @@ import java.awt.Font;
 import java.awt.FontFormatException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -33,30 +34,36 @@ public class Edit_Peliculas extends javax.swing.JFrame {
      */
     public Edit_Peliculas() throws FontFormatException {
         this.setLocationRelativeTo(null);
+        
+        setLocation(600, 300);
+        setUndecorated(true);
+        
         this.setBackground(Color.yellow);
+        
         initComponents();
-        Font Lovelo = fonttype.nFont(fonttype.getLovelo() , 1,38);
-        Font Glacial = fonttype.nFont(fonttype.getGlacial() , 1,17);
+        Font Lovelo = fonttype.nFont(fonttype.getLovelo() ,1,38);
+        Font Glacial = fonttype.nFont(fonttype.getGlacial(),1,17);
         Font Lemon = fonttype.nFont(fonttype.getLemon() , 1,9);
+        Font Lemon2 = fonttype.nFont(fonttype.getLemon(), 1, 7);
         jLabelTitulo.setFont(Lovelo);
         
-        
+        Space.setFont(Lemon2);
         rbNoIdentificado.setFont(Glacial);
         cbDirector.setFont(Glacial);
         cbPais.setFont(Glacial);
         txtTituloOriginal.setFont(Glacial);
         txtTituloEx.setFont(Glacial);
-        txtAnio.setFont(Glacial);
+        txtYear.setFont(Glacial);
         btnModificar.setFont(Lemon);
         
         
         
-         txtTituloOriginal.setFont(Glacial);
+        txtTituloOriginal.setFont(Glacial);
         txtTituloEx.setFont(Glacial);
-        txtAnio.setFont(Glacial);
+            txtYear.setFont(Glacial);
         
         
-         AnimationClass PeliculasR = new AnimationClass();
+        
         javax.swing.JLabel[] labels = new javax.swing.JLabel[6];
         
         labels[0] = jLabelDirector;
@@ -81,6 +88,10 @@ public class Edit_Peliculas extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel3 = new javax.swing.JPanel();
+        jPanel5 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        Space = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabelTitulo = new javax.swing.JLabel();
         jLabelTitle = new javax.swing.JLabel();
@@ -94,11 +105,59 @@ public class Edit_Peliculas extends javax.swing.JFrame {
         cbDirector = new javax.swing.JComboBox<>();
         jLabelPais = new javax.swing.JLabel();
         jLabelDirector = new javax.swing.JLabel();
-        txtAnio = new javax.swing.JTextField();
+        txtYear = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(58, 80, 107));
         getContentPane().setLayout(null);
+
+        jPanel3.setBackground(new java.awt.Color(11, 19, 43));
+        jPanel3.setMinimumSize(new java.awt.Dimension(100, 50));
+        jPanel3.setPreferredSize(new java.awt.Dimension(900, 24));
+        jPanel3.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                jPanel3MouseDragged(evt);
+            }
+        });
+        jPanel3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jPanel3MousePressed(evt);
+            }
+        });
+        jPanel3.setLayout(null);
+
+        jPanel5.setBackground(new java.awt.Color(11, 19, 43));
+        jPanel5.setPreferredSize(new java.awt.Dimension(32, 24));
+        jPanel5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel5MouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jPanel5MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jPanel5MouseExited(evt);
+            }
+        });
+        jPanel5.setLayout(null);
+
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/upiita/view/Resources/tache.png"))); // NOI18N
+        jLabel2.setPreferredSize(new java.awt.Dimension(18, 24));
+        jPanel5.add(jLabel2);
+        jLabel2.setBounds(10, 0, 20, 24);
+
+        jPanel3.add(jPanel5);
+        jPanel5.setBounds(780, 0, 50, 24);
+
+        Space.setFont(new java.awt.Font("Comic Sans MS", 0, 12)); // NOI18N
+        Space.setForeground(new java.awt.Color(255, 255, 255));
+        Space.setText("Editar Pelicula - Base de datos");
+        Space.setPreferredSize(new java.awt.Dimension(37, 24));
+        jPanel3.add(Space);
+        Space.setBounds(10, 0, 340, 20);
+
+        getContentPane().add(jPanel3);
+        jPanel3.setBounds(0, 0, 830, 24);
 
         jPanel1.setBackground(new java.awt.Color(58, 80, 107));
         jPanel1.setLayout(null);
@@ -127,6 +186,7 @@ public class Edit_Peliculas extends javax.swing.JFrame {
         rbNoIdentificado.setForeground(new java.awt.Color(255, 255, 255));
         rbNoIdentificado.setSelected(true);
         rbNoIdentificado.setText("<html> <center> No <p> identificado <center> <html>");
+        rbNoIdentificado.setOpaque(false);
         rbNoIdentificado.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 rbNoIdentificadoActionPerformed(evt);
@@ -173,11 +233,12 @@ public class Edit_Peliculas extends javax.swing.JFrame {
             }
         });
         jPanel1.add(cbPais);
-        cbPais.setBounds(350, 380, 170, 30);
+        cbPais.setBounds(350, 380, 230, 30);
 
+        cbDirector.setEditable(true);
         cbDirector.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jPanel1.add(cbDirector);
-        cbDirector.setBounds(350, 330, 170, 30);
+        cbDirector.setBounds(350, 330, 230, 30);
 
         jLabelPais.setForeground(new java.awt.Color(255, 255, 255));
         jLabelPais.setText("País");
@@ -189,14 +250,14 @@ public class Edit_Peliculas extends javax.swing.JFrame {
         jPanel1.add(jLabelDirector);
         jLabelDirector.setBounds(0, 330, 120, 25);
 
-        txtAnio.setForeground(new java.awt.Color(0, 0, 0));
-        txtAnio.addActionListener(new java.awt.event.ActionListener() {
+        txtYear.setForeground(new java.awt.Color(0, 0, 0));
+        txtYear.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtAnioActionPerformed(evt);
+                txtYearActionPerformed(evt);
             }
         });
-        jPanel1.add(txtAnio);
-        txtAnio.setBounds(350, 280, 230, 24);
+        jPanel1.add(txtYear);
+        txtYear.setBounds(350, 280, 230, 24);
 
         getContentPane().add(jPanel1);
         jPanel1.setBounds(-4, -4, 850, 560);
@@ -205,7 +266,10 @@ public class Edit_Peliculas extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void rbNoIdentificadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbNoIdentificadoActionPerformed
-        // TODO add your handling code here:
+       if(rbNoIdentificado.isSelected())
+            txtYear.setVisible(false);
+        else
+            txtYear.setVisible(true);
     }//GEN-LAST:event_rbNoIdentificadoActionPerformed
 
     private void cbPaisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbPaisActionPerformed
@@ -216,17 +280,48 @@ public class Edit_Peliculas extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtTituloExActionPerformed
 
-    private void txtAnioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtAnioActionPerformed
+    private void txtYearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtYearActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtAnioActionPerformed
+    }//GEN-LAST:event_txtYearActionPerformed
 
     private void txtTituloOriginalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTituloOriginalActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtTituloOriginalActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
-        // TODO add your handling code here:
+       String Titulo = jLabelTitle.getText().toUpperCase();
+
     }//GEN-LAST:event_btnModificarActionPerformed
+
+    private void jPanel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel5MouseClicked
+        int res = JOptionPane.showConfirmDialog(null, "¿Desea salir de la edición? \n No se guardaran los cambios", "CINETECA NACIONAL ", JOptionPane.YES_NO_OPTION);
+        if(res == 0){
+            this.setVisible(false);
+        }
+        else;
+    }//GEN-LAST:event_jPanel5MouseClicked
+
+    private void jPanel5MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel5MouseEntered
+        Color CrossBg = new Color(200,0,0);
+        jPanel5.setBackground(CrossBg);
+    }//GEN-LAST:event_jPanel5MouseEntered
+
+    private void jPanel5MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel5MouseExited
+        Color CrossBg = new Color(11,19,43);
+        jPanel5.setBackground(CrossBg);
+    }//GEN-LAST:event_jPanel5MouseExited
+
+    private void jPanel3MouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel3MouseDragged
+        int x = evt.getXOnScreen();
+        int y = evt.getYOnScreen();
+
+        this.setLocation(x - xx, y - yy);
+    }//GEN-LAST:event_jPanel3MouseDragged
+
+    private void jPanel3MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel3MousePressed
+        xx = evt.getX();
+        yy = evt.getY();
+    }//GEN-LAST:event_jPanel3MousePressed
 
     /**
      * @param args the command line arguments
@@ -239,7 +334,7 @@ public class Edit_Peliculas extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ("Windows".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
@@ -268,18 +363,19 @@ public class Edit_Peliculas extends javax.swing.JFrame {
     }
     
     public void fillGaps (){
-    
-         txtTituloOriginal.setText(TituloOriginal);
-        System.out.println("Atributo here: " + TituloOriginal);
+        txtTituloOriginal.setText(TituloOriginal);
         txtTituloEx.setText(TituloExhibicion);
-        txtAnio.setText(Anio);
+        txtYear.setText(Anio);
 }
-    
-    Fuentes fonttype = new Fuentes ();     
+     static int xx, yy;
+    Fuentes fonttype = new Fuentes ();  
+    AnimationClass PeliculasR = new AnimationClass();
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel Space;
     private javax.swing.JButton btnModificar;
     private javax.swing.JComboBox<String> cbDirector;
     private javax.swing.JComboBox<String> cbPais;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabelDirector;
     private javax.swing.JLabel jLabelPais;
     private javax.swing.JLabel jLabelTitle;
@@ -287,9 +383,11 @@ public class Edit_Peliculas extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelTitulo;
     private javax.swing.JLabel jLabelYear;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel5;
     private javax.swing.JRadioButton rbNoIdentificado;
-    private javax.swing.JTextField txtAnio;
     private javax.swing.JTextField txtTituloEx;
     private javax.swing.JTextField txtTituloOriginal;
+    private javax.swing.JTextField txtYear;
     // End of variables declaration//GEN-END:variables
 }

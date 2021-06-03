@@ -5,20 +5,26 @@
  */
 package com.upiita.view;
 
+import com.upiita.model.Pelicula;
 import com.upiita.view.fonts.Fuentes;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontFormatException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
+import javax.swing.table.TableRowSorter;
+import javax.swing.RowFilter;
 
 public class _Peliculas extends javax.swing.JPanel {
     
-   
+        private   ArrayList<Pelicula> peliculas;
+        TableRowSorter sorter;
 
     /**
      * Creates new form _Peliculas
@@ -26,18 +32,20 @@ public class _Peliculas extends javax.swing.JPanel {
     public _Peliculas() throws FontFormatException {
         initComponents();
         TBPeliculas.setAlignmentX(10);
-        Font LemonB = fonttype.nFont(fonttype.getLemon(), 1, 5);
+        Font LemonB = fonttype.nFont(fonttype.getLemon(), 1, 7);
         Font Glacial = fonttype.nFont(fonttype.getGlacial() , 1,12);
          
         
         bdel.setVisible(true);
         bedit.setVisible(true);
-        /*JTableHeader header = new JTableHeader();
-        header.setFont(LemonB);
-        header.setBackground(new Color(58,80,107));
-        header.setForeground(Color.GREEN);
-        TBPeliculas.setTableHeader(header);*/
+        cbCategoria.setFont(LemonB);
+        txtCategoria.setFont(LemonB);
+      
         
+        sorter = new TableRowSorter(TBPeliculas.getModel());
+        TBPeliculas.setRowSorter(sorter);
+ 
+
         TBPeliculas.setFont(Glacial);
         TBPeliculas.setBackground(new Color(58,80,107));
         
@@ -57,6 +65,8 @@ public class _Peliculas extends javax.swing.JPanel {
         _Display = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         TBPeliculas = new javax.swing.JTable();
+        cbCategoria = new javax.swing.JComboBox<>();
+        txtCategoria = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
         badd = new javax.swing.JPanel();
         iadd = new javax.swing.JLabel();
@@ -79,7 +89,7 @@ public class _Peliculas extends javax.swing.JPanel {
                 {"EL SUAVECITO ", "EL SUAVECITO ", "1950 ", "Jaja no sé xD", "México", "efea"},
                 {"LOS DOS CARNALES ", "LOS DOS CARNALES ", "1981 ", "LALO", "México", "lweir34"},
                 {"SIMÓN DEL DESIERTO ", "SIMÓN DEL DESIERTO ", "1964 ", "FER", "México", "348975"},
-                {"ASÍ SE QUIERE EN JALISCO ", "ASÍ SE QUIERE EN", "1874", "ABI", null, "4938753"},
+                {"ASÍ SE QUIERE EN JALISCO ", "ASÍ SE QUIERE EN", "1874", "ABI", "México", "4938753"},
                 {null, null, null, null, null, null}
             },
             new String [] {
@@ -99,7 +109,27 @@ public class _Peliculas extends javax.swing.JPanel {
         jScrollPane1.setViewportView(TBPeliculas);
 
         _Display.add(jScrollPane1);
-        jScrollPane1.setBounds(10, 10, 810, 480);
+        jScrollPane1.setBounds(10, 50, 790, 430);
+
+        cbCategoria.setBackground(new java.awt.Color(28, 37, 65));
+        cbCategoria.setForeground(new java.awt.Color(255, 255, 255));
+        cbCategoria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Categoría", "Título Original", "Título de Exhibición", "Año", "Director", "País" }));
+        cbCategoria.setBorder(null);
+        _Display.add(cbCategoria);
+        cbCategoria.setBounds(10, 10, 180, 26);
+
+        txtCategoria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCategoriaActionPerformed(evt);
+            }
+        });
+        txtCategoria.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtCategoriaKeyReleased(evt);
+            }
+        });
+        _Display.add(txtCategoria);
+        txtCategoria.setBounds(210, 10, 450, 24);
 
         add(_Display, java.awt.BorderLayout.CENTER);
 
@@ -270,9 +300,9 @@ public class _Peliculas extends javax.swing.JPanel {
         int[] filaSeleccionadas = TBPeliculas.getSelectedRows();
         int noFilas = filaSeleccionadas.length;
         if (noFilas == 0) {
-            JOptionPane.showMessageDialog(null, "Ingrese una o varias filas para eliminar", "CINETECA NACIONAL", 1);
+            JOptionPane.showMessageDialog(null, "Ingrese una o varias filas para eliminar", "CINETECA NACIONAL",HEIGHT,NIcon("/com/upiita/view/resources/advertencia.png"));
         } else {
-            int res = JOptionPane.showConfirmDialog(null, "¿Desea eliminar " + noFilas + " filas?", "CINETECA NACIONAL", JOptionPane.YES_NO_OPTION);
+            int res = JOptionPane.showConfirmDialog(null, "¿Desea eliminar " + noFilas + " filas?", "CINETECA NACIONAL", JOptionPane.YES_NO_OPTION,HEIGHT,NIcon("/com/upiita/view/resources/advertencia.png"));
             if (res == 0) {
                 System.out.println("Sentencia para borrar");
             }
@@ -287,19 +317,20 @@ public class _Peliculas extends javax.swing.JPanel {
     }//GEN-LAST:event_bdelMouseClicked
 
     private void beditMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_beditMouseClicked
-       /* Edi_Peliculas pedit = null;
+       
+   
         try {
-            pedit = new Edi_Peliculas();
-        } catch (FontFormatException ex) {
-            Logger.getLogger(_Peliculas.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        pedit.setBounds(0, 0, 830, 500);
-        _Display.removeAll();
-        _Display.add(pedit);
-        _Display.updateUI();*/
+        int[] filaSeleccionadas = TBPeliculas.getSelectedRows();
+        int noFilas = filaSeleccionadas.length;
+        if (noFilas == 0) 
+            JOptionPane.showMessageDialog(null, "Ingrese una fila para modificar", "CINETECA NACIONAL", HEIGHT,NIcon("/com/upiita/view/resources/advertencia.png"));
+        else if (noFilas!=0 && noFilas!=1)
+                JOptionPane.showMessageDialog(null, "Solo puede modificar una fila", "CINETECA NACIONAL",HEIGHT,NIcon("/com/upiita/view/resources/advertencia.png"));
         
-        try {
+         else {
+            
             Edit_Peliculas Modificar = new Edit_Peliculas();
+            
             Modificar.TituloOriginal= TBPeliculas.getValueAt(TBPeliculas.getSelectedRow(),0).toString();
             Modificar.TituloExhibicion= TBPeliculas.getValueAt(TBPeliculas.getSelectedRow(),1).toString();
             Modificar.Anio= TBPeliculas.getValueAt(TBPeliculas.getSelectedRow(),2).toString();
@@ -310,6 +341,7 @@ public class _Peliculas extends javax.swing.JPanel {
             Modificar.fillGaps();
             Modificar.setBounds(600, 300, 830, 500);
             Modificar.setVisible(true);
+        }
         } catch (FontFormatException ex) {
             Logger.getLogger(_Peliculas.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -317,6 +349,19 @@ public class _Peliculas extends javax.swing.JPanel {
         
        
     }//GEN-LAST:event_beditMouseClicked
+
+    private void txtCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCategoriaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCategoriaActionPerformed
+
+    /**
+     * Método que realiza la búsqueda de las tablas
+     * @param evt 
+     */
+    private void txtCategoriaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCategoriaKeyReleased
+        if (cbCategoria.getSelectedIndex() != 0)
+            sorter.setRowFilter((RowFilter.regexFilter("(?i)"+txtCategoria.getText(),cbCategoria.getSelectedIndex()-1)));
+    }//GEN-LAST:event_txtCategoriaKeyReleased
     
      public void headersPeliculas() {
          int[] anchoCol = {270, 190,120,120,100,1};
@@ -334,6 +379,36 @@ public class _Peliculas extends javax.swing.JPanel {
         }
     }
     
+     /* public void fillPeliculas() {
+        // Inicializa la matriz modelo para mostrar en la tabla 
+        String m[][] = new String[this.peliculas.size()][6];
+        //LLena filas de la tabla con los datos del arrayList del archivo 
+        for (int i = 0; i < peliculas.size(); i++) {
+            m[i][0] = String.valueOf(peliculas.get (i).getTituloOriginal());
+            m[i][1] = peliculas.get(i).getTituloExhibicion();
+            m[i][2] = String.valueOf(peliculas.get(i).getAnio());
+            m[i][3] = String.valueOf( peliculas.get(i));
+            
+        }
+
+        // Implementa la matriz en la tabla
+        TBPeliculas.setModel(new javax.swing.table.DefaultTableModel(
+                m, new String[]{"ID","Nombre","Fecha", "Mesa", "Total"}));
+        headers ();
+      
+    } 
+     */
+     
+      /**
+     * Método que  regresa un ícono a partir de una imagen
+     * @param path ruta de la imagen 
+     * @return 
+     */
+    public Icon NIcon (String path){
+        Icon image = new ImageIcon (getClass().getResource(path) );          
+        return image;
+    }
+     
     Color change = new Color(111, 255, 233);
     Color Bchange = new Color(43, 59, 86);
     Color Bback = new Color(28, 37, 65);
@@ -346,10 +421,15 @@ public class _Peliculas extends javax.swing.JPanel {
     private javax.swing.JPanel badd;
     private javax.swing.JPanel bdel;
     private javax.swing.JPanel bedit;
+    private javax.swing.JComboBox<String> cbCategoria;
     private javax.swing.JLabel iadd;
     private javax.swing.JLabel idel;
     private javax.swing.JLabel iedit;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextField txtCategoria;
     // End of variables declaration//GEN-END:variables
+
+
+
 }

@@ -34,25 +34,80 @@ public class _Paises extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jComboBox1 = new javax.swing.JComboBox<>();
+        jTextField1 = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
+        jComboBox2 = new javax.swing.JComboBox<>();
+        jTextField2 = new javax.swing.JTextField();
+        jButton2 = new javax.swing.JButton();
+        bedit = new javax.swing.JPanel();
+        iedit = new javax.swing.JLabel();
         _Display = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        TBPeliculas = new javax.swing.JTable();
+        TBPaises = new javax.swing.JTable();
+        jTextField3 = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
         badd = new javax.swing.JPanel();
         iadd = new javax.swing.JLabel();
         bdel = new javax.swing.JPanel();
         idel = new javax.swing.JLabel();
-        bedit = new javax.swing.JPanel();
-        iedit = new javax.swing.JLabel();
+        bedit1 = new javax.swing.JPanel();
+        iedit1 = new javax.swing.JLabel();
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        jTextField1.setText("jTextField1");
+
+        jButton1.setText("Buscar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        jTextField2.setText("jTextField1");
+
+        jButton2.setText("Buscar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        bedit.setBackground(new java.awt.Color(28, 37, 65));
+        bedit.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                beditMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                beditMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                beditMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                beditMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                beditMouseReleased(evt);
+            }
+        });
+        bedit.setLayout(null);
+
+        iedit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/upiita/view/Resources/pen-square-solid.png"))); // NOI18N
+        bedit.add(iedit);
+        iedit.setBounds(10, 10, 30, 30);
 
         setLayout(new java.awt.BorderLayout());
 
         _Display.setBackground(new java.awt.Color(58, 80, 107));
         _Display.setLayout(null);
 
-        TBPeliculas.setBackground(new java.awt.Color(102, 102, 102));
-        TBPeliculas.setForeground(new java.awt.Color(255, 255, 255));
-        TBPeliculas.setModel(new javax.swing.table.DefaultTableModel(
+        TBPaises.setBackground(new java.awt.Color(102, 102, 102));
+        TBPaises.setForeground(new java.awt.Color(255, 255, 255));
+        TBPaises.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null},
                 {null, null},
@@ -79,12 +134,16 @@ public class _Paises extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
-        TBPeliculas.setOpaque(false);
-        TBPeliculas.setUpdateSelectionOnSort(false);
-        jScrollPane1.setViewportView(TBPeliculas);
+        TBPaises.setOpaque(false);
+        TBPaises.setUpdateSelectionOnSort(false);
+        jScrollPane1.setViewportView(TBPaises);
 
         _Display.add(jScrollPane1);
-        jScrollPane1.setBounds(10, 10, 810, 480);
+        jScrollPane1.setBounds(10, 50, 440, 440);
+
+        jTextField3.setText("jTextField1");
+        _Display.add(jTextField3);
+        jTextField3.setBounds(10, 10, 510, 24);
 
         add(_Display, java.awt.BorderLayout.CENTER);
 
@@ -146,32 +205,32 @@ public class _Paises extends javax.swing.JPanel {
         jPanel1.add(bdel);
         bdel.setBounds(50, 0, 50, 50);
 
-        bedit.setBackground(new java.awt.Color(28, 37, 65));
-        bedit.addMouseListener(new java.awt.event.MouseAdapter() {
+        bedit1.setBackground(new java.awt.Color(28, 37, 65));
+        bedit1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                beditMouseClicked(evt);
+                bedit1MouseClicked(evt);
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                beditMouseEntered(evt);
+                bedit1MouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                beditMouseExited(evt);
+                bedit1MouseExited(evt);
             }
             public void mousePressed(java.awt.event.MouseEvent evt) {
-                beditMousePressed(evt);
+                bedit1MousePressed(evt);
             }
             public void mouseReleased(java.awt.event.MouseEvent evt) {
-                beditMouseReleased(evt);
+                bedit1MouseReleased(evt);
             }
         });
-        bedit.setLayout(null);
+        bedit1.setLayout(null);
 
-        iedit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/upiita/view/Resources/pen-square-solid.png"))); // NOI18N
-        bedit.add(iedit);
-        iedit.setBounds(10, 10, 30, 30);
+        iedit1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/upiita/view/Resources/pen-square-solid.png"))); // NOI18N
+        bedit1.add(iedit1);
+        iedit1.setBounds(10, 10, 30, 30);
 
-        jPanel1.add(bedit);
-        bedit.setBounds(100, 0, 50, 50);
+        jPanel1.add(bedit1);
+        bedit1.setBounds(100, 0, 50, 50);
 
         add(jPanel1, java.awt.BorderLayout.PAGE_START);
     }// </editor-fold>//GEN-END:initComponents
@@ -216,6 +275,59 @@ public class _Paises extends javax.swing.JPanel {
         bdel.setBackground(Bback);
     }//GEN-LAST:event_bdelMouseReleased
 
+    private void baddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_baddMouseClicked
+                Cat_Pais  addPais = null;
+        try {
+            addPais = new Cat_Pais();
+        } catch (FontFormatException ex) {
+            Logger.getLogger(_Peliculas.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        addPais.setBounds(0, 0, 830, 500);
+        _Display.removeAll();
+        _Display.add(addPais);
+        _Display.updateUI();
+    }//GEN-LAST:event_baddMouseClicked
+
+    private void bdelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bdelMouseClicked
+        int[] filaSeleccionadas = TBPaises.getSelectedRows();
+        int noFilas= filaSeleccionadas.length;
+        int res = JOptionPane.showConfirmDialog(null, "¿Desea eliminar " + noFilas + " filas?" , "CINETECA NACIONAL", JOptionPane.YES_NO_OPTION);
+        if(res == 0){
+            System.out.println("Sentencia para borrar");
+        }
+       
+        for (int fila : filaSeleccionadas) {
+            String pelicula;
+            pelicula = TBPaises.getValueAt(fila,5).toString();
+            System.out.println(pelicula);
+//            SentenciasSQL.bajaRegistro(alumno, "Alumno", "curp");
+        }
+    }//GEN-LAST:event_bdelMouseClicked
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void beditMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_beditMouseClicked
+        int[] filaSeleccionadas = TBPaises.getSelectedRows();
+        int noFilas = filaSeleccionadas.length;
+        if (noFilas != 1) {
+            JOptionPane.showMessageDialog(null, "Seleccione una fila para editar", "CINETECA NACIONAL", 1);
+        } else {
+            Edit_Paises Modificar = null;
+            try {
+                Modificar = new Edit_Paises();
+            } catch (FontFormatException ex) {
+                Logger.getLogger(_Paises.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            Modificar.setVisible(true);
+        }
+    }//GEN-LAST:event_beditMouseClicked
+
     private void beditMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_beditMouseEntered
         ImageIcon ic = new ImageIcon(getClass().getResource("/com/upiita/view/resources/pen-square-solid2.png"));
         iedit.setIcon(ic);
@@ -236,42 +348,42 @@ public class _Paises extends javax.swing.JPanel {
         bedit.setBackground(Bback);
     }//GEN-LAST:event_beditMouseReleased
 
-    private void baddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_baddMouseClicked
-                Cat_Pais  addPais = null;
-        try {
-            addPais = new Cat_Pais();
-        } catch (FontFormatException ex) {
-            Logger.getLogger(_Peliculas.class.getName()).log(Level.SEVERE, null, ex);
+    private void bedit1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bedit1MouseClicked
+        int[] filaSeleccionadas = TBPaises.getSelectedRows();
+        int noFilas = filaSeleccionadas.length;
+        if (noFilas != 1) {
+            JOptionPane.showMessageDialog(null, "Seleccione una fila para editar", "CINETECA NACIONAL", 1);
+        } else {
+            Edit_Paises Modificar = null;
+            try {
+                Modificar = new Edit_Paises(); 
+                Modificar.setVisible(true);
+            } catch (FontFormatException ex) {
+                Logger.getLogger(_Paises.class.getName()).log(Level.SEVERE, null, ex);
+            }
+           
         }
-        addPais.setBounds(0, 0, 830, 500);
-        _Display.removeAll();
-        _Display.add(addPais);
-        _Display.updateUI();
-    }//GEN-LAST:event_baddMouseClicked
+    }//GEN-LAST:event_bedit1MouseClicked
 
-    private void beditMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_beditMouseClicked
-        Edi_Pais pedit = new Edi_Pais();
-        pedit.setBounds(0, 0, 830, 500);
-        _Display.removeAll();
-        _Display.add(pedit);
-        _Display.updateUI();
-    }//GEN-LAST:event_beditMouseClicked
+    private void bedit1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bedit1MouseEntered
+        ImageIcon ic = new ImageIcon(getClass().getResource("/com/upiita/view/resources/pen-square-solid2.png"));
+        iedit.setIcon(ic);
+        bedit.setBackground(Bchange);
+    }//GEN-LAST:event_bedit1MouseEntered
 
-    private void bdelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bdelMouseClicked
-        int[] filaSeleccionadas = TBPeliculas.getSelectedRows();
-        int noFilas= filaSeleccionadas.length;
-        int res = JOptionPane.showConfirmDialog(null, "¿Desea eliminar " + noFilas + " filas?" , "Cineteca Nacional", JOptionPane.YES_NO_OPTION);
-        if(res == 0){
-            System.out.println("Sentencia para borrar");
-        }
-       
-        for (int fila : filaSeleccionadas) {
-            String pelicula;
-            pelicula = TBPeliculas.getValueAt(fila,5).toString();
-            System.out.println(pelicula);
-//            SentenciasSQL.bajaRegistro(alumno, "Alumno", "curp");
-        }
-    }//GEN-LAST:event_bdelMouseClicked
+    private void bedit1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bedit1MouseExited
+        ImageIcon ic = new ImageIcon(getClass().getResource("/com/upiita/view/resources/pen-square-solid.png"));
+        iedit.setIcon(ic);
+        bedit.setBackground(Bback);
+    }//GEN-LAST:event_bedit1MouseExited
+
+    private void bedit1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bedit1MousePressed
+        bedit.setBackground(Bclick);
+    }//GEN-LAST:event_bedit1MousePressed
+
+    private void bedit1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bedit1MouseReleased
+        bedit.setBackground(Bback);
+    }//GEN-LAST:event_bedit1MouseReleased
 
     Color change = new Color(111, 255, 233);
     Color Bchange = new Color(43, 59, 86);
@@ -280,15 +392,24 @@ public class _Paises extends javax.swing.JPanel {
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTable TBPeliculas;
+    private javax.swing.JTable TBPaises;
     private javax.swing.JPanel _Display;
     private javax.swing.JPanel badd;
     private javax.swing.JPanel bdel;
     private javax.swing.JPanel bedit;
+    private javax.swing.JPanel bedit1;
     private javax.swing.JLabel iadd;
     private javax.swing.JLabel idel;
     private javax.swing.JLabel iedit;
+    private javax.swing.JLabel iedit1;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField jTextField3;
     // End of variables declaration//GEN-END:variables
 }
