@@ -18,8 +18,10 @@ public class Conexion {
     
     public Conexion(){
         try{
+            
             conn = (Connection) DriverManager.getConnection(url, user, password);//url
             System.out.println("Hay conexion");
+            
         }
         catch(SQLException e){
              System.out.println("Error al conectar a la base de datos: " + e.getMessage());

@@ -5,12 +5,17 @@
  */
 package com.upiita.view;
 
+import com.upiita.dao.PeliculaDAO;
+import com.upiita.dao.sql.SQLPeliculaDAO;
+import com.upiita.model.Director;
+import com.upiita.model.Pais;
 import com.upiita.model.Pelicula;
 import com.upiita.view.fonts.Fuentes;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.Icon;
@@ -22,8 +27,8 @@ import javax.swing.table.TableRowSorter;
 import javax.swing.RowFilter;
 
 public class _Peliculas extends javax.swing.JPanel {
-    
-        private   ArrayList<Pelicula> peliculas;
+        
+        private List<Pelicula> peliculas;
         TableRowSorter sorter;
 
     /**
@@ -49,8 +54,21 @@ public class _Peliculas extends javax.swing.JPanel {
         TBPeliculas.setFont(Glacial);
         TBPeliculas.setBackground(new Color(58,80,107));
         
-        headersPeliculas();
         jScrollPane1.getViewport().setBackground(new Color(58,80,107));
+        
+        try{
+            
+            PeliculaDAO peliculaDao = new SQLPeliculaDAO();
+                    
+            this.peliculas = peliculaDao.readAll();
+        }
+        catch(Exception xxx){
+            xxx.printStackTrace();
+            this.peliculas = new ArrayList<>();
+        }
+        
+        this.fillPeliculas();
+        
     }
 
     /**
@@ -376,25 +394,33 @@ public class _Peliculas extends javax.swing.JPanel {
         }
     }
     
-     /* public void fillPeliculas() {
+      public void fillPeliculas() {
+          
+        int len = this.peliculas.size();
         // Inicializa la matriz modelo para mostrar en la tabla 
-        String m[][] = new String[this.peliculas.size()][6];
+        String m[][] = new String[len > 0 ? len: 1][6];
         //LLena filas de la tabla con los datos del arrayList del archivo 
-        for (int i = 0; i < peliculas.size(); i++) {
+        for (int i = 0; i < len; i++) {
             m[i][0] = String.valueOf(peliculas.get (i).getTituloOriginal());
             m[i][1] = peliculas.get(i).getTituloExhibicion();
             m[i][2] = String.valueOf(peliculas.get(i).getAnio());
-            m[i][3] = String.valueOf( peliculas.get(i));
             
+            for(Director dir: peliculas.get(i).getDirectores())
+                m[i][3] = dir.getNombre()+", ";
+            
+            for(Pais pais: peliculas.get(i).getPaises())
+                m[i][4] = pais.getNombre()+", ";            
+            
+            m[i][5] = String.valueOf(peliculas.get(i).getIdPelicula());
         }
-
+        
         // Implementa la matriz en la tabla
         TBPeliculas.setModel(new javax.swing.table.DefaultTableModel(
-                m, new String[]{"ID","Nombre","Fecha", "Mesa", "Total"}));
-        headers ();
+                m, new String[]{"Título Original","Titulo Original","Año", "Director", "País","ID"}));
+        headersPeliculas();
       
     } 
-     */
+     
      
       /**
      * Método que  regresa un ícono a partir de una imagen

@@ -1,5 +1,7 @@
 package com.upiita.model;
 
+import java.util.Objects;
+
 /**
  *
  * @author ELA ALEINAD
@@ -51,6 +53,30 @@ public class Director {
 
     public void setEstado(byte estado) {
         this.estado = estado;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Director other = (Director) obj;
+        if (!Objects.equals(this.nombre, other.nombre)) {
+            return false;
+        }
+        return true;
     }
 
     @Override

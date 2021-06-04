@@ -1,5 +1,7 @@
 package com.upiita.model;
 
+import java.util.Objects;
+
 /**
  *
  * @author ELA ALEINAD
@@ -8,7 +10,6 @@ public class Pais {
 
     private int idPais;
     private String nombre; //matches
-    private String nuevoNombre;
     private byte estado;
 
     public Pais() {
@@ -53,4 +54,33 @@ public class Pais {
         this.estado = estado;
     }
 
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Pais other = (Pais) obj;
+        if (!Objects.equals(this.nombre, other.nombre)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "Pais{" + "idPais=" + idPais + ", nombre=" + nombre + ", estado=" + estado + '}';
+    }
+    
 }

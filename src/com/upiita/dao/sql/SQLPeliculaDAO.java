@@ -24,7 +24,7 @@ public class SQLPeliculaDAO extends Conexion implements PeliculaDAO {
     private static final String SQL_DELETE = "exec usp_BajaPelicula ?,?";
     private static final String SQL_UPDATE = "exec usp_EditarPelicula ?,?,?,?,?,?";
     private static final String SQL_REACTIVE = "exec usp_ReactivarPelicula ?,?";
-    private static String SQL_READALL = "select * from vReporte group by idPelicula order by idPelicula";
+    private static String SQL_READALL = "select * from vReporte order by tituloOriginal";
 
     private PreparedStatement ps;
     private CallableStatement cs;
@@ -152,35 +152,34 @@ public class SQLPeliculaDAO extends Conexion implements PeliculaDAO {
     
     @Override
     public List<Pelicula> readAll() {
-        ResultSet res;
         List<Pelicula> peliculas = new ArrayList<>();
         
         try {
 
             cs = conn.prepareCall(SQL_READALL);
-            res = cs.executeQuery();
-            while (res.next()) {
+            rs = cs.executeQuery();
+            while (rs.next()) {
                 
                 Pelicula pelicula = parseResPelicula(rs);
                 
                 if(peliculas.contains(pelicula)){
                     
                     int i = peliculas.indexOf(pelicula);
-                    Director director = parseResDirector(res);
+                    Director director = parseResDirector(rs);
                     if(!peliculas.get(i).getDirectores().contains(director)){
-                        peliculas.get(i).addDirector(parseResDirector(res));
+                        peliculas.get(i).addDirector(parseResDirector(rs));
                     }
                     
-                    Pais pais = parseResPais(res);
+                    Pais pais = parseResPais(rs);
                     
                     if(!peliculas.get(i).getPaises().contains(pais)){
-                        peliculas.get(i).addPais(parseResPais(res));
+                        peliculas.get(i).addPais(parseResPais(rs));
                     }
                     
                 }
                 else{
-                    pelicula.addDirector(parseResDirector(res));
-                    pelicula.addPais(parseResPais(res));
+                    pelicula.addDirector(parseResDirector(rs));
+                    pelicula.addPais(parseResPais(rs));
                     peliculas.add(pelicula);
                 }
                 

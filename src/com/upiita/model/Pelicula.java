@@ -1,5 +1,6 @@
 package com.upiita.model;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
@@ -15,8 +16,8 @@ public class Pelicula {
     private String tituloExhibicion; //matches
     private int anio; //Merge Sort //Busqueda Binaria
     
-    private List<Pais> paises;
-    private List<Director> directores;
+    private List<Pais> paises = new ArrayList<>();
+    private List<Director> directores = new ArrayList<>();
     
     private byte estado;
 
