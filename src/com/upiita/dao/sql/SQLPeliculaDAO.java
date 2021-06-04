@@ -166,8 +166,17 @@ public class SQLPeliculaDAO extends Conexion implements PeliculaDAO {
                 if(peliculas.contains(pelicula)){
                     
                     int i = peliculas.indexOf(pelicula);
-                    peliculas.get(i).addDirector(parseResDirector(res));
-                    peliculas.get(i).addPais(parseResPais(res));
+                    Director director = parseResDirector(res);
+                    if(!peliculas.get(i).getDirectores().contains(director)){
+                        peliculas.get(i).addDirector(parseResDirector(res));
+                    }
+                    
+                    Pais pais = parseResPais(res);
+                    
+                    if(!peliculas.get(i).getPaises().contains(pais)){
+                        peliculas.get(i).addPais(parseResPais(res));
+                    }
+                    
                 }
                 else{
                     pelicula.addDirector(parseResDirector(res));
