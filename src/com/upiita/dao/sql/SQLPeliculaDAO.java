@@ -22,7 +22,7 @@ public class SQLPeliculaDAO extends Conexion implements PeliculaDAO {
 
     private static final String SQL_INSERT = "exec usp_AltaPelicula ?,?,?,?,?";
     private static final String SQL_DELETE = "exec usp_BajaPelicula ?,?";
-    private static final String SQL_UPDATE = "exec usp_EditarPelicula ?,?,?,?,?,?";
+    private static final String SQL_UPDATE = "exec usp_EditarPelicula ?,?,?,?,?,?,?,?";
     private static final String SQL_REACTIVE = "exec usp_ReactivarPelicula ?,?";
     private static String SQL_READALL = "select * from vReporte order by tituloOriginal";
 
@@ -65,7 +65,7 @@ public class SQLPeliculaDAO extends Conexion implements PeliculaDAO {
     }
 
     @Override
-    public boolean update(Pelicula o) {
+    public boolean update(Pelicula o, String directorActual, String paisActual) {
         boolean state = false;
 
         try {
@@ -75,6 +75,8 @@ public class SQLPeliculaDAO extends Conexion implements PeliculaDAO {
             cs.setString(3, o.getTituloExhibicion());
             cs.setString(5, o.getDirectores().get(0).getNombre());
             cs.setString(6, o.getPaises().get(0).getNombre());
+            cs.setString(7, directorActual);
+            cs.setString(8, paisActual);
 
             if (cs.executeUpdate() > 0) {
                 state = true;

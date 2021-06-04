@@ -5,11 +5,6 @@
  */
 package com.upiita;
 
-import com.upiita.dao.PaisDAO;
-import com.upiita.dao.sql.SQLPaisDAO;
-import com.upiita.model.Pais;
-import com.upiita.model.Pelicula;
-
 /**
  *
  * @author iarog
