@@ -23,7 +23,7 @@ public class SQLPaisDAO extends Conexion implements PaisDAO {
     private static final String SQL_UPDATE = "exec usp_EditarPais ?, ?";
     private static final String SQL_REACTIVE = "exec usp_ReactivarPais ?";
     private static final String SQL_READ = "";
-    private static  String SQL_READALL = "";
+    private static  String SQL_READALL = "SELECT *FROM vPais";
 
     private PreparedStatement ps;
     private CallableStatement cs;
@@ -128,7 +128,6 @@ public class SQLPaisDAO extends Conexion implements PaisDAO {
     public List<Pais> readAll() {
         ResultSet res;
         List<Pais> pais = new ArrayList<>();
-         SQL_READALL = "SELECT *FROM vPais";
         try {
  //      ps= conn.prepareStatement(SQL_READALL);     //DUDAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
             cs = conn.prepareCall(SQL_READALL);

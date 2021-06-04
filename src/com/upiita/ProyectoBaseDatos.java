@@ -20,7 +20,9 @@ public class ProyectoBaseDatos {
      */
     public static void main(String[] args) {
   
+        String palabra = "Hola";
         
+        System.out.println(palabra.matches(".*Holaa.*"));
         
     }
     
