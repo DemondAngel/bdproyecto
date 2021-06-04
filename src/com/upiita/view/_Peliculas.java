@@ -86,24 +86,21 @@ public class _Peliculas extends javax.swing.JPanel {
         TBPeliculas.setForeground(new java.awt.Color(255, 255, 255));
         TBPeliculas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"EL SUAVECITO ", "EL SUAVECITO ", "1950 ", "Jaja no sé xD", "México", "efea"},
+                {"EL SUAVECITO ", "EL SUAVECITO ", "1950 ", "JESUS", "México", "efea"},
                 {"LOS DOS CARNALES ", "LOS DOS CARNALES ", "1981 ", "LALO", "México", "lweir34"},
                 {"SIMÓN DEL DESIERTO ", "SIMÓN DEL DESIERTO ", "1964 ", "FER", "México", "348975"},
                 {"ASÍ SE QUIERE EN JALISCO ", "ASÍ SE QUIERE EN", "1874", "ABI", "México", "4938753"},
-                {null, null, null, null, null, null}
+                {"STAR WARS", "STAR WARS", "1990", "GEORGE LUCAS", "ESTADOS UNIDOS", "320940"},
+                {"EL CÓDIGO DA VINCI", "EL CÓDIGO DA VUNCI", "2010", "ANA", "Colombia", "94075934"},
+                {"CODIGO ENIGMA", "CODIGO ENIGMA", "2013", "LUIS", "Panama", "932847"},
+                {"RETABLO", "RETABLO", "2015", "DIANA", "Perú", "8374"},
+                {"THE THING ABOUT HARRY", "THE THING ABOUT HARRY", "2017", "Oscar", "Bélgica", "93484987"},
+                {"MEAN GIRLS", "MEAN GIRLS", "2000", "DANIELA", "España", null}
             },
             new String [] {
                 "Título Original", "Título de Exhibición", "Año", "Director", "País", " "
             }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, true, true
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
+        ));
         TBPeliculas.setGridColor(new java.awt.Color(58, 80, 107));
         TBPeliculas.setUpdateSelectionOnSort(false);
         jScrollPane1.setViewportView(TBPeliculas);

@@ -41,7 +41,7 @@ public class Edit_Peliculas extends javax.swing.JFrame {
         this.setBackground(Color.yellow);
         
         initComponents();
-        Font Lovelo = fonttype.nFont(fonttype.getLovelo() ,1,38);
+        Font Lovelo = fonttype.nFont(fonttype.getLovelo() ,1,20);
         Font Glacial = fonttype.nFont(fonttype.getGlacial(),1,17);
         Font Lemon = fonttype.nFont(fonttype.getLemon() , 1,9);
         Font Lemon2 = fonttype.nFont(fonttype.getLemon(), 1, 7);
@@ -64,14 +64,13 @@ public class Edit_Peliculas extends javax.swing.JFrame {
         
         
         
-        javax.swing.JLabel[] labels = new javax.swing.JLabel[6];
+        javax.swing.JLabel[] labels = new javax.swing.JLabel[5];
         
         labels[0] = jLabelDirector;
         labels[1] = jLabelPais;
         labels[2] = jLabelTitle;
         labels[3] = jLabelTitle1;
-        labels[4] = jLabelTitulo;
-        labels[5] = jLabelYear;
+        labels[4] = jLabelYear;
         
         for (javax.swing.JLabel label : labels) {
             label.setFont(Glacial);
@@ -167,7 +166,7 @@ public class Edit_Peliculas extends javax.swing.JFrame {
         jLabelTitulo.setText("Editar Pelicula");
         jLabelTitulo.setName("jLabelTitulo"); // NOI18N
         jPanel1.add(jLabelTitulo);
-        jLabelTitulo.setBounds(300, 20, 250, 60);
+        jLabelTitulo.setBounds(290, 60, 250, 60);
 
         jLabelTitle.setForeground(new java.awt.Color(255, 255, 255));
         jLabelTitle.setText("Título de Exhibición");

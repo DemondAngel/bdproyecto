@@ -141,9 +141,13 @@ public class _Paises extends javax.swing.JPanel {
         _Display.add(jScrollPane1);
         jScrollPane1.setBounds(10, 50, 440, 440);
 
-        jTextField3.setText("jTextField1");
+        jTextField3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField3ActionPerformed(evt);
+            }
+        });
         _Display.add(jTextField3);
-        jTextField3.setBounds(10, 10, 510, 24);
+        jTextField3.setBounds(10, 10, 440, 24);
 
         add(_Display, java.awt.BorderLayout.CENTER);
 
@@ -384,6 +388,10 @@ public class _Paises extends javax.swing.JPanel {
     private void bedit1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bedit1MouseReleased
         bedit.setBackground(Bback);
     }//GEN-LAST:event_bedit1MouseReleased
+
+    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField3ActionPerformed
 
     Color change = new Color(111, 255, 233);
     Color Bchange = new Color(43, 59, 86);

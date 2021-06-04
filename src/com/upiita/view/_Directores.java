@@ -40,6 +40,7 @@ public class _Directores extends javax.swing.JPanel {
         
         Font LemonB = fonttype.nFont(fonttype.getLemon(), 1, 5);
         Font Glacial = fonttype.nFont(fonttype.getGlacial() , 1,12);
+        Font Lovelo = fonttype.nFont(fonttype.getLovelo() , 1,26);
         
         sorter = new TableRowSorter(TBDirectores.getModel());
         TBDirectores.setRowSorter(sorter);
@@ -47,6 +48,12 @@ public class _Directores extends javax.swing.JPanel {
         TBDirectores.setFont(Glacial);
         headersDirectores();
         jScrollPane1.getViewport().setBackground(new Color(58,80,107));
+        
+        txtAltas.setFont(Lovelo);
+        txtName.setFont(Glacial);
+        btnAlta.setFont(LemonB);
+        txtNombreEdit.setFont(LemonB);
+        
         
         
     }
@@ -71,12 +78,12 @@ public class _Directores extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         TBDirectores = new javax.swing.JTable();
         panelAdd = new javax.swing.JPanel();
-        jLabelTitulo = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
+        txtAltas = new javax.swing.JLabel();
+        btnAlta = new javax.swing.JButton();
         txtNombreEdit = new javax.swing.JTextField();
         txtName = new javax.swing.JLabel();
         txtBusqueda = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
+        Label = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(58, 80, 107));
         setLayout(new java.awt.BorderLayout());
@@ -207,18 +214,21 @@ public class _Directores extends javax.swing.JPanel {
         _Display.add(jScrollPane1);
         jScrollPane1.setBounds(50, 100, 300, 350);
 
+        panelAdd.setBackground(new java.awt.Color(58, 80, 107));
         panelAdd.setLayout(null);
 
-        jLabelTitulo.setFont(new java.awt.Font("Dialog", 1, 36)); // NOI18N
-        jLabelTitulo.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelTitulo.setText("Altas Directores");
-        jLabelTitulo.setName("jLabelTitulo"); // NOI18N
-        panelAdd.add(jLabelTitulo);
-        jLabelTitulo.setBounds(40, 20, 290, 60);
+        txtAltas.setFont(new java.awt.Font("Dialog", 1, 36)); // NOI18N
+        txtAltas.setForeground(new java.awt.Color(255, 255, 255));
+        txtAltas.setText("Altas Directores");
+        txtAltas.setName("txtAltas"); // NOI18N
+        panelAdd.add(txtAltas);
+        txtAltas.setBounds(40, 20, 290, 60);
 
-        jButton2.setText("jButton2");
-        panelAdd.add(jButton2);
-        jButton2.setBounds(160, 170, 77, 32);
+        btnAlta.setBackground(new java.awt.Color(28, 37, 65));
+        btnAlta.setForeground(new java.awt.Color(255, 255, 255));
+        btnAlta.setText("Alta");
+        panelAdd.add(btnAlta);
+        btnAlta.setBounds(137, 170, 100, 40);
 
         txtNombreEdit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -228,6 +238,7 @@ public class _Directores extends javax.swing.JPanel {
         panelAdd.add(txtNombreEdit);
         txtNombreEdit.setBounds(110, 110, 220, 24);
 
+        txtName.setForeground(new java.awt.Color(255, 255, 255));
         txtName.setText("Nombre");
         panelAdd.add(txtName);
         txtName.setBounds(20, 190, 80, 30);
@@ -248,9 +259,10 @@ public class _Directores extends javax.swing.JPanel {
         _Display.add(txtBusqueda);
         txtBusqueda.setBounds(80, 50, 270, 24);
 
-        jLabel1.setText("Buscar");
-        _Display.add(jLabel1);
-        jLabel1.setBounds(10, 50, 41, 16);
+        Label.setForeground(new java.awt.Color(255, 255, 255));
+        Label.setText("Buscar");
+        _Display.add(Label);
+        Label.setBounds(10, 50, 41, 16);
 
         add(_Display, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
@@ -399,20 +411,20 @@ public class _Directores extends javax.swing.JPanel {
     Fuentes fonttype = new Fuentes (); 
     AnimationClass DirectoresU = new AnimationClass();
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel Label;
     private javax.swing.JTable TBDirectores;
     private javax.swing.JPanel _Display;
     private javax.swing.JPanel badd;
     private javax.swing.JPanel bdel;
     private javax.swing.JPanel bedit;
+    private javax.swing.JButton btnAlta;
     private javax.swing.JLabel iadd;
     private javax.swing.JLabel idel;
     private javax.swing.JLabel iedit;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabelTitulo;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel panelAdd;
+    private javax.swing.JLabel txtAltas;
     private javax.swing.JTextField txtBusqueda;
     private javax.swing.JLabel txtName;
     private javax.swing.JTextField txtNombreEdit;
