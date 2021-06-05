@@ -8,7 +8,6 @@ package com.upiita;
 import com.upiita.dao.PeliculaDAO;
 import com.upiita.dao.sql.SQLPeliculaDAO;
 
-
 /**
  *
  * @author iarog
@@ -26,6 +25,8 @@ public class ProyectoBaseDatos {
         //PeliculaDAO peliculaDAO = new SQLPeliculaDAO();
         //peliculaDAO.readAll();
         
+       PeliculaDAO peliculaDAO = new SQLPeliculaDAO();
+       peliculaDAO.readAll();
         
     }
     
