@@ -6,11 +6,24 @@
 package com.upiita.view;
 
 import java.awt.Color;
+import com.upiita.dao.PaisDAO;
+import com.upiita.dao.sql.SQLPaisDAO;
+import com.upiita.model.Director;
+import com.upiita.model.Pais;
+import com.upiita.view.fonts.Fuentes;
+import java.awt.Font;
 import java.awt.FontFormatException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import javax.swing.table.TableRowSorter;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.Icon;
+import javax.swing.RowFilter;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableColumn;
 
 /**
  *
@@ -21,8 +34,55 @@ public class _Paises extends javax.swing.JPanel {
     /**
      * Creates new form _Paises
      */
+    
+    private TableRowSorter sorter;
+    private List<Pais> paises;
+    private PaisDAO paisDao;
+    private RowsRenderer rr;
+      
+    
     public _Paises() {
         initComponents();
+        try{
+        Font Lovelo = fonttype.nFont(fonttype.getLovelo() ,1,26);
+        Font LemonB = fonttype.nFont(fonttype.getLemon(), 1, 5);
+        Font LemonB2 = fonttype.nFont(fonttype.getLemonB(), 1, 7);
+        Font Glacial = fonttype.nFont(fonttype.getGlacial() , 1,12);
+        
+        TBPaises.setFont(Glacial);
+        txtBusqueda.setFont(LemonB);
+        txtAlta.setFont(Lovelo);
+        txtName.setFont(Glacial);
+        btnAlta.setFont(LemonB2);
+        txtNombre.setText(" ");
+        txtBuscar.setFont(Glacial);
+        jScrollPane1.getViewport().setBackground(new Color(58,80,107));
+        txtBusqueda.setFont(LemonB);
+        txtNombre.setFont(LemonB);
+         
+         
+            
+        }catch(Exception x){
+            
+        }
+        
+        try{
+            
+            paisDao = new SQLPaisDAO();
+                    
+            this.paises = paisDao.readAll();
+        }
+        catch(Exception xxx){
+            xxx.printStackTrace();
+            this.paises = new ArrayList<>();
+        }
+        
+        this.fillPaises();
+        sorter = new TableRowSorter(TBPaises.getModel());
+        TBPaises.setRowSorter(sorter);
+        
+       
+        
     }
 
     /**
@@ -45,14 +105,19 @@ public class _Paises extends javax.swing.JPanel {
         _Display = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         TBPaises = new javax.swing.JTable();
-        jTextField3 = new javax.swing.JTextField();
+        txtBusqueda = new javax.swing.JTextField();
+        txtAlta = new javax.swing.JLabel();
+        txtNombre = new javax.swing.JTextField();
+        btnAlta = new javax.swing.JButton();
+        txtName = new javax.swing.JLabel();
+        txtBuscar = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
-        badd = new javax.swing.JPanel();
-        iadd = new javax.swing.JLabel();
         bdel = new javax.swing.JPanel();
         idel = new javax.swing.JLabel();
-        bedit1 = new javax.swing.JPanel();
-        iedit1 = new javax.swing.JLabel();
+        breactivar = new javax.swing.JPanel();
+        ireactivar = new javax.swing.JLabel();
+        bedit2 = new javax.swing.JPanel();
+        iedit2 = new javax.swing.JLabel();
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
@@ -105,25 +170,27 @@ public class _Paises extends javax.swing.JPanel {
         _Display.setBackground(new java.awt.Color(58, 80, 107));
         _Display.setLayout(null);
 
-        TBPaises.setBackground(new java.awt.Color(102, 102, 102));
+        TBPaises.setAutoCreateRowSorter(true);
+        TBPaises.setBackground(new java.awt.Color(58, 80, 107));
         TBPaises.setForeground(new java.awt.Color(255, 255, 255));
         TBPaises.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "País", "ID"
+                "País", "ID", "Estado"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false
+                false, false, true
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -134,53 +201,66 @@ public class _Paises extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
+        TBPaises.setGridColor(new java.awt.Color(58, 80, 107));
         TBPaises.setOpaque(false);
         TBPaises.setUpdateSelectionOnSort(false);
         jScrollPane1.setViewportView(TBPaises);
 
         _Display.add(jScrollPane1);
-        jScrollPane1.setBounds(10, 50, 440, 440);
+        jScrollPane1.setBounds(110, 80, 210, 400);
 
-        jTextField3.addActionListener(new java.awt.event.ActionListener() {
+        txtBusqueda.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField3ActionPerformed(evt);
+                txtBusquedaActionPerformed(evt);
             }
         });
-        _Display.add(jTextField3);
-        jTextField3.setBounds(10, 10, 440, 24);
+        txtBusqueda.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtBusquedaKeyReleased(evt);
+            }
+        });
+        _Display.add(txtBusqueda);
+        txtBusqueda.setBounds(110, 30, 220, 24);
+
+        txtAlta.setForeground(new java.awt.Color(255, 255, 255));
+        txtAlta.setText("ALTAS PAISES");
+        _Display.add(txtAlta);
+        txtAlta.setBounds(540, 140, 220, 50);
+
+        txtNombre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtNombreActionPerformed(evt);
+            }
+        });
+        _Display.add(txtNombre);
+        txtNombre.setBounds(520, 220, 226, 24);
+
+        btnAlta.setBackground(new java.awt.Color(28, 37, 65));
+        btnAlta.setForeground(new java.awt.Color(255, 255, 255));
+        btnAlta.setText("Alta");
+        btnAlta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAltaActionPerformed(evt);
+            }
+        });
+        _Display.add(btnAlta);
+        btnAlta.setBounds(540, 280, 130, 32);
+
+        txtName.setForeground(new java.awt.Color(255, 255, 255));
+        txtName.setText("Nombre");
+        _Display.add(txtName);
+        txtName.setBounds(420, 220, 80, 30);
+
+        txtBuscar.setForeground(new java.awt.Color(255, 255, 255));
+        txtBuscar.setText("Buscar");
+        _Display.add(txtBuscar);
+        txtBuscar.setBounds(30, 30, 70, 20);
 
         add(_Display, java.awt.BorderLayout.CENTER);
 
         jPanel1.setBackground(new java.awt.Color(28, 37, 65));
         jPanel1.setPreferredSize(new java.awt.Dimension(830, 50));
         jPanel1.setLayout(null);
-
-        badd.setBackground(new java.awt.Color(28, 37, 65));
-        badd.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                baddMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                baddMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                baddMouseExited(evt);
-            }
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                baddMousePressed(evt);
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                baddMouseReleased(evt);
-            }
-        });
-        badd.setLayout(null);
-
-        iadd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/upiita/view/Resources/plus-square-solid.png"))); // NOI18N
-        badd.add(iadd);
-        iadd.setBounds(10, 10, 30, 30);
-
-        jPanel1.add(badd);
-        badd.setBounds(0, 0, 50, 50);
 
         bdel.setBackground(new java.awt.Color(28, 37, 65));
         bdel.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -207,57 +287,64 @@ public class _Paises extends javax.swing.JPanel {
         idel.setBounds(10, 10, 30, 30);
 
         jPanel1.add(bdel);
-        bdel.setBounds(50, 0, 50, 50);
+        bdel.setBounds(10, 0, 50, 50);
 
-        bedit1.setBackground(new java.awt.Color(28, 37, 65));
-        bedit1.addMouseListener(new java.awt.event.MouseAdapter() {
+        breactivar.setBackground(new java.awt.Color(28, 37, 65));
+        breactivar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                bedit1MouseClicked(evt);
+                breactivarMouseClicked(evt);
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                bedit1MouseEntered(evt);
+                breactivarMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                bedit1MouseExited(evt);
+                breactivarMouseExited(evt);
             }
             public void mousePressed(java.awt.event.MouseEvent evt) {
-                bedit1MousePressed(evt);
+                breactivarMousePressed(evt);
             }
             public void mouseReleased(java.awt.event.MouseEvent evt) {
-                bedit1MouseReleased(evt);
+                breactivarMouseReleased(evt);
             }
         });
-        bedit1.setLayout(null);
+        breactivar.setLayout(null);
 
-        iedit1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/upiita/view/Resources/pen-square-solid.png"))); // NOI18N
-        bedit1.add(iedit1);
-        iedit1.setBounds(10, 10, 30, 30);
+        ireactivar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/upiita/view/Resources/reactivar.png"))); // NOI18N
+        breactivar.add(ireactivar);
+        ireactivar.setBounds(10, 10, 30, 30);
 
-        jPanel1.add(bedit1);
-        bedit1.setBounds(100, 0, 50, 50);
+        jPanel1.add(breactivar);
+        breactivar.setBounds(110, 0, 50, 50);
+
+        bedit2.setBackground(new java.awt.Color(28, 37, 65));
+        bedit2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                bedit2MouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                bedit2MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                bedit2MouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                bedit2MousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                bedit2MouseReleased(evt);
+            }
+        });
+        bedit2.setLayout(null);
+
+        iedit2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/upiita/view/Resources/pen-square-solid.png"))); // NOI18N
+        bedit2.add(iedit2);
+        iedit2.setBounds(10, 10, 30, 30);
+
+        jPanel1.add(bedit2);
+        bedit2.setBounds(60, 0, 50, 50);
 
         add(jPanel1, java.awt.BorderLayout.PAGE_START);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void baddMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_baddMouseEntered
-        ImageIcon ic = new ImageIcon(getClass().getResource("/com/upiita/view/resources/plus-square-solid2.png"));
-        iadd.setIcon(ic);
-        badd.setBackground(Bchange);
-    }//GEN-LAST:event_baddMouseEntered
-
-    private void baddMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_baddMouseExited
-        ImageIcon ic = new ImageIcon(getClass().getResource("/com/upiita/view/resources/plus-square-solid.png"));
-        iadd.setIcon(ic);
-        badd.setBackground(Bback);
-    }//GEN-LAST:event_baddMouseExited
-
-    private void baddMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_baddMousePressed
-        badd.setBackground(Bclick);
-    }//GEN-LAST:event_baddMousePressed
-
-    private void baddMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_baddMouseReleased
-        badd.setBackground(Bback);
-    }//GEN-LAST:event_baddMouseReleased
 
     private void bdelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bdelMouseEntered
         ImageIcon ic = new ImageIcon(getClass().getResource("/com/upiita/view/resources/minus-square-solid2.png"));
@@ -279,32 +366,21 @@ public class _Paises extends javax.swing.JPanel {
         bdel.setBackground(Bback);
     }//GEN-LAST:event_bdelMouseReleased
 
-    private void baddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_baddMouseClicked
-                Cat_Pais  addPais = null;
-        try {
-            addPais = new Cat_Pais();
-        } catch (FontFormatException ex) {
-            Logger.getLogger(_Peliculas.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        addPais.setBounds(0, 0, 830, 500);
-        _Display.removeAll();
-        _Display.add(addPais);
-        _Display.updateUI();
-    }//GEN-LAST:event_baddMouseClicked
-
     private void bdelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bdelMouseClicked
         int[] filaSeleccionadas = TBPaises.getSelectedRows();
-        int noFilas= filaSeleccionadas.length;
-        int res = JOptionPane.showConfirmDialog(null, "¿Desea eliminar " + noFilas + " filas?" , "CINETECA NACIONAL", JOptionPane.YES_NO_OPTION);
-        if(res == 0){
-            System.out.println("Sentencia para borrar");
-        }
-       
-        for (int fila : filaSeleccionadas) {
-            String pelicula;
-            pelicula = TBPaises.getValueAt(fila,5).toString();
-            System.out.println(pelicula);
-//            SentenciasSQL.bajaRegistro(alumno, "Alumno", "curp");
+        int noFilas = filaSeleccionadas.length;
+        int res = JOptionPane.showConfirmDialog(null, "¿Desea eliminar" + noFilas + " filas?", "CINETECA NACIONAL", HEIGHT, 1);
+
+        if (noFilas == 0) {
+            JOptionPane.showMessageDialog(null, "Ingrese una o varias filas para eliminar", "CINETECA NACIONAL", HEIGHT, NIcon("/com/upiita/view/resources/advertencia.png"));
+        
+        } else {
+            for (int fila : filaSeleccionadas) {
+                String nombrePais;
+                nombrePais = TBPaises.getValueAt(fila, 0).toString();
+                System.out.println(nombrePais);
+                paisDao.delete(nombrePais);
+            }
         }
     }//GEN-LAST:event_bdelMouseClicked
 
@@ -320,7 +396,7 @@ public class _Paises extends javax.swing.JPanel {
         int[] filaSeleccionadas = TBPaises.getSelectedRows();
         int noFilas = filaSeleccionadas.length;
         if (noFilas != 1) {
-            JOptionPane.showMessageDialog(null, "Seleccione una fila para editar", "CINETECA NACIONAL", 1);
+            JOptionPane.showMessageDialog(null, "Seleccione una fila para editar", "CINETECA NACIONAL",HEIGHT,NIcon("/com/upiita/view/resources/advertencia.png"));
         } else {
             Edit_Paises Modificar = null;
             try {
@@ -352,64 +428,170 @@ public class _Paises extends javax.swing.JPanel {
         bedit.setBackground(Bback);
     }//GEN-LAST:event_beditMouseReleased
 
-    private void bedit1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bedit1MouseClicked
+    private void txtBusquedaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBusquedaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtBusquedaActionPerformed
+
+    private void txtBusquedaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBusquedaKeyReleased
+        sorter.setRowFilter((RowFilter.regexFilter("(?i)"+txtBusqueda.getText(),0)));
+    }//GEN-LAST:event_txtBusquedaKeyReleased
+
+    private void txtNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNombreActionPerformed
+
+    private void btnAltaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAltaActionPerformed
+        String nombrePais = txtNombre.getText();
+        Pais newPais = new Pais(nombrePais.toUpperCase());
+        paisDao.create(newPais);
+             JOptionPane.showMessageDialog(null, "Alta exitosa", "CINETECA NACIONAL",JOptionPane.OK_OPTION, NIcon("com/upiita/view/Resources/confirm.png") );
+        txtNombre.setText(" ");
+    }//GEN-LAST:event_btnAltaActionPerformed
+
+    private void breactivarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_breactivarMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_breactivarMouseClicked
+
+    private void breactivarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_breactivarMouseEntered
+       ImageIcon ic = new ImageIcon(getClass().getResource("/com/upiita/view/resources/reactivar2.png"));
+        ireactivar.setIcon(ic);
+        breactivar.setBackground(Bchange);   
+    }//GEN-LAST:event_breactivarMouseEntered
+
+    private void breactivarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_breactivarMouseExited
+        ImageIcon ic = new ImageIcon(getClass().getResource("/com/upiita/view/resources/reactivar.png"));
+        ireactivar.setIcon(ic);
+        breactivar.setBackground(Bback);  
+    }//GEN-LAST:event_breactivarMouseExited
+
+    private void breactivarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_breactivarMousePressed
+         bedit2.setBackground(Bclick);
+    }//GEN-LAST:event_breactivarMousePressed
+
+    private void breactivarMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_breactivarMouseReleased
+        int[] filaSeleccionadas = TBPaises.getSelectedRows();
+        int filaSeleccionada = 0;
+        int noFilas = filaSeleccionadas.length;
+        if (noFilas == 0) {
+            JOptionPane.showMessageDialog(null, "Seleccione al menos una película para reactivar", "CINETECA NACIONAL", HEIGHT, NIcon("/com/upiita/view/resources/advertencia.png"));
+        } else {
+            int res = JOptionPane.showConfirmDialog(null, "¿Desea reactivar" + noFilas + " filas?", "CINETECA NACIONAL", HEIGHT, 1);
+            if (res == 0) {
+                filaSeleccionada = TBPaises.getSelectedRows()[0];
+                paisDao.reactive(TBPaises.getValueAt(filaSeleccionada,0).toString().toUpperCase());
+            }
+        }
+    }//GEN-LAST:event_breactivarMouseReleased
+
+    private void bedit2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bedit2MouseClicked
         int[] filaSeleccionadas = TBPaises.getSelectedRows();
         int noFilas = filaSeleccionadas.length;
-        if (noFilas != 1) {
-            JOptionPane.showMessageDialog(null, "Seleccione una fila para editar", "CINETECA NACIONAL", 1);
-        } else {
-            Edit_Paises Modificar = null;
+        if (noFilas == 0)
+        JOptionPane.showMessageDialog(null, "Ingrese una fila para modificar", "CINETECA NACIONAL", HEIGHT,NIcon("/com/upiita/view/resources/advertencia.png"));
+        else if (noFilas!=0 && noFilas!=1)
+        JOptionPane.showMessageDialog(null, "Solo puede modificar una fila", "CINETECA NACIONAL",HEIGHT,NIcon("/com/upiita/view/resources/advertencia.png"));
+
+        else {
+            int filaSeleccionada = TBPaises.getSelectedRows()[0];
+            Edit_Directores Modificar;
             try {
-                Modificar = new Edit_Paises(); 
+             if("0".equals(TBPaises.getValueAt(TBPaises.getSelectedRow(),2).toString())  )
+                 JOptionPane.showMessageDialog(null, "No puede modificar un país desactivado", "CINETECA NACIONAL",HEIGHT,NIcon("/com/upiita/view/resources/advertencia.png"));
+         
+            else{
+                Modificar = new Edit_Directores();
+                Modificar.setNombre(TBPaises.getValueAt(filaSeleccionada,0).toString());
+                Modificar.fillGaps();
                 Modificar.setVisible(true);
+             }
             } catch (FontFormatException ex) {
-                Logger.getLogger(_Paises.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(_Directores.class.getName()).log(Level.SEVERE, null, ex);
             }
-           
         }
-    }//GEN-LAST:event_bedit1MouseClicked
+    }//GEN-LAST:event_bedit2MouseClicked
 
-    private void bedit1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bedit1MouseEntered
+    private void bedit2MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bedit2MouseEntered
         ImageIcon ic = new ImageIcon(getClass().getResource("/com/upiita/view/resources/pen-square-solid2.png"));
-        iedit.setIcon(ic);
-        bedit.setBackground(Bchange);
-    }//GEN-LAST:event_bedit1MouseEntered
+        iedit2.setIcon(ic);
+        bedit2.setBackground(Bchange);
+    }//GEN-LAST:event_bedit2MouseEntered
 
-    private void bedit1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bedit1MouseExited
+    private void bedit2MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bedit2MouseExited
         ImageIcon ic = new ImageIcon(getClass().getResource("/com/upiita/view/resources/pen-square-solid.png"));
-        iedit.setIcon(ic);
-        bedit.setBackground(Bback);
-    }//GEN-LAST:event_bedit1MouseExited
+        iedit2.setIcon(ic);
+        bedit2.setBackground(Bback);
+    }//GEN-LAST:event_bedit2MouseExited
 
-    private void bedit1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bedit1MousePressed
-        bedit.setBackground(Bclick);
-    }//GEN-LAST:event_bedit1MousePressed
+    private void bedit2MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bedit2MousePressed
+        bedit2.setBackground(Bclick);
+    }//GEN-LAST:event_bedit2MousePressed
 
-    private void bedit1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bedit1MouseReleased
-        bedit.setBackground(Bback);
-    }//GEN-LAST:event_bedit1MouseReleased
-
-    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField3ActionPerformed
-
+    private void bedit2MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bedit2MouseReleased
+        bedit2.setBackground(Bback);
+    }//GEN-LAST:event_bedit2MouseReleased
+    
+    public void headersPaises() {
+         int[] anchoCol = {300,1,1};
+        int i = 0;
+        for (int ancho : anchoCol) { // Implementa el arrego anchoCol en la tabla
+            TableColumn column = TBPaises.getColumnModel().getColumn(i++);
+            column.setMinWidth(ancho);
+            column.setMaxWidth(ancho);
+            column.setPreferredWidth(ancho);
+        }
+        DefaultTableCellRenderer headerRenderer = new DefaultTableCellRenderer();
+        headerRenderer.setBackground( new Color(28,37,65));
+        for (int j = 0; j < TBPaises.getModel().getColumnCount(); j++) {
+            TBPaises.getColumnModel().getColumn(j).setHeaderRenderer(headerRenderer);
+        }
+    }
+    
+    public void fillPaises() {
+          
+        int len = this.paises.size();
+        // Inicializa la matriz modelo para mostrar en la tabla 
+        String m[][] = new String[len > 0 ? len: 1][3];
+        //LLena filas de la tabla con los datos del arrayList del archivo 
+        for (int i = 0; i < len; i++) {
+            
+            m[i][0] = String.valueOf(paises.get(i).getNombre());
+            m[i][1] = String.valueOf(paises.get(i).getIdPais());
+            m[i][2] =String.valueOf(paises.get(i).getEstado());
+            
+        }
+        
+        // Implementa la matriz en la tabla
+        TBPaises.setModel(new javax.swing.table.DefaultTableModel(
+                m, new String[]{"Nombre","ID","Estado"}));
+        headersPaises();
+        RowsRenderer rr = new RowsRenderer(2);
+        TBPaises.setDefaultRenderer(Object.class, rr);
+    }
+    
+    public Icon NIcon (String path){
+        Icon image = new ImageIcon (getClass().getResource(path) );          
+        return image;
+    }
+    
     Color change = new Color(111, 255, 233);
     Color Bchange = new Color(43, 59, 86);
     Color Bback = new Color(28, 37, 65);
     Color Bclick = new Color(11, 19, 43);
+    Fuentes fonttype = new Fuentes ();
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable TBPaises;
     private javax.swing.JPanel _Display;
-    private javax.swing.JPanel badd;
     private javax.swing.JPanel bdel;
     private javax.swing.JPanel bedit;
-    private javax.swing.JPanel bedit1;
-    private javax.swing.JLabel iadd;
+    private javax.swing.JPanel bedit2;
+    private javax.swing.JPanel breactivar;
+    private javax.swing.JButton btnAlta;
     private javax.swing.JLabel idel;
     private javax.swing.JLabel iedit;
-    private javax.swing.JLabel iedit1;
+    private javax.swing.JLabel iedit2;
+    private javax.swing.JLabel ireactivar;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JComboBox<String> jComboBox1;
@@ -418,6 +600,10 @@ public class _Paises extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
+    private javax.swing.JLabel txtAlta;
+    private javax.swing.JLabel txtBuscar;
+    private javax.swing.JTextField txtBusqueda;
+    private javax.swing.JLabel txtName;
+    private javax.swing.JTextField txtNombre;
     // End of variables declaration//GEN-END:variables
 }

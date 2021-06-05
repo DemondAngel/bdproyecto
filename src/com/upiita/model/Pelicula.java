@@ -14,7 +14,7 @@ public class Pelicula {
     private String idPelicula;
     private String tituloOriginal; //matches 
     private String tituloExhibicion; //matches
-    private int anio; //Merge Sort //Busqueda Binaria
+    private Integer anio; //Merge Sort //Busqueda Binaria
     
     private List<Pais> paises = new ArrayList<>();
     private List<Director> directores = new ArrayList<>();
@@ -25,14 +25,19 @@ public class Pelicula {
 
     }
     
-    public Pelicula(String idPelicula, String tituloOriginal, String tituloExhibicion, int anio) {
+    public Pelicula(String tituloOriginal, Integer anio) {
+        this.tituloOriginal = tituloOriginal;
+        this.anio = anio;
+    }
+    
+    public Pelicula(String idPelicula, String tituloOriginal, String tituloExhibicion, Integer anio) {
         this.idPelicula = idPelicula;
         this.tituloOriginal = tituloOriginal;
         this.tituloExhibicion = tituloExhibicion;
         this.anio = anio;
     }
 
-    public Pelicula(String idPelicula, String tituloOriginal, String tituloExhibicion, int anio, byte estado) {
+    public Pelicula(String idPelicula, String tituloOriginal, String tituloExhibicion, Integer anio, byte estado) {
         this.idPelicula = idPelicula;
         this.tituloOriginal = tituloOriginal;
         this.tituloExhibicion = tituloExhibicion;
@@ -56,11 +61,11 @@ public class Pelicula {
         this.tituloExhibicion = exhibicion;
     }
 
-    public int getAnio() {
+    public Integer getAnio() {
         return anio;
     }
 
-    public void setAnio(int anio) {
+    public void setAnio(Integer anio) {
         this.anio = anio;
     }
 

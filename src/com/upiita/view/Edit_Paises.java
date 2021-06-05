@@ -5,6 +5,7 @@
  */
 package com.upiita.view;
 
+import com.upiita.dao.sql.SQLPaisDAO;
 import com.upiita.view.fonts.Fuentes;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -13,6 +14,8 @@ import java.awt.FontFormatException;
 import java.awt.Toolkit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 /**
@@ -39,9 +42,15 @@ public class Edit_Paises extends javax.swing.JFrame {
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation(dim.width/2-200, dim.height/2-100);
         initComponents();
-        Font Lovelo = fonttype.nFont(fonttype.getLovelo() , 1,38);
-        txtEditPais.setFont(Lovelo);
+        Font Lovelo = fonttype.nFont(fonttype.getLovelo() , 1,26);
         
+        Font Lemon2 = fonttype.nFont(fonttype.getLemon(), 1, 5);
+        Font Lemon = fonttype.nFont(fonttype.getLemonB() , 1,5);
+        
+        Space1.setFont(Lemon2);
+        txtName.setFont(Lemon2);
+        txtEditPais.setFont(Lovelo);
+        btnEditar.setFont(Lemon);
         
     }
 
@@ -61,7 +70,7 @@ public class Edit_Paises extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         txtName = new javax.swing.JTextField();
         txtEditPais = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        btnEditar = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
@@ -116,6 +125,7 @@ public class Edit_Paises extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(58, 80, 107));
 
+        txtName.setForeground(new java.awt.Color(0, 0, 0));
         txtName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtNameActionPerformed(evt);
@@ -123,12 +133,15 @@ public class Edit_Paises extends javax.swing.JFrame {
         });
 
         txtEditPais.setFont(new java.awt.Font("Comic Sans MS", 0, 36)); // NOI18N
-        txtEditPais.setText("          Editar País");
+        txtEditPais.setForeground(new java.awt.Color(255, 255, 255));
+        txtEditPais.setText("Editar País");
 
-        jButton1.setText("Editar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnEditar.setBackground(new java.awt.Color(11, 19, 43));
+        btnEditar.setForeground(new java.awt.Color(255, 255, 255));
+        btnEditar.setText("Editar");
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnEditarActionPerformed(evt);
             }
         });
 
@@ -181,29 +194,31 @@ public class Edit_Paises extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(0, 32, Short.MAX_VALUE)
+                .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 398, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(20, 20, 20))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtEditPais, javax.swing.GroupLayout.PREFERRED_SIZE, 408, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 437, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(133, 133, 133)
+                        .addComponent(txtEditPais))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(194, 194, 194)
-                        .addComponent(jButton1)))
-                .addContainerGap(7, Short.MAX_VALUE))
-            .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addGap(160, 160, 160)
+                        .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(13, 13, 13)
+                .addGap(18, 18, 18)
                 .addComponent(txtEditPais, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(13, 13, 13)
+                .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jButton1)
+                .addComponent(btnEditar)
                 .addContainerGap(38, Short.MAX_VALUE))
         );
 
@@ -228,7 +243,7 @@ public class Edit_Paises extends javax.swing.JFrame {
     }//GEN-LAST:event_txtNameActionPerformed
 
     private void jPanel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel5MouseClicked
-        int res = JOptionPane.showConfirmDialog(null, "¿Desea salir de la edición? \n No se guardaran los cambios", "CINETECA NACIONAL ", JOptionPane.YES_NO_OPTION);
+        int res = JOptionPane.showConfirmDialog(null, "¿Desea salir de la edición? \n No se guardaran los cambios", "CINETECA NACIONAL ", JOptionPane.YES_NO_OPTION,HEIGHT,NIcon("/com/upiita/view/resources/advertencia.png"));
         if(res == 0){
             this.setVisible(false);
         }
@@ -258,7 +273,7 @@ public class Edit_Paises extends javax.swing.JFrame {
     }//GEN-LAST:event_jPanel3MousePressed
 
     private void jPanel6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel6MouseClicked
-        int res = JOptionPane.showConfirmDialog(null, "¿Desea salir de la edición? \n No se guardaran los cambios", "CINETECA NACIONAL ", JOptionPane.YES_NO_OPTION);
+        int res = JOptionPane.showConfirmDialog(null, "¿Desea salir de la edición? \n No se guardaran los cambios", "CINETECA NACIONAL ",JOptionPane.YES_NO_OPTION,HEIGHT,NIcon("/com/upiita/view/resources/advertencia.png"));
         if(res == 0){
             this.setVisible(false);
         }
@@ -287,10 +302,14 @@ public class Edit_Paises extends javax.swing.JFrame {
         yy = evt.getY();
     }//GEN-LAST:event_jPanel4MousePressed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        
-        //Sentencia editar (this.nombre,txtName.getText().toUpperCase());
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        String nombrePais = txtName.getText().toUpperCase();
+        SQLPaisDAO paisDao = new SQLPaisDAO();
+        paisDao.update(this.getNombre().toUpperCase(), nombrePais);
+       JOptionPane.showMessageDialog(null, "Modificación exitosa", "CINETECA NACIONAL",JOptionPane.OK_OPTION, NIcon("/com/upiita/view/Resources/confirm.png") );
+  
+        this.setVisible(false);
+    }//GEN-LAST:event_btnEditarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -335,12 +354,17 @@ public class Edit_Paises extends javax.swing.JFrame {
     public void fillGaps (){
         txtName.setText(this.nombre);
 }
+    
+    public Icon NIcon (String path){
+        Icon image = new ImageIcon (getClass().getResource(path) );          
+        return image;
+    }
     static int xx, yy;
     Fuentes fonttype = new Fuentes ();
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Space;
     private javax.swing.JLabel Space1;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnEditar;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;

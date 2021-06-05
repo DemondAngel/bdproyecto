@@ -12,15 +12,15 @@ public class Conexion {
     
     protected Connection conn = null;
     
-    private final String user = "root";
+    private final String user = "sa";
     private final String password = "n0m3l0";
-    private final String url = "jdbc:sqlserver://localhost:1433;database=Cineteca;integratedSecurity=true";
+    private final String url = "jdbc:sqlserver://Abigail;database=Cineteca;integratedSecurity=true";
     
     public Conexion(){
         try{
             
-            conn = (Connection) DriverManager.getConnection(url, user, password);//url
-            System.out.println("Hay conexion");
+            conn = (Connection) DriverManager.getConnection("jdbc:sqlserver://Abigail;DatabaseName=Cineteca;IntegratedSecurity = true;");//url
+           // System.out.println("Hay conexion");
             
         }
         catch(SQLException e){

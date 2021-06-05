@@ -40,14 +40,13 @@ public class SQLPeliculaDAO extends Conexion implements PeliculaDAO {
         boolean state = false;
 
         try {
-
             cs = conn.prepareCall(SQL_INSERT);
 
             cs.setString(1, o.getTituloOriginal());
-            cs.setString(3, o.getTituloExhibicion());
-            cs.setInt(4, o.getAnio());
-            cs.setString(5, o.getDirectores().get(0).getNombre());
-            cs.setString(6, o.getPaises().get(0).getNombre());
+            cs.setString(2, o.getTituloExhibicion());
+            cs.setObject(3, o.getAnio());
+            cs.setString(4, o.getDirectores().get(0).getNombre());
+            cs.setString(5, o.getPaises().get(0).getNombre());
             
             
             if (cs.executeUpdate() > 0) {
@@ -57,7 +56,7 @@ public class SQLPeliculaDAO extends Conexion implements PeliculaDAO {
         } catch (SQLException ex) {
             Logger.getLogger(SQLDirectorDAO.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            this.closeAllConnections();
+            //this.closeAllConnections();
         }
 
         return state;
@@ -67,16 +66,22 @@ public class SQLPeliculaDAO extends Conexion implements PeliculaDAO {
     @Override
     public boolean update(Pelicula o, String directorActual, String paisActual) {
         boolean state = false;
-
+        System.out.println(o.getDirectores().get(0).getNombre());
+        System.out.println(o.getPaises().get(0).getNombre());
+        System.out.println(directorActual);
+        System.out.println(paisActual);
         try {
             cs = conn.prepareCall(SQL_UPDATE); //nos fijamos en los signos de interrogacion de arriba, para actualizar
             cs.setString(1, o.getIdPelicula());
             cs.setString(2, o.getTituloOriginal());
             cs.setString(3, o.getTituloExhibicion());
+            cs.setObject(4,o.getAnio());
             cs.setString(5, o.getDirectores().get(0).getNombre());
             cs.setString(6, o.getPaises().get(0).getNombre());
             cs.setString(7, directorActual);
             cs.setString(8, paisActual);
+            
+            
 
             if (cs.executeUpdate() > 0) {
                 state = true;
@@ -84,7 +89,7 @@ public class SQLPeliculaDAO extends Conexion implements PeliculaDAO {
         } catch (SQLException ex) {
             Logger.getLogger(SQLPeliculaDAO.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            this.closeAllConnections();
+            //this.closeAllConnections();
         }
 
         return state;
@@ -122,7 +127,6 @@ public class SQLPeliculaDAO extends Conexion implements PeliculaDAO {
     @Override
     public boolean delete(Pelicula p) {
         boolean state = false;
-        
         try{
             cs = this.conn.prepareCall(SQL_DELETE);
             cs.setString(1, p.getTituloOriginal());
@@ -136,7 +140,7 @@ public class SQLPeliculaDAO extends Conexion implements PeliculaDAO {
             xxx.printStackTrace();
         }
         finally{
-            closeAllConnections();
+            //closeAllConnections();
         }
         
         return state;
@@ -190,7 +194,7 @@ public class SQLPeliculaDAO extends Conexion implements PeliculaDAO {
         } catch (SQLException ex) {
             Logger.getLogger(SQLPeliculaDAO.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            this.closeAllConnections(); //CIERRA CONEXION 
+            //this.closeAllConnections(); //CIERRA CONEXION 
         }
 
         return peliculas;

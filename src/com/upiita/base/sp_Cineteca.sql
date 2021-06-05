@@ -34,7 +34,7 @@ BEGIN
 END
 
 CREATE OR ALTER PROCEDURE usp_AltaPelicula 
-@TituloO varchar(200), @TituloE varchar(200), @Aï¿½o int, @Director varchar(100), @Pais varchar(50) AS
+@TituloO varchar(200), @TituloE varchar(200), @Año int, @Director varchar(100), @Pais varchar(50) AS
 BEGIN
 	DECLARE @IdDirector int
 	DECLARE @IdPais int
@@ -43,7 +43,8 @@ BEGIN
 
 	EXEC usp_ValidarEspacios @TituloO OUTPUT
 	EXEC usp_ValidarEspacios @TituloE OUTPUT
-
+	IF(len(@TituloE)=0)
+			SET @TituloE = NULL;
 	SET @IdDirector = (SELECT idDirector FROM Director WHERE nombre=@Director)
 	SET @IdPais = (SELECT IdPais FROM Pais WHERE nombre=@Pais)
 
@@ -60,7 +61,7 @@ BEGIN
 		SET @IdPelicula= 'C-'+@nacion
 	END
 	BEGIN TRAN
-		INSERT INTO Pelicula VALUES (@IdPelicula,@TituloO,@TituloE,@Aï¿½o,1)
+		INSERT INTO Pelicula VALUES (@IdPelicula,@TituloO,@TituloE,@Año,1)
 		INSERT INTO Pelicula_Director VALUES (@IdPelicula,@IdDirector)
 		INSERT INTO Pelicula_Pais VALUES (@IdPelicula,@IdPais)
 		IF(LEN(@TituloO)=0)
@@ -103,7 +104,7 @@ BEGIN
 END
 
 CREATE OR ALTER PROCEDURE usp_EditarPelicula 
-@IdPelicula varchar(20),@TituloO varchar(200), @TituloE varchar(200), @Aï¿½o int, @Director varchar(100), @Pais varchar(50), @DirectorActual varchar(100), @PaisActual varchar(50)  AS
+@IdPelicula varchar(20),@TituloO varchar(200), @TituloE varchar(200), @Año int, @Director varchar(100), @Pais varchar(50), @DirectorActual varchar(100), @PaisActual varchar(50)  AS
 BEGIN
 	DECLARE @idDActual int
 	DECLARE @idPActual int
@@ -116,11 +117,15 @@ BEGIN
 
 	BEGIN TRAN
 		IF(@TituloO <> (SELECT tituloOriginal FROM Pelicula WHERE idPelicula=@IdPelicula))
-			UPDATE P SET [tituloOriginal]=@TituloO FROM Pelicula AS P WHERE idPelicula=@IdPelicula 
-		IF(@TituloE <> (SELECT tituloExhibicion FROM Pelicula WHERE idPelicula=@IdPelicula))
+			UPDATE P SET [tituloOriginal]=@TituloO FROM Pelicula AS P WHERE idPelicula=@IdPelicula
+		IF(len(@TituloE)=0)
+			SET @TituloE = NULL;
+		IF(@TituloE <> (SELECT tituloExhibicion FROM Pelicula WHERE idPelicula=@IdPelicula) OR @TituloE IS NULL)
 			UPDATE P SET [tituloExhibicion]=@TituloE FROM Pelicula AS P WHERE idPelicula=@IdPelicula 
-		IF(@Aï¿½o <> (SELECT aï¿½o FROM Pelicula WHERE idPelicula=@IdPelicula))
-			UPDATE P SET [aï¿½o]=@Aï¿½o FROM Pelicula AS P WHERE idPelicula=@IdPelicula 
+		IF(@Año <> (SELECT año FROM Pelicula WHERE idPelicula=@IdPelicula))
+			UPDATE P SET [año]=@Año FROM Pelicula AS P WHERE idPelicula=@IdPelicula 
+		IF(@Año IS NULL)
+			UPDATE P SET [año] = NULL FROM Pelicula AS P WHERE idPelicula=@IdPelicula
 		IF(@Pais <> @PaisActual)
 			UPDATE P SET [idPais]=(SELECT IdPais FROM Pais WHERE nombre=@Pais) FROM Pelicula_Pais P WHERE idPelicula=@IdPelicula AND idPais = @idPActual
 		IF(@Director<> @DirectorActual)
@@ -144,9 +149,9 @@ BEGIN
 	UPDATE P SET [estado] = 0 FROM Director as P WHERE nombre=@NombreDirector
 END
 
-CREATE OR ALTER PROCEDURE usp_BajaPelicula @TituloO varchar(200), @Aï¿½o int AS
+CREATE OR ALTER PROCEDURE usp_BajaPelicula @TituloO varchar(200), @Año int AS
 BEGIN
-	UPDATE P SET [estado] = 0 FROM Pelicula as P WHERE tituloOriginal=@TituloO AND aï¿½o=@Aï¿½o
+	UPDATE P SET [estado] = 0 FROM Pelicula as P WHERE tituloOriginal=@TituloO AND año=@Año
 END
 
 -------------------------------------------ACTIVAR
@@ -160,9 +165,9 @@ BEGIN
 	UPDATE P SET [estado] = 1 FROM Director as P WHERE nombre=@NombreDirector
 END
 
-CREATE OR ALTER PROCEDURE usp_ReactivarPelicula @TituloO varchar(200), @Aï¿½o int AS
+CREATE OR ALTER PROCEDURE usp_ReactivarPelicula @TituloO varchar(200), @Año int AS
 BEGIN
-	UPDATE P SET [estado] = 1 FROM Pelicula as P WHERE tituloOriginal=@TituloO AND aï¿½o=@Aï¿½o
+	UPDATE P SET [estado] = 1 FROM Pelicula as P WHERE tituloOriginal=@TituloO AND año=@Año
 END
 
 -----------------------------------VIEWS
@@ -191,7 +196,7 @@ CREATE VIEW vPeliculaDirector AS
 SELECT * FROM Pelicula_Director
 
 CREATE VIEW vReporte AS
-SELECT P.idPelicula,P.tituloOriginal,P.tituloExhibicion,P.aï¿½o,P.estado,PA.nombre Pais,D.nombre Director FROM Pais PA 
+SELECT P.idPelicula,P.tituloOriginal,P.tituloExhibicion,P.año,P.estado,PA.nombre Pais,D.nombre Director FROM Pais PA 
 INNER JOIN Pelicula_Pais PP ON PA.idPais=PP.idPais
 INNER JOIN Pelicula P ON PP.idPelicula=P.idPelicula
 INNER JOIN Pelicula_Director PD ON P.idPelicula=PD.idPelicula
@@ -205,7 +210,7 @@ END
 --EXEC usp_ValidarEspacios '     aljfdlaj        '
 
 /*
-EXEC usp_BajaPais 'Mï¿½XICO'
+EXEC usp_BajaPais 'MÉXICO'
 EXEC usp_BajaDirector 'ADOLFO ARRIETA'
 EXEC usp_BajaPelicula 'Evangelion', 1997
 
@@ -215,11 +220,11 @@ select * from Pelicula where idPelicula like 'A-%'
 select * from Pelicula_Director where idPelicula like 'A-%'
 select * from Pelicula_Pais where idPelicula like 'A-%'
 
-DELETE FROM Pelicula_Director WHERE idPelicula = 'A-06710'
-DELETE FROM Pelicula_Pais WHERE idPelicula = 'A-06710'
-DELETE FROM Pelicula WHERE idPelicula = 'A-06710'
+DELETE FROM Pelicula_Director WHERE idPelicula = 'C-13203'
+DELETE FROM Pelicula_Pais WHERE idPelicula = 'C-13203'
+DELETE FROM Pelicula WHERE idPelicula = 'C-13203'
 
-EXEC usp_AltaPelicula 'evangelion','Evangelion',1997,'ABEL GANCE','Mï¿½XICO'
+EXEC usp_AltaPelicula 'evangelion','Evangelion',1997,'ABEL GANCE','MÉXICO'
 
 DECLARE @v varchar(50)
 SET @v='    '
@@ -230,7 +235,19 @@ SELECT * FROM PAIS
 SELECT * FROM vReporte
 SELECT * FROM Pais
 
-select * from vReporte
-EXEC usp_EditarPelicula 'C-13195','Evangelion 3.0+1.0','Evangelion',2018,'JAFAR PANAHI','Mï¿½XICO','NURI BILGE CEYLAN','MACEDONIA'
-EXEC usp_EditarPelicula 'C-13199','AUF DER SUCHE NACH INGMAR BERGMAN','BUSCANDO A INGMAR BERGMAN',2017,'JEAN-LUC GODARD','Mï¿½XICO','FELIX MOELLER','FRANCIA'
+select * from 
+EXEC usp_EditarPelicula 'C-13195','Evangelion 3.0+1.0','Evangelion',2018,'JAFAR PANAHI','MÉXICO','NURI BILGE CEYLAN','MACEDONIA'
+EXEC usp_EditarPelicula 'C-13199','AUF DER SUCHE NACH INGMAR BERGMAN','BUSCANDO A INGMAR BERGMAN',NULL,'FELIX MOELLER','FRANCIA','JEAN-LUC GODARD','MÉXICO'
+
+
+declare @año int
+set @año = null
+print @año
+EXEC usp_EditarPelicula 'C-13199','AUF DER SUCHE NACH INGMAR BERGMAN','BUSCANDO A INGMAR BERGMAN',NULL,'FELIX MOELLER','FRANCIA','JEAN-LUC GODARD','MÉXICO'
+
+update Pelicula set [año] = null from Pelicula where idPelicula = 'C-13203'
+
+exec usp_AltaPelicula 'a', 'aaa', NULL, 'FELIX MOELLER','FRANCIA'
+
+select * from vPais
 */

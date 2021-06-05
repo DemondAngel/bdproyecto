@@ -6,6 +6,8 @@
 package com.upiita.view;
 
 import AppPackage.AnimationClass;
+import com.upiita.dao.DirectorDAO;
+import com.upiita.dao.sql.SQLDirectorDAO;
 import com.upiita.view.fonts.Fuentes;
 import java.awt.Color;
 import java.awt.Font;
@@ -17,6 +19,11 @@ import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableRowSorter;
+import com.upiita.model.Director;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -28,22 +35,22 @@ public class _Directores extends javax.swing.JPanel {
      * Creates new form _Directores
      */
     
-         TableRowSorter sorter;
- 
+        private TableRowSorter sorter;
+        private List<Director> directores;
+        private DirectorDAO directorDao;
          
+     
     public _Directores() throws FontFormatException {
         initComponents();
         
         bdel.setVisible(true);
         bedit.setVisible(true);
-        panelAdd.setVisible(false);
         
         Font LemonB = fonttype.nFont(fonttype.getLemon(), 1, 5);
+        Font LemonB2 = fonttype.nFont(fonttype.getLemonB(), 1,6);
         Font Glacial = fonttype.nFont(fonttype.getGlacial() , 1,12);
         Font Lovelo = fonttype.nFont(fonttype.getLovelo() , 1,26);
         
-        sorter = new TableRowSorter(TBDirectores.getModel());
-        TBDirectores.setRowSorter(sorter);
         TBDirectores.setAlignmentX(10);
         TBDirectores.setFont(Glacial);
         headersDirectores();
@@ -51,11 +58,25 @@ public class _Directores extends javax.swing.JPanel {
         
         txtAltas.setFont(Lovelo);
         txtName.setFont(Glacial);
-        btnAlta.setFont(LemonB);
+        btnAlta.setFont(LemonB2);
+        txtBusqueda.setFont(Glacial);
         txtNombreEdit.setFont(LemonB);
+        Label.setFont(Glacial);
+                
+        try{
+            
+            directorDao = new SQLDirectorDAO();
+                    
+            this.directores = directorDao.readAll();
+        }
+        catch(Exception xxx){
+            xxx.printStackTrace();
+            this.directores = new ArrayList<>();
+        }
         
-        
-        
+        this.fillDirectores();
+        sorter = new TableRowSorter(TBDirectores.getModel());
+        TBDirectores.setRowSorter(sorter);
     }
 
     /**
@@ -68,12 +89,12 @@ public class _Directores extends javax.swing.JPanel {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        badd = new javax.swing.JPanel();
-        iadd = new javax.swing.JLabel();
         bdel = new javax.swing.JPanel();
         idel = new javax.swing.JLabel();
         bedit = new javax.swing.JPanel();
         iedit = new javax.swing.JLabel();
+        breactivar = new javax.swing.JPanel();
+        ireactivar = new javax.swing.JLabel();
         _Display = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         TBDirectores = new javax.swing.JTable();
@@ -91,33 +112,6 @@ public class _Directores extends javax.swing.JPanel {
         jPanel1.setBackground(new java.awt.Color(28, 37, 65));
         jPanel1.setPreferredSize(new java.awt.Dimension(830, 50));
         jPanel1.setLayout(null);
-
-        badd.setBackground(new java.awt.Color(28, 37, 65));
-        badd.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                baddMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                baddMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                baddMouseExited(evt);
-            }
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                baddMousePressed(evt);
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                baddMouseReleased(evt);
-            }
-        });
-        badd.setLayout(null);
-
-        iadd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/upiita/view/Resources/plus-square-solid.png"))); // NOI18N
-        badd.add(iadd);
-        iadd.setBounds(10, 10, 30, 30);
-
-        jPanel1.add(badd);
-        badd.setBounds(0, 0, 50, 50);
 
         bdel.setBackground(new java.awt.Color(28, 37, 65));
         bdel.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -144,7 +138,7 @@ public class _Directores extends javax.swing.JPanel {
         idel.setBounds(10, 10, 30, 30);
 
         jPanel1.add(bdel);
-        bdel.setBounds(50, 0, 50, 50);
+        bdel.setBounds(10, 0, 50, 50);
 
         bedit.setBackground(new java.awt.Color(28, 37, 65));
         bedit.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -171,7 +165,34 @@ public class _Directores extends javax.swing.JPanel {
         iedit.setBounds(10, 10, 30, 30);
 
         jPanel1.add(bedit);
-        bedit.setBounds(100, 0, 50, 50);
+        bedit.setBounds(60, 0, 50, 50);
+
+        breactivar.setBackground(new java.awt.Color(28, 37, 65));
+        breactivar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                breactivarMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                breactivarMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                breactivarMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                breactivarMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                breactivarMouseReleased(evt);
+            }
+        });
+        breactivar.setLayout(null);
+
+        ireactivar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/upiita/view/Resources/reactivar.png"))); // NOI18N
+        breactivar.add(ireactivar);
+        ireactivar.setBounds(10, 10, 30, 30);
+
+        jPanel1.add(breactivar);
+        breactivar.setBounds(110, 0, 50, 50);
 
         add(jPanel1, java.awt.BorderLayout.PAGE_START);
 
@@ -182,28 +203,35 @@ public class _Directores extends javax.swing.JPanel {
         TBDirectores.setForeground(new java.awt.Color(255, 255, 255));
         TBDirectores.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"ALAIN MAGROU ", "1"},
-                {"ZORAN CALIC ", "2"},
-                {"ZLATKO LAVANIC", "3"},
-                {"YASUJI MARI", "4"},
-                {"WLADYSLAW PASIKOWSKI", "5"},
-                {"WILLIAM NIGH", "6"},
-                {"A. EDWARD SUTHERLAND", "7"},
-                {"AARÓN FERNÁNDEZ", "8"},
-                {"AARÓN ROMERA", "9"},
-                {"BEATRIZ FLORES SILVA", "10"},
-                {"BAZ LUHRMANN", null}
+                {"ALAIN MAGROU ", "1", null},
+                {"ZORAN CALIC ", "2", null},
+                {"ZLATKO LAVANIC", "3", null},
+                {"YASUJI MARI", "4", null},
+                {"WLADYSLAW PASIKOWSKI", "5", null},
+                {"WILLIAM NIGH", "6", null},
+                {"A. EDWARD SUTHERLAND", "7", null},
+                {"AARÓN FERNÁNDEZ", "8", null},
+                {"AARÓN ROMERA", "9", null},
+                {"BEATRIZ FLORES SILVA", "10", null},
+                {"BAZ LUHRMANN", null, null}
             },
             new String [] {
-                "Director", "ID"
+                "Director", "ID", "Estado"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.Object.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, true
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
         TBDirectores.setGridColor(new java.awt.Color(58, 80, 107));
@@ -227,6 +255,16 @@ public class _Directores extends javax.swing.JPanel {
         btnAlta.setBackground(new java.awt.Color(28, 37, 65));
         btnAlta.setForeground(new java.awt.Color(255, 255, 255));
         btnAlta.setText("Alta");
+        btnAlta.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnAltaMouseClicked(evt);
+            }
+        });
+        btnAlta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAltaActionPerformed(evt);
+            }
+        });
         panelAdd.add(btnAlta);
         btnAlta.setBounds(137, 170, 100, 40);
 
@@ -241,7 +279,7 @@ public class _Directores extends javax.swing.JPanel {
         txtName.setForeground(new java.awt.Color(255, 255, 255));
         txtName.setText("Nombre");
         panelAdd.add(txtName);
-        txtName.setBounds(20, 190, 80, 30);
+        txtName.setBounds(20, 110, 80, 30);
 
         _Display.add(panelAdd);
         panelAdd.setBounds(450, 120, 350, 230);
@@ -257,27 +295,15 @@ public class _Directores extends javax.swing.JPanel {
             }
         });
         _Display.add(txtBusqueda);
-        txtBusqueda.setBounds(80, 50, 270, 24);
+        txtBusqueda.setBounds(120, 50, 230, 24);
 
         Label.setForeground(new java.awt.Color(255, 255, 255));
         Label.setText("Buscar");
         _Display.add(Label);
-        Label.setBounds(10, 50, 41, 16);
+        Label.setBounds(50, 50, 60, 16);
 
         add(_Display, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void baddMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_baddMouseEntered
-        ImageIcon ic = new ImageIcon(getClass().getResource("/com/upiita/view/resources/plus-square-solid2.png"));
-        iadd.setIcon(ic);
-        badd.setBackground(Bchange);
-    }//GEN-LAST:event_baddMouseEntered
-
-    private void baddMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_baddMouseExited
-        ImageIcon ic = new ImageIcon(getClass().getResource("/com/upiita/view/resources/plus-square-solid.png"));
-        iadd.setIcon(ic);
-        badd.setBackground(Bback);
-    }//GEN-LAST:event_baddMouseExited
 
     private void bdelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bdelMouseEntered
         ImageIcon ic = new ImageIcon(getClass().getResource("/com/upiita/view/resources/minus-square-solid2.png"));
@@ -303,10 +329,6 @@ public class _Directores extends javax.swing.JPanel {
         bedit.setBackground(Bback);
     }//GEN-LAST:event_beditMouseExited
 
-    private void baddMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_baddMousePressed
-        badd.setBackground(Bclick);
-    }//GEN-LAST:event_baddMousePressed
-
     private void bdelMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bdelMousePressed
         bdel.setBackground(Bclick);
     }//GEN-LAST:event_bdelMousePressed
@@ -315,10 +337,6 @@ public class _Directores extends javax.swing.JPanel {
         bedit.setBackground(Bclick);
     }//GEN-LAST:event_beditMousePressed
 
-    private void baddMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_baddMouseReleased
-        badd.setBackground(Bback);
-    }//GEN-LAST:event_baddMouseReleased
-
     private void bdelMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bdelMouseReleased
         bdel.setBackground(Bback);
     }//GEN-LAST:event_bdelMouseReleased
@@ -326,12 +344,6 @@ public class _Directores extends javax.swing.JPanel {
     private void beditMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_beditMouseReleased
         bedit.setBackground(Bback);
     }//GEN-LAST:event_beditMouseReleased
-
-    private void baddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_baddMouseClicked
-       
-        panelAdd.setVisible(true);
-        DirectoresU.jLabelYUp(190,110, 30, 10, txtName);
-    }//GEN-LAST:event_baddMouseClicked
 
     private void beditMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_beditMouseClicked
         int[] filaSeleccionadas = TBDirectores.getSelectedRows();
@@ -342,10 +354,21 @@ public class _Directores extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, "Solo puede modificar una fila", "CINETECA NACIONAL",HEIGHT,NIcon("/com/upiita/view/resources/advertencia.png"));
         
         else {
-            Edit_Directores Modificar = new Edit_Directores ();
-            Modificar.setNombre(txtNombreEdit.getText().toUpperCase());
-            Modificar.fillGaps();
-            Modificar.setVisible(true);
+            int filaSeleccionada = TBDirectores.getSelectedRows()[0];
+            Edit_Directores Modificar;
+            try {
+                 if("0".equals(TBDirectores.getValueAt(TBDirectores.getSelectedRow(),2).toString())  )
+                 JOptionPane.showMessageDialog(null, "No puede modificar un director desactivado", "CINETECA NACIONAL",HEIGHT,NIcon("/com/upiita/view/resources/advertencia.png"));
+         
+            else{
+                Modificar = new Edit_Directores();
+                Modificar.setNombre(TBDirectores.getValueAt(filaSeleccionada,0).toString());
+                Modificar.fillGaps();
+                Modificar.setVisible(true);
+             }
+            } catch (FontFormatException ex) {
+                Logger.getLogger(_Directores.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }//GEN-LAST:event_beditMouseClicked
 
@@ -361,9 +384,9 @@ public class _Directores extends javax.swing.JPanel {
             }
 
             for (int fila : filaSeleccionadas) {
-                String pelicula;
-                pelicula = TBDirectores.getValueAt(fila,1).toString();
-                System.out.println(pelicula);
+                String nombreDirector;
+                nombreDirector = TBDirectores.getValueAt(fila,0).toString();
+                directorDao.delete(nombreDirector);
 //            SentenciasSQL.bajaRegistro(alumno, "Alumno", "curp");
             }
         }
@@ -378,11 +401,59 @@ public class _Directores extends javax.swing.JPanel {
     }//GEN-LAST:event_txtBusquedaActionPerformed
 
     private void txtBusquedaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBusquedaKeyReleased
-   
+
         sorter.setRowFilter((RowFilter.regexFilter("(?i)"+txtBusqueda.getText(),0)));
     }//GEN-LAST:event_txtBusquedaKeyReleased
+
+    private void btnAltaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAltaMouseClicked
+        String nombreDirector = txtNombreEdit.getText();
+        Director newDirector = new Director(nombreDirector.toUpperCase());
+        directorDao.create(newDirector);
+        JOptionPane.showMessageDialog(null, "Alta exitosa", "CINETECA NACIONAL ", HEIGHT,NIcon("/com/upiita/view/resources/confirm.png"));
+        txtNombreEdit.setText(" ");
+        
+    }//GEN-LAST:event_btnAltaMouseClicked
+
+    private void btnAltaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAltaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnAltaActionPerformed
+
+    private void breactivarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_breactivarMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_breactivarMouseClicked
+
+    private void breactivarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_breactivarMouseEntered
+        ImageIcon ic = new ImageIcon(getClass().getResource("/com/upiita/view/resources/reactivar2.png"));
+        ireactivar.setIcon(ic);
+        breactivar.setBackground(Bchange);
+    }//GEN-LAST:event_breactivarMouseEntered
+
+    private void breactivarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_breactivarMouseExited
+        ImageIcon ic = new ImageIcon(getClass().getResource("/com/upiita/view/resources/reactivar.png"));
+        ireactivar.setIcon(ic);
+        breactivar.setBackground(Bback);
+    }//GEN-LAST:event_breactivarMouseExited
+
+    private void breactivarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_breactivarMousePressed
+        breactivar.setBackground(Bclick);
+    }//GEN-LAST:event_breactivarMousePressed
+
+    private void breactivarMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_breactivarMouseReleased
+        int[] filaSeleccionadas = TBDirectores.getSelectedRows();
+        int filaSeleccionada = 0;
+        int noFilas = filaSeleccionadas.length;
+        if (noFilas == 0) {
+            JOptionPane.showMessageDialog(null, "Seleccione al menos una película para reactivar", "CINETECA NACIONAL", HEIGHT, NIcon("/com/upiita/view/resources/advertencia.png"));
+        } else {
+            int res = JOptionPane.showConfirmDialog(null, "¿Desea reactivar" + noFilas + " filas?", "CINETECA NACIONAL", HEIGHT, 1);
+            if (res == 0) {
+                filaSeleccionada = TBDirectores.getSelectedRows()[0];
+                directorDao.reactive(TBDirectores.getValueAt(filaSeleccionada,0).toString().toUpperCase());
+            }
+        }
+    }//GEN-LAST:event_breactivarMouseReleased
      public void headersDirectores() {
-         int[] anchoCol = {300,1};
+         int[] anchoCol = {300,1,1};
         int i = 0;
         for (int ancho : anchoCol) { // Implementa el arrego anchoCol en la tabla
             TableColumn column = TBDirectores.getColumnModel().getColumn(i++);
@@ -391,7 +462,7 @@ public class _Directores extends javax.swing.JPanel {
             column.setPreferredWidth(ancho);
         }
         DefaultTableCellRenderer headerRenderer = new DefaultTableCellRenderer();
-        headerRenderer.setBackground( new Color(0,0,0,123) );
+        headerRenderer.setBackground( new Color(28,37,65) );
         for (int j = 0; j < TBDirectores.getModel().getColumnCount(); j++) {
             TBDirectores.getColumnModel().getColumn(j).setHeaderRenderer(headerRenderer);
         }
@@ -401,6 +472,26 @@ public class _Directores extends javax.swing.JPanel {
       public Icon NIcon (String path){
         Icon image = new ImageIcon (getClass().getResource(path) );          
         return image;
+    }
+      
+    public void fillDirectores() {
+          
+        int len = this.directores.size();
+        // Inicializa la matriz modelo para mostrar en la tabla 
+        String m[][] = new String[len > 0 ? len: 1][3];
+        //LLena filas de la tabla con los datos del arrayList del archivo 
+        for (int i = 0; i < len; i++) {
+            m[i][0] = String.valueOf(directores.get(i).getNombre());
+            m[i][1] = String.valueOf(directores.get(i).getIdDirector());
+            m[i][2] = String.valueOf(directores.get(i).getEstado());
+        }
+        
+        // Implementa la matriz en la tabla
+        TBDirectores.setModel(new javax.swing.table.DefaultTableModel(
+                m, new String[]{"Nombre","ID","Estado"}));
+        headersDirectores();
+         RowsRenderer rr = new RowsRenderer(2);
+        TBDirectores.setDefaultRenderer(Object.class, rr);
     }
      
      
@@ -414,13 +505,13 @@ public class _Directores extends javax.swing.JPanel {
     private javax.swing.JLabel Label;
     private javax.swing.JTable TBDirectores;
     private javax.swing.JPanel _Display;
-    private javax.swing.JPanel badd;
     private javax.swing.JPanel bdel;
     private javax.swing.JPanel bedit;
+    private javax.swing.JPanel breactivar;
     private javax.swing.JButton btnAlta;
-    private javax.swing.JLabel iadd;
     private javax.swing.JLabel idel;
     private javax.swing.JLabel iedit;
+    private javax.swing.JLabel ireactivar;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel panelAdd;

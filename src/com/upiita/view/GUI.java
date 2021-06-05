@@ -39,6 +39,7 @@ public class GUI extends javax.swing.JFrame {
        UIManager.put("OptionPane.buttonBackground", new ColorUIResource (58,80,107) );
        UIManager.put("OptionPane.messageForeground",Color.WHITE);
        UIManager.put("OptionPane.tittleFont",LemonB);
+       UIManager.put("OptionPane.Icon", NIcon("/com/upiita/view/resources/advertencia.png"));
                
     
         Pname.setFont(LemonB);

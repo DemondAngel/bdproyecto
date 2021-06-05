@@ -5,6 +5,7 @@
  */
 package com.upiita.view;
 
+import com.upiita.dao.sql.SQLDirectorDAO;
 import com.upiita.view.fonts.Fuentes;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -13,6 +14,8 @@ import java.awt.FontFormatException;
 import java.awt.Toolkit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 /**
@@ -43,13 +46,12 @@ public class Edit_Directores extends javax.swing.JFrame {
         this.setLocation(dim.width/2-200, dim.height/2-100);
         initComponents();
         Font Lovelo = fonttype.nFont(fonttype.getLovelo() ,1,20);
-        Font Glacial = fonttype.nFont(fonttype.getGlacial(),1,17);
-        Font Lemon2 = fonttype.nFont(fonttype.getLemon(), 1, 7);
+        Font Lemon2 = fonttype.nFont(fonttype.getLemon(), 1, 5);
         Font Lemon = fonttype.nFont(fonttype.getLemon() , 1,9);
         
         LabelDirector.setFont(Lovelo);
         Space.setFont(Lemon2);
-        txtName.setFont(Lemon);
+        txtName.setFont(Lemon2);
         btnEditar.setFont(Lemon);
         
       
@@ -90,7 +92,7 @@ public class Edit_Directores extends javax.swing.JFrame {
         LabelDirector.setForeground(new java.awt.Color(255, 255, 255));
         LabelDirector.setText("      Editar Director");
         jPanel1.add(LabelDirector);
-        LabelDirector.setBounds(60, 50, 360, 45);
+        LabelDirector.setBounds(90, 50, 360, 45);
 
         btnEditar.setBackground(new java.awt.Color(11, 19, 43));
         btnEditar.setForeground(new java.awt.Color(255, 255, 255));
@@ -155,7 +157,7 @@ public class Edit_Directores extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 561, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 540, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -170,11 +172,18 @@ public class Edit_Directores extends javax.swing.JFrame {
     }//GEN-LAST:event_txtNameActionPerformed
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
-        System.out.print("Sentencia para modificar Director");
+        String nombreDirector = txtName.getText().toUpperCase();
+        SQLDirectorDAO directorDao = new SQLDirectorDAO();
+        directorDao.update(this.getNombre(), nombreDirector);
+        JOptionPane.showMessageDialog(null, "Modificación exitosa", "CINETECA NACIONAL",JOptionPane.OK_OPTION, NIcon("/com/upiita/view/Resources/confirm.png") );
+        this.setVisible(false);
+        
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void jPanel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel5MouseClicked
-        int res = JOptionPane.showConfirmDialog(null, "¿Desea salir de la edición? \n No se guardaran los cambios", "CINETECA NACIONAL ", JOptionPane.YES_NO_OPTION);
+ 
+        int res = JOptionPane.showConfirmDialog(null, "¿Desea salir de la edición? \n No se guardaran los cambios", "CINETECA NACIONAL ", JOptionPane.YES_NO_OPTION,HEIGHT,NIcon("/com/upiita/view/resources/advertencia.png"));
+        
         if(res == 0){
             this.setVisible(false);
         }
@@ -246,6 +255,11 @@ public class Edit_Directores extends javax.swing.JFrame {
     public void fillGaps (){
        txtName.setText(this.Nombre);
 }
+    
+    public Icon NIcon (String path){
+        Icon image = new ImageIcon (getClass().getResource(path) );          
+        return image;
+    }
     
     Fuentes fonttype = new Fuentes (); 
      static int xx, yy;

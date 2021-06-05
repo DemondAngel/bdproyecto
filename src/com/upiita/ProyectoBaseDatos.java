@@ -5,6 +5,10 @@
  */
 package com.upiita;
 
+import com.upiita.dao.PeliculaDAO;
+import com.upiita.dao.sql.SQLPeliculaDAO;
+
+
 /**
  *
  * @author iarog
@@ -15,9 +19,13 @@ public class ProyectoBaseDatos {
      */
     public static void main(String[] args) {
   
-        String palabra = "Hola";
+       // String palabra = "Hola";
         
-        System.out.println(palabra.matches(".*Holaa.*"));
+       // System.out.println(palabra.matches(".*Holaa.*"));
+        
+        PeliculaDAO peliculaDAO = new SQLPeliculaDAO();
+        peliculaDAO.readAll();
+        
         
     }
     

@@ -96,7 +96,7 @@ public class SQLDirectorDAO extends Conexion implements DirectorDAO {
         } catch (SQLException ex) {
             Logger.getLogger(SQLPeliculaDAO.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            this.closeAllConnections(); //CIERRA CONEXION 
+            //this.closeAllConnections(); //CIERRA CONEXION 
         }
 
         return state;
@@ -108,7 +108,7 @@ public class SQLDirectorDAO extends Conexion implements DirectorDAO {
 
         try {
 
-            cs = conn.prepareCall(SQL_INSERT);
+            cs = conn.prepareCall(SQL_REACTIVE);
       
             cs.setString(1,NombreDirector);
             if (cs.executeUpdate() > 0) {
@@ -128,17 +128,15 @@ public class SQLDirectorDAO extends Conexion implements DirectorDAO {
 //muestra vistadirectores    
     @Override
     public List<Director> readAll() {
-        ResultSet res;
         List<Director> director = new ArrayList<>();
         
-         SQL_READALL = "SELECT *FROM vDirector";
+         SQL_READALL = "SELECT *FROM vDirector ORDER BY nombre";
         try {
-      //      ps= conn.prepareStatement(SQL_READALL);     //DUDAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
             cs = conn.prepareCall(SQL_READALL);
             //como no se busca algo ene specifico (n hay un signo "?", se va direcyo al resulset )
-            res = cs.executeQuery();
+            rs = cs.executeQuery();
             //se recorre detro de la base
-            while (res.next()) {
+            while (rs.next()) {
                 //LLENA LA LISTA
                 director.add(parseResDirector(rs));
             }
@@ -146,7 +144,7 @@ public class SQLDirectorDAO extends Conexion implements DirectorDAO {
         } catch (SQLException ex) {
             Logger.getLogger(SQLPaisDAO.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            this.closeAllConnections(); //CIERRA CONEXION 
+            //this.closeAllConnections(); //CIERRA CONEXION 
         }
 
         return director;
@@ -182,12 +180,12 @@ public class SQLDirectorDAO extends Conexion implements DirectorDAO {
     public Director parseResDirector(ResultSet res) {
 
         Director director = null;
-
+        
         try {
             director = new Director(
                     res.getInt("idDirector"),
-                    res.getString("nombre")
-                  //  res.getByte("estado")
+                    res.getString("nombre"),
+                    res.getByte("estado")
             );
         } catch (SQLException xxx) {
             xxx.printStackTrace();

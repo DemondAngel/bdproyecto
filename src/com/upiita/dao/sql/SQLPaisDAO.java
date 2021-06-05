@@ -23,7 +23,7 @@ public class SQLPaisDAO extends Conexion implements PaisDAO {
     private static final String SQL_UPDATE = "exec usp_EditarPais ?, ?";
     private static final String SQL_REACTIVE = "exec usp_ReactivarPais ?";
     private static final String SQL_READ = "";
-    private static  String SQL_READALL = "SELECT *FROM vPais";
+    private static  String SQL_READALL = "SELECT *FROM vPais ORDER BY nombre";
 
     private PreparedStatement ps;
     private CallableStatement cs;
@@ -94,7 +94,7 @@ public class SQLPaisDAO extends Conexion implements PaisDAO {
         } catch (SQLException ex) {
             Logger.getLogger(SQLPaisDAO.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            this.closeAllConnections(); //CIERRA CONEXION 
+            //this.closeAllConnections(); //CIERRA CONEXION 
         }
 
         return state;
@@ -126,15 +126,14 @@ public class SQLPaisDAO extends Conexion implements PaisDAO {
     //crea la vidat de pais con id
     @Override
     public List<Pais> readAll() {
-        ResultSet res;
         List<Pais> pais = new ArrayList<>();
         try {
  //      ps= conn.prepareStatement(SQL_READALL);     //DUDAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
             cs = conn.prepareCall(SQL_READALL);
             //como no se busca algo ene specifico (n hay un signo "?", se va direcyo al resulset )
-            res = cs.executeQuery();
+            rs = cs.executeQuery();
             //se recorre detro de la base
-            while (res.next()) {
+            while (rs.next()) {
                 //LLENA LA LISTA
                 pais.add(parseResPais(rs));
             }
@@ -142,7 +141,7 @@ public class SQLPaisDAO extends Conexion implements PaisDAO {
         } catch (SQLException ex) {
             Logger.getLogger(SQLPaisDAO.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            this.closeAllConnections(); //CIERRA CONEXION 
+            //this.closeAllConnections(); //CIERRA CONEXION 
         }
 
         return pais;
@@ -150,10 +149,10 @@ public class SQLPaisDAO extends Conexion implements PaisDAO {
     }
     
     //vista de los nombres de paises
-    public List<Pais> vPaisNombre() {
+    public List<Pais> vPais() {
         ResultSet res;
         List<Pais> pais = new ArrayList<>();
-         SQL_READALL = "SELECT *FROM vPaisNombre";
+         SQL_READALL = "SELECT *FROM vPais";
         try {
  //      ps= conn.prepareStatement(SQL_READALL);     //DUDAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
             cs = conn.prepareCall(SQL_READALL);
@@ -182,8 +181,8 @@ public class SQLPaisDAO extends Conexion implements PaisDAO {
         try {
             pais = new Pais(
                     res.getInt("idPais"),
-                    res.getString("nombre")
-                 //   res.getByte("estado")
+                    res.getString("nombre"),
+                    res.getByte("estado")
             );
         } catch (SQLException xxx) {
             xxx.printStackTrace();
@@ -198,8 +197,9 @@ public class SQLPaisDAO extends Conexion implements PaisDAO {
 
         try {
             pais = new Pais(
-                    res.getString("nombre")
-                 //   res.getByte("estado")
+                    res.getInt("idPais"),
+                    res.getString("nombre"),
+                    res.getByte("estado")
             );
         } catch (SQLException xxx) {
             xxx.printStackTrace();

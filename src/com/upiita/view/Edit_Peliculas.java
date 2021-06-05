@@ -6,12 +6,25 @@
 package com.upiita.view;
 
 import AppPackage.AnimationClass;
+import com.upiita.dao.DirectorDAO;
+import com.upiita.dao.PaisDAO;
+import com.upiita.dao.PeliculaDAO;
+import com.upiita.dao.sql.SQLDirectorDAO;
+import com.upiita.dao.sql.SQLPaisDAO;
+import com.upiita.dao.sql.SQLPeliculaDAO;
+import com.upiita.model.Director;
+import com.upiita.model.Pais;
+import com.upiita.model.Pelicula;
 import com.upiita.view.fonts.Fuentes;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontFormatException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 /**
@@ -60,7 +73,8 @@ public class Edit_Peliculas extends javax.swing.JFrame {
         
         txtTituloOriginal.setFont(Glacial);
         txtTituloEx.setFont(Glacial);
-            txtYear.setFont(Glacial);
+        txtYear.setFont(Glacial);
+        
         
         
         
@@ -76,6 +90,14 @@ public class Edit_Peliculas extends javax.swing.JFrame {
             label.setFont(Glacial);
             PeliculasR.jLabelXRight(0, 150, 30, 10, label);
         }
+        
+        
+        fillCBPaises();
+        AutoCompletion.enable(cbDirector);
+        fillCBDirectores();
+        AutoCompletion.enable(cbPais);
+   
+
     }
 
     /**
@@ -182,10 +204,9 @@ public class Edit_Peliculas extends javax.swing.JFrame {
         jPanel1.add(txtTituloEx);
         txtTituloEx.setBounds(350, 220, 230, 24);
 
+        rbNoIdentificado.setBackground(new java.awt.Color(58, 80, 107));
         rbNoIdentificado.setForeground(new java.awt.Color(255, 255, 255));
-        rbNoIdentificado.setSelected(true);
         rbNoIdentificado.setText("<html> <center> No <p> identificado <center> <html>");
-        rbNoIdentificado.setOpaque(false);
         rbNoIdentificado.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 rbNoIdentificadoActionPerformed(evt);
@@ -288,12 +309,29 @@ public class Edit_Peliculas extends javax.swing.JFrame {
     }//GEN-LAST:event_txtTituloOriginalActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
-       String Titulo = jLabelTitle.getText().toUpperCase();
-
+       PeliculaDAO peliculaDao = new SQLPeliculaDAO();
+       String directorA = this.Director;
+       String paisA = this.Pais;
+       
+       String tituloOriginal = txtTituloOriginal.getText().toUpperCase();
+       String tituloExtra = txtTituloEx.getText().toUpperCase();
+       Integer anio = (Integer) setAnio();
+       String director = cbDirector.getSelectedItem().toString();
+       String pais = cbPais.getSelectedItem().toString();
+       String id = this.ID;
+       
+       Pelicula pelicula = new Pelicula(id,tituloOriginal,tituloExtra,anio);
+       
+       pelicula.getPaises().add(new Pais(pais));
+       pelicula.getDirectores().add(new Director(director));
+       
+       peliculaDao.update(pelicula, directorA, paisA);
+       JOptionPane.showMessageDialog(null, "Modificación exitosa", "CINETECA NACIONAL",JOptionPane.OK_OPTION, NIcon("/com/upiita/view/Resources/confirm.png") );
+       this.setVisible(false);
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void jPanel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel5MouseClicked
-        int res = JOptionPane.showConfirmDialog(null, "¿Desea salir de la edición? \n No se guardaran los cambios", "CINETECA NACIONAL ", JOptionPane.YES_NO_OPTION);
+        int res = JOptionPane.showConfirmDialog(null, "¿Desea salir de la edición? \n No se guardaran los cambios", "CINETECA NACIONAL ", JOptionPane.YES_NO_OPTION, HEIGHT, NIcon("/com/upiita/view/Resources/advertencia.png") );
         if(res == 0){
             this.setVisible(false);
         }
@@ -361,11 +399,78 @@ public class Edit_Peliculas extends javax.swing.JFrame {
         });
     }
     
+    public void fillCBPaises(){
+        List<Pais> paises;
+        try{
+            
+            PaisDAO paisDao = new SQLPaisDAO();
+                    
+            paises = paisDao.readAll();
+        }
+        catch(Exception xxx){
+            xxx.printStackTrace();
+            paises = new ArrayList<>();
+        }
+        
+        int len = paises.size();
+        // Inicializa la matriz modelo para mostrar en la tabla 
+        String m[] = new String[len > 0 ? len: 1];
+        //LLena filas de la tabla con los datos del arrayList del archivo 
+        for (int i = 0; i < len; i++) {
+            if(paises.get(i).getEstado() != 0)
+            m[i]= String.valueOf(paises.get(i).getNombre());
+        }
+        cbPais.setModel(new javax.swing.DefaultComboBoxModel<>(m));
+    }
+    
+        public void fillCBDirectores(){
+        List<Director> directores;
+        try{
+            
+            DirectorDAO directorDao = new SQLDirectorDAO();
+                    
+            directores = directorDao.readAll();
+        }
+        catch(Exception xxx){
+            xxx.printStackTrace();
+            directores = new ArrayList<>();
+        }
+        
+        int len = directores.size();
+        // Inicializa la matriz modelo para mostrar en la tabla 
+        String m[] = new String[len > 0 ? len: 1];
+        //LLena filas de la tabla con los datos del arrayList del archivo 
+        for (int i = 0; i < len; i++) {
+            if(directores.get(i).getEstado() != 0)
+            m[i]= String.valueOf(directores.get(i).getNombre());
+        }
+        cbDirector.setModel(new javax.swing.DefaultComboBoxModel<>(m));
+    }
+
+    
     public void fillGaps (){
+        cbDirector.setSelectedItem(this.Director.substring(0,this.Director.length()-1));
+        cbPais.setSelectedItem(this.Pais.substring(0,this.Pais.length()-1));
         txtTituloOriginal.setText(TituloOriginal);
         txtTituloEx.setText(TituloExhibicion);
-        txtYear.setText(Anio);
+        txtYear.setText(Anio.toString());
+        if (this.Anio.length() > 0)
+            rbNoIdentificado.setSelected(false);
+        
 }
+    
+       public Icon NIcon (String path){
+        Icon image = new ImageIcon (getClass().getResource(path) );          
+        return image;
+    }
+       
+        public Integer setAnio(){
+           if(rbNoIdentificado.isSelected())
+            return null;
+        else
+            return  Integer.valueOf(txtYear.getText());
+       }
+       
      static int xx, yy;
     Fuentes fonttype = new Fuentes ();  
     AnimationClass PeliculasR = new AnimationClass();
