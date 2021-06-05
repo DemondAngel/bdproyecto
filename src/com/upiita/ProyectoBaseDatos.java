@@ -23,8 +23,8 @@ public class ProyectoBaseDatos {
         
        // System.out.println(palabra.matches(".*Holaa.*"));
         
-        PeliculaDAO peliculaDAO = new SQLPeliculaDAO();
-        peliculaDAO.readAll();
+        //PeliculaDAO peliculaDAO = new SQLPeliculaDAO();
+        //peliculaDAO.readAll();
         
         
     }
