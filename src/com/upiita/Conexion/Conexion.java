@@ -19,7 +19,7 @@ public class Conexion {
     public Conexion(){
         try{
             
-            conn = (Connection) DriverManager.getConnection("jdbc:sqlserver://Abigail;DatabaseName=Cineteca;IntegratedSecurity = true;");//url
+            conn = (Connection) DriverManager.getConnection("jdbc:sqlserver://localhost:1433;DatabaseName=Cineteca;IntegratedSecurity = true;");//url
            // System.out.println("Hay conexion");
             
         }
